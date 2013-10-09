@@ -3,7 +3,7 @@ package
 	import org.flixel.*;
 	
 	public class Glob
-	{
+	{	
 		public static const kDebugOn:Boolean = true;
 		
 		[Embed(source="../assets/spr_fly.png")] public static const kFlySheet:Class;

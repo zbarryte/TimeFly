@@ -8,26 +8,92 @@ package
 		private const kKeysDown:Array = ["S","DOWN"];
 		private const kKeysLeft:Array = ["A","LEFT"];
 		private const kKeysRight:Array = ["D","RIGHT"];
+		private const kKeysTravelForward:Array = ["E","SPACE"];
+		private const kKeysTravelBackward:Array = ["Q","SHIFT"];
 		
 		private const kSpawnPortal:Array = [2];
 		private const kSpawnFly:Array = [3];
 		
-		private var lvlFunc:FlxTilemap;
-		private var fly:SprFly;
+		private var timeArrow:TimeArrow;
+		private var timeRecord:TimeRecord;
 		
+		private var lvlFunc:FlxTilemap;
+		private var flyGroup:FlxGroup;
 		
 		override protected function createScene():void
 		{
 			FlxG.bgColor = 0xffcc88ff;
+			
+			addTimeArrow();
+			initTimeRecord();
+			addLevel();
+			addFlies();
+		}
+		
+		private function addTimeArrow():void {
+			timeArrow = new TimeArrow();
+			add(timeArrow);
+		}
+		
+		private function initTimeRecord():void {
+			timeRecord = new TimeRecord();
+		}
+		
+		private function addLevel():void {
 			lvlFunc = GlobLevels.currentFlxTilemapFunctional();
 			add(lvlFunc);
-			
-			fly = groupFromSpawn(kSpawnFly,SprFly,lvlFunc,true).members[0];
-			add(fly);
+		}
+		
+		private function addFlies():void {
+			flyGroup = groupFromSpawn(kSpawnFly,SprFly,lvlFunc,true);
+			add(flyGroup);
+		}
+		
+		private function get fly():SprFly {
+			var tmpFly:SprFly = flyGroup.members[flyGroup.length-1];
+			if (!tmpFly) {FlxG.log(":: NO FLY AT INDEX REQUESTED ::"); return null};
+			return tmpFly;
 		}
 		
 		override protected function updateAnimations():void {
 			FlxG.collide(lvlFunc,fly);
+			
+			runEvents();
+			recordEvents();
+		}
+		
+		private function runEvents():void {
+			timeRecord.runEventOfFrame(timeArrow.frame);
+		}
+		
+		private function recordEvents():void {
+			recordFlyPosition();
+		}
+		
+		private function recordFlyPosition():void {
+
+			/*
+			var x_:Number = fly.x;
+			var y_:Number = fly.y;
+			var event_:Function = function():void {
+				fly.x = x_;
+				fly.y = y_;
+			};
+			timeRecord.addEventAtFrame(event_,timeArrow.frame);
+			*/
+			
+			// record an event for each fly
+			for (var i:uint = 0; i < flyGroup.length; i++) {
+				var tmpFly:SprFly = flyGroup.members[i];
+				var tmpX:Number = tmpFly.x;
+				var tmpY:Number = tmpFly.y;
+				var tmpEvent:Function = function():void {
+					tmpFly.x = tmpX;
+					tmpFly.y = tmpY;
+				};
+				timeRecord.addEventAtFrame(tmpEvent,timeArrow.frame);
+			}
+			
 		}
 		
 		override protected function updateControls():void {
@@ -44,6 +110,29 @@ package
 			if (Glob.pressedAfter(kKeysRight,kKeysLeft)) {
 				fly.moveRight();
 			}
+			if (Glob.pressedAfter(kKeysTravelForward,kKeysTravelBackward)) {
+				//timeArrow.goForward();
+				travelForward();
+			}
+			if (Glob.pressedAfter(kKeysTravelBackward,kKeysTravelBackward)) {
+				//timeArrow.goBackward();
+				travelBackward();
+			}
+		}
+		
+		private function travelForward():void {
+			spawnNewFly();
+			timeArrow.goForward();
+		}
+		
+		private function travelBackward():void {
+			spawnNewFly();
+			timeArrow.goBackward();
+		}
+		
+		private function spawnNewFly():void {
+			var tmpFly:SprFly = new SprFly(fly.x,fly.y);
+			flyGroup.add(tmpFly);
 		}
 		
 		override protected function updatePause():void {

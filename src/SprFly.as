@@ -20,7 +20,7 @@ package
 		
 		public function SprFly(X:Number=0,Y:Number=0)
 		{
-			FlxG.log("("+X+","+Y+")");
+			//FlxG.log("("+X+","+Y+")");
 			
 			super(X,Y);
 			loadGraphic(Glob.kFlySheet,true,false,kWidth,kHeight);
