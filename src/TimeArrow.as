@@ -40,9 +40,16 @@ package
 		 */
 		public function TimeArrow()
 		{
+			reset();
+		}
+		
+		/**
+		 * Resets vars
+		 */
+		public function reset():void {
 			_direction = kForward;
 			_counter = 0;
-			
+			_frame = 0;
 		}
 		
 		/**

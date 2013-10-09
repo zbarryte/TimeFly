@@ -1,6 +1,7 @@
 package
 {
 	import flash.utils.Dictionary;
+	import org.flixel.FlxG;
 
 	public class TimeRecord
 	{
@@ -20,14 +21,9 @@ package
 		/**
 		 * Add an event to be fired for a time frame.
 		 */
-		public function addEventAtFrame(event_:Function,frame_:int):void {
+		public function addEventAtFrame(tmpEvent:Function,tmpFrame:int):void {
 			if (!record) {return;}
-			
-			var tmpEncapsulatedEvent:Function = function():void {
-				event_();
-			}
-			
-			record[frame_] = tmpEncapsulatedEvent;
+			record[tmpFrame] = tmpEvent;
 		}
 		
 		/**

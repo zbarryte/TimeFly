@@ -80,5 +80,18 @@ package
 		public function moveRight():void {
 			isMovingRight = true;
 		}
+		
+		override protected function recordEvents():void {
+			
+			var tmpX:Number = x;
+			var tmpY:Number = y;
+			var tmpEvent:Function = function():void {
+				x = tmpX;
+				y = tmpY;
+			}
+			
+			
+			_timeRecord.addEventAtFrame(tmpEvent,_timeArrow.frame);
+		}
 	}
 }

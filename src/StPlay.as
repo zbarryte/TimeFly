@@ -20,24 +20,29 @@ package
 		private var lvlFunc:FlxTilemap;
 		private var flyGroup:FlxGroup;
 		
+		private const kCloneColor:Number = 0xffff0000;
+		
 		override protected function createScene():void
 		{
 			FlxG.bgColor = 0xffcc88ff;
 			
 			addTimeArrow();
-			initTimeRecord();
+			//initTimeRecord();
 			addLevel();
 			addFlies();
 		}
 		
 		private function addTimeArrow():void {
-			timeArrow = new TimeArrow();
+			timeArrow = Glob.timeArrow;
+			timeArrow.reset();
 			add(timeArrow);
 		}
 		
+		/*
 		private function initTimeRecord():void {
 			timeRecord = new TimeRecord();
 		}
+		*/
 		
 		private function addLevel():void {
 			lvlFunc = GlobLevels.currentFlxTilemapFunctional();
@@ -58,19 +63,25 @@ package
 		override protected function updateAnimations():void {
 			FlxG.collide(lvlFunc,fly);
 			
+			/*
 			runEvents();
 			recordEvents();
+			*/
 		}
 		
+		/*
 		private function runEvents():void {
 			timeRecord.runEventOfFrame(timeArrow.frame);
 		}
 		
+		
 		private function recordEvents():void {
 			recordFlyPosition();
 		}
+		*/
 		
-		private function recordFlyPosition():void {
+		
+		//private function recordFlyPosition():void {
 
 			/*
 			var x_:Number = fly.x;
@@ -80,7 +91,7 @@ package
 				fly.y = y_;
 			};
 			timeRecord.addEventAtFrame(event_,timeArrow.frame);
-			*/
+			
 			
 			// record an event for each fly
 			for (var i:uint = 0; i < flyGroup.length; i++) {
@@ -93,8 +104,8 @@ package
 				};
 				timeRecord.addEventAtFrame(tmpEvent,timeArrow.frame);
 			}
-			
-		}
+			*/
+		//}
 		
 		override protected function updateControls():void {
 			if (Glob.pressedAfter(kKeysUp,kKeysDown)) {
@@ -131,6 +142,7 @@ package
 		}
 		
 		private function spawnNewFly():void {
+			fly.color = kCloneColor;
 			var tmpFly:SprFly = new SprFly(fly.x,fly.y);
 			flyGroup.add(tmpFly);
 		}

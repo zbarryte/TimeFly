@@ -6,6 +6,8 @@ package
 	{	
 		public static const kDebugOn:Boolean = true;
 		
+		public static const timeArrow:TimeArrow = new TimeArrow();
+		
 		[Embed(source="../assets/spr_fly.png")] public static const kFlySheet:Class;
 		
 		// Key Press Macros
