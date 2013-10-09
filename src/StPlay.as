@@ -67,21 +67,39 @@ package
 		
 		private function get fly():SprFly {
 			var tmpFly:SprFly = flyGroup.members[flyGroup.length-1];
-			if (!tmpFly) {FlxG.log(":: NO FLY AT INDEX REQUESTED ::"); return null};
+			if (!tmpFly) {FlxG.log("ERROR :: NO FLY AT INDEX REQUESTED ::"); return null};
 			return tmpFly;
 		}
 		
 		override protected function updateAnimations():void {
-			FlxG.collide(lvlFunc,flyGroup);
-			
-			if (flyOverlapsClone()) {
-				FlxG.log("Overlapping");
-			}
-			
 			/*
 			runEvents();
 			recordEvents();
 			*/
+		}
+		
+		override protected function updateMechanics():void {
+			FlxG.collide(lvlFunc,flyGroup);
+			checkForFlyCloneParadox();
+			checkForFlyCrush();
+			
+		}
+		
+		private function checkForFlyCloneParadox():void {
+			// does the fly overlap one of its past selves?
+			if (flyOverlapsClone()) {
+				// oh no! this is a paradox! quickly, it's a second chance!
+				FlxG.log("checkForFlyCloneParadox :: incomplete ::");
+			}
+		}
+		
+		private function checkForFlyCrush():void {
+			// has the fly being pressed on by two parallel surfaces?
+			if (fly.isTouching(FlxObject.LEFT) && fly.isTouching(FlxObject.RIGHT) ||
+				fly.isTouching(FlxObject.UP) && fly.isTouching(FlxObject.DOWN)) {
+				// oh no! it has been crushed! quickly, it's a second chance!
+				FlxG.log("checkForFlyCrush :: incomplete ::");
+			}
 		}
 		
 		/*

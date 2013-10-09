@@ -39,6 +39,7 @@ package
 			if (_isPlaying) {
 				super.update();
 				updateAnimations();
+				updateMechanics();
 				if (_isControllable) {
 					updateControls();
 				}
@@ -50,6 +51,10 @@ package
 		
 		protected function updateAnimations():void {
 			FlxG.log(":: updateAnimations() :: not yet implemented by " + this);
+		}
+		
+		protected function updateMechanics():void {
+			
 		}
 		
 		protected function updateControls():void {
