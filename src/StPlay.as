@@ -19,6 +19,7 @@ package
 		
 		private var lvlFunc:FlxTilemap;
 		private var flyGroup:FlxGroup;
+		private var portalGroup:FlxGroup;
 		
 		private const kCloneColor:Number = 0xff0000;
 		private const kForwardTintColor:Number = 0x00ff00;
@@ -33,6 +34,7 @@ package
 			addTimeArrow();
 			//initTimeRecord();
 			addLevel();
+			addPortals();
 			addFlies();
 			
 			canControlFly = true;
@@ -53,6 +55,11 @@ package
 		private function addLevel():void {
 			lvlFunc = GlobLevels.currentFlxTilemapFunctional();
 			add(lvlFunc);
+		}
+		
+		private function addPortals():void {
+			portalGroup = groupFromSpawn(kSpawnPortal,SprPortal,lvlFunc,true);
+			add(portalGroup);
 		}
 		
 		private function addFlies():void {
@@ -155,16 +162,16 @@ package
 		
 		private function travelForward():void {
 			canControlFly = false;
-			fly.disableRecording();
 			spawnNewFly();
+			fly.disableRecording();
 			timeArrow.goFastForward();
 			tintOverlay(kForwardTintColor);
 		}
 		
 		private function travelBackward():void {
 			canControlFly = false;
-			fly.disableRecording();
 			spawnNewFly();
+			fly.disableRecording();
 			timeArrow.goFastBackward();
 			tintOverlay(kBackwardTintColor);
 		}

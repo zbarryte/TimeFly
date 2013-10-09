@@ -9,6 +9,7 @@ package
 		public static const timeArrow:TimeArrow = new TimeArrow();
 		
 		[Embed(source="../assets/spr_fly.png")] public static const kFlySheet:Class;
+		[Embed(source="../assets/spr_portal.png")] public static const kPortalSheet:Class;
 		
 		// Key Press Macros
 		public static function pressed(_keys:Array):Boolean {

@@ -48,6 +48,13 @@ package
 		}
 		
 		/**
+		 * Returns the rate of time.
+		 */
+		public function get rate():uint {
+			return _rate;
+		}
+		
+		/**
 		 * Resets vars
 		 */
 		public function reset():void {
