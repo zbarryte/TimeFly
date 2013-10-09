@@ -16,5 +16,17 @@ package
 			angle += tmpAngleOffset;
 			
 		}
+		
+		override protected function recordEvents():void {
+			//
+		}
+		
+		override protected function updateLocation():void {
+			//
+		}
+		
+		override protected function updateVideo():void {
+			// 
+		}
 	}
 }

@@ -18,6 +18,8 @@ package
 		private var isMovingLeft:Boolean;
 		private var isMovingRight:Boolean;
 		
+		//private var flyPortal:SprFlyPortal;
+		
 		public function SprFly(X:Number=0,Y:Number=0)
 		{
 			//FlxG.log("("+X+","+Y+")");
@@ -33,6 +35,9 @@ package
 			maxVelocity.y = kMaxVel;
 			
 			resetBools();
+			
+			//flyPortal = new SprFlyPortal();
+			//flyPortal.visible = false;
 		}
 		
 		private function resetBools():void {
@@ -58,11 +63,21 @@ package
 				acceleration.x += kMoveAccel;
 			}
 			
+			// will move if I decide to make better nodes
+			//flyPortal.x = x;
+			//flyPortal.y = y;
+			
 			resetBools();
 		}
 		
 		override protected function updateVideo():void {
 			play(kAnimIdle);
+			
+			if (isBetweenFrames()) {
+				showFromPortal();
+			} else {
+				hideInPortal();
+			}
 		}
 		
 		public function moveUp():void {
@@ -91,7 +106,31 @@ package
 			}
 			
 			
-			_timeRecord.addEventAtFrame(tmpEvent,_timeArrow.frame);
+			timeRecord.addEventAtFrame(tmpEvent,timeArrow.frame);
+		}
+		
+		public function hideInPortal():void {
+			disableRecording();
+			visible = false;
+			//flyPortal.visible = true;
+		}
+		
+		public function showFromPortal():void {
+			enableRecording();
+			visible = true;
+			//flyPortal.visible = false;
+		}
+		
+		public function startRecordingAtThisFrame():void {
+			frameStart = timeArrow.frame;
+		}
+		
+		public function stopRecordingAtThisFrame():void {
+			frameEnd = timeArrow.frame;
+		}
+		
+		public function isDangerous():Boolean {
+			return isBetweenFrames();
 		}
 	}
 }

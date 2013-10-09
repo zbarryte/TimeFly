@@ -36,8 +36,6 @@ package
 			addLevel();
 			addPortals();
 			addFlies();
-			
-			canControlFly = true;
 		}
 		
 		private function addTimeArrow():void {
@@ -75,6 +73,10 @@ package
 		
 		override protected function updateAnimations():void {
 			FlxG.collide(lvlFunc,flyGroup);
+			
+			if (flyOverlapsClone()) {
+				FlxG.log("Overlapping");
+			}
 			
 			/*
 			runEvents();
@@ -163,7 +165,8 @@ package
 		private function travelForward():void {
 			canControlFly = false;
 			spawnNewFly();
-			fly.disableRecording();
+			//fly.disableRecording();
+			fly.hideInPortal();
 			timeArrow.goFastForward();
 			tintOverlay(kForwardTintColor);
 		}
@@ -171,26 +174,45 @@ package
 		private function travelBackward():void {
 			canControlFly = false;
 			spawnNewFly();
-			fly.disableRecording();
+			//fly.disableRecording();
+			fly.hideInPortal();
 			timeArrow.goFastBackward();
 			tintOverlay(kBackwardTintColor);
 		}
 		
 		private function endTimeTravel():void {
-			canControlFly = true;
-			fly.enableRecording();
-			timeArrow.goNormalForward();
-			hideOverlay();
+			if (!canControlFly) {
+				canControlFly = true;
+				//fly.enableRecording();
+				fly.showFromPortal();
+				fly.startRecordingAtThisFrame();
+				timeArrow.goNormalForward();
+				hideOverlay();
+			}
 		}
 		
 		private function spawnNewFly():void {
 			fly.color = kCloneColor;
+			fly.stopRecordingAtThisFrame();
 			var tmpFly:SprFly = new SprFly(fly.x,fly.y);
 			flyGroup.add(tmpFly);
 		}
 		
 		override protected function updatePause():void {
 			//
+		}
+		
+		private function flyOverlapsClone():Boolean {
+			
+			if (!fly.isDangerous()) {return false;}
+			
+			for (var i:uint = 0; i < flyGroup.length-1; i++) {
+				var tmpFly:SprFly = flyGroup.members[i];
+				if (fly.overlaps(tmpFly) && tmpFly.isDangerous()) {
+					return true;
+				}
+			}
+			return false;
 		}
 		
 		private function groupFromSpawn(_spawn:Array,_class:Class,_map:FlxTilemap,_hide:Boolean=true):FlxGroup {
