@@ -5,6 +5,10 @@ package
 
 	public class TimeArrow extends FlxBasic
 	{
+		private const kFastRate:uint = 2.0;
+		private const kNormalRate:uint = 1.0;
+		private const kSlowRate:uint = 0.5;
+		
 		/**
 		 * Forward.
 		 */
@@ -88,6 +92,57 @@ package
 		}
 		
 		/**
+		 * Sets rate to fast rate.
+		 */
+		public function makeFast():void {
+			_rate = kFastRate; 
+		}
+		
+		/**
+		 * Sets rate to normal rate.
+		 */
+		public function makeNormal():void {
+			_rate = kNormalRate;
+		}
+		
+		/**
+		 * Sets the rate slow rate.
+		 */
+		public function makeSlow():void {
+			_rate = kSlowRate;
+		}
+		
+		public function goFastForward():void {
+			makeFast();
+			goForward();
+		}
+		
+		public function goFastBackward():void {
+			makeFast();
+			goBackward();
+		}
+		
+		public function goNormalForward():void {
+			makeNormal();
+			goForward();
+		}
+		
+		public function goNormalBackward():void {
+			makeNormal();
+			goBackward();
+		}
+		
+		public function goSlowForward():void {
+			makeSlow();
+			goForward();
+		}
+		
+		public function goSlowBackward():void {
+			makeSlow();
+			goBackward();
+		}
+		
+		/**
 		 * The current frame of time.
 		 */
 		public function get frame():int {
@@ -98,9 +153,11 @@ package
 		 * Updates the frame of time. 
 		 */
 		override public function update():void {
-			_counter += (isForward()) ? FlxG.elapsed : -FlxG.elapsed;
+			var tmpElapsed:Number = (isForward()) ? FlxG.elapsed : -FlxG.elapsed;
+			_counter += tmpElapsed*_rate;
 			_frame = Math.floor(_counter*60);
-			FlxG.log(_frame);
+			
+			//FlxG.log(_frame);
 			
 			super.update();
 		}

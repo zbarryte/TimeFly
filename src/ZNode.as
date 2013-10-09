@@ -7,12 +7,14 @@ package
 	{
 		protected var _timeArrow:TimeArrow;
 		protected var _timeRecord:TimeRecord;
+		protected var _canRecord:Boolean;
 		
 		public function ZNode(X:Number=0, Y:Number=0, SimpleGraphic:Class=null)
 		{
 			super(X, Y, SimpleGraphic);
 			_timeArrow = Glob.timeArrow;
 			_timeRecord = new TimeRecord();
+			enableRecording();
 		}
 		
 		override public function update():void {
@@ -21,7 +23,7 @@ package
 			updateVideo();
 			if (_timeArrow) {
 				runEvents();
-				recordEvents();
+				if (_canRecord) {recordEvents();}
 			}
 		}
 		
@@ -40,6 +42,14 @@ package
 		
 		protected function updateVideo():void {
 			FlxG.log(":: updateVideo() :: not yet implemented by " + this);
+		}
+		
+		public function enableRecording():void {
+			_canRecord = true;
+		}
+		
+		public function disableRecording():void {
+			_canRecord = false;
 		}
 	}
 }

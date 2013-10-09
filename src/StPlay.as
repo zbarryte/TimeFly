@@ -20,7 +20,11 @@ package
 		private var lvlFunc:FlxTilemap;
 		private var flyGroup:FlxGroup;
 		
-		private const kCloneColor:Number = 0xffff0000;
+		private const kCloneColor:Number = 0xff0000;
+		private const kForwardTintColor:Number = 0x00ff00;
+		private const kBackwardTintColor:Number = 0xff0000;
+		
+		private var canControlFly:Boolean;
 		
 		override protected function createScene():void
 		{
@@ -30,6 +34,8 @@ package
 			//initTimeRecord();
 			addLevel();
 			addFlies();
+			
+			canControlFly = true;
 		}
 		
 		private function addTimeArrow():void {
@@ -61,7 +67,7 @@ package
 		}
 		
 		override protected function updateAnimations():void {
-			FlxG.collide(lvlFunc,fly);
+			FlxG.collide(lvlFunc,flyGroup);
 			
 			/*
 			runEvents();
@@ -108,19 +114,24 @@ package
 		//}
 		
 		override protected function updateControls():void {
-			if (Glob.pressedAfter(kKeysUp,kKeysDown)) {
-				fly.moveUp();
-			}
-			if (Glob.pressedAfter(kKeysDown,kKeysUp)) {
-				fly.moveDown();
+			
+			if (canControlFly) {
+				if (Glob.pressedAfter(kKeysUp,kKeysDown)) {
+					fly.moveUp();
+				}
+				if (Glob.pressedAfter(kKeysDown,kKeysUp)) {
+					fly.moveDown();
+				}
+				
+				if (Glob.pressedAfter(kKeysLeft,kKeysRight)) {
+					fly.moveLeft();
+				}
+				if (Glob.pressedAfter(kKeysRight,kKeysLeft)) {
+					fly.moveRight();
+				}
 			}
 			
-			if (Glob.pressedAfter(kKeysLeft,kKeysRight)) {
-				fly.moveLeft();
-			}
-			if (Glob.pressedAfter(kKeysRight,kKeysLeft)) {
-				fly.moveRight();
-			}
+			/*
 			if (Glob.pressedAfter(kKeysTravelForward,kKeysTravelBackward)) {
 				//timeArrow.goForward();
 				travelForward();
@@ -128,17 +139,41 @@ package
 			if (Glob.pressedAfter(kKeysTravelBackward,kKeysTravelBackward)) {
 				//timeArrow.goBackward();
 				travelBackward();
+			}*/
+			
+			if (Glob.justPressed(kKeysTravelForward)) {
+				travelForward();
+			}
+			else if (Glob.justPressed(kKeysTravelBackward)) {
+				travelBackward();
+			}
+			
+			if (!Glob.pressed(kKeysTravelForward) && !Glob.pressed(kKeysTravelBackward)) {
+				endTimeTravel();
 			}
 		}
 		
 		private function travelForward():void {
+			canControlFly = false;
+			fly.disableRecording();
 			spawnNewFly();
-			timeArrow.goForward();
+			timeArrow.goFastForward();
+			tintOverlay(kForwardTintColor);
 		}
 		
 		private function travelBackward():void {
+			canControlFly = false;
+			fly.disableRecording();
 			spawnNewFly();
-			timeArrow.goBackward();
+			timeArrow.goFastBackward();
+			tintOverlay(kBackwardTintColor);
+		}
+		
+		private function endTimeTravel():void {
+			canControlFly = true;
+			fly.enableRecording();
+			timeArrow.goNormalForward();
+			hideOverlay();
 		}
 		
 		private function spawnNewFly():void {
