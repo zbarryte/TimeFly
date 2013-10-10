@@ -10,6 +10,7 @@ package
 		
 		[Embed(source="../assets/spr_fly.png")] public static const kFlySheet:Class;
 		[Embed(source="../assets/spr_portal.png")] public static const kPortalSheet:Class;
+		[Embed(source="../assets/spr_crusher.png")] public static const kCrusherSheet:Class;
 		
 		// Key Press Macros
 		public static function pressed(_keys:Array):Boolean {

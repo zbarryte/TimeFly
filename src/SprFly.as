@@ -2,7 +2,7 @@ package
 {
 	import org.flixel.*;
 	
-	public class SprFly extends ZNode
+	public class SprFly extends ZNodeTime
 	{
 		private const kWidth:uint = 32;
 		private const kHeight:uint = 32;

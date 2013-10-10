@@ -13,6 +13,10 @@ package
 		
 		private const kSpawnPortal:Array = [2];
 		private const kSpawnFly:Array = [3];
+		private const kSpawnCrusherUp:Array = [6];
+		private const kSpawnCrusherDown:Array = [7];
+		private const kSpawnCrusherLeft:Array = [4];
+		private const kSpawnCrusherRight:Array = [5];
 		
 		private var timeArrow:TimeArrow;
 		private var timeRecord:TimeRecord;
@@ -20,6 +24,7 @@ package
 		private var lvlFunc:FlxTilemap;
 		private var flyGroup:FlxGroup;
 		private var portalGroup:FlxGroup;
+		private var crusherGroup:FlxGroup;
 		
 		private const kCloneColor:Number = 0xff0000;
 		private const kForwardTintColor:Number = 0x00ff00;
@@ -35,6 +40,7 @@ package
 			//initTimeRecord();
 			addLevel();
 			addPortals();
+			addCrushers();
 			addFlies();
 		}
 		
@@ -51,8 +57,33 @@ package
 		*/
 		
 		private function addLevel():void {
-			lvlFunc = GlobLevels.currentFlxTilemapFunctional();
+			lvlFunc = LevelsStore.currentFlxTilemapFunctional();
 			add(lvlFunc);
+		}
+		
+		private function addCrushers():void {
+			
+			crusherGroup = new FlxGroup();
+			
+			var tmpCrusherLeftGroup:FlxGroup = groupFromSpawn(kSpawnCrusherLeft,SprCrusherLeft,lvlFunc,true);
+			addGroupMembersToGroup(crusherGroup,tmpCrusherLeftGroup);
+			
+			var tmpCrusherRightGroup:FlxGroup = groupFromSpawn(kSpawnCrusherRight,SprCrusherRight,lvlFunc,true);
+			addGroupMembersToGroup(crusherGroup,tmpCrusherRightGroup);
+			
+			var tmpCrusherUpGroup:FlxGroup = groupFromSpawn(kSpawnCrusherUp,SprCrusherUp,lvlFunc,true);
+			addGroupMembersToGroup(crusherGroup,tmpCrusherUpGroup);
+			
+			var tmpCrusherDownGroup:FlxGroup = groupFromSpawn(kSpawnCrusherDown,SprCrusherDown,lvlFunc,true);
+			addGroupMembersToGroup(crusherGroup,tmpCrusherDownGroup);
+			
+			add(crusherGroup);
+		}
+		
+		private function addGroupMembersToGroup(tmpToGroup:FlxGroup,tmpFromGroup:FlxGroup):void {
+			for (var i:uint = 0; i < tmpFromGroup.length; i++) {
+				tmpToGroup.add(tmpFromGroup.members[i]);
+			}
 		}
 		
 		private function addPortals():void {
@@ -80,16 +111,56 @@ package
 		
 		override protected function updateMechanics():void {
 			FlxG.collide(lvlFunc,flyGroup);
+			//FlxG.collide(crusherGroup,flyGroup);
+			//FlxG.collide(crusherGroup,crusherGroup,crusherHitsObjectCallback);
+			//FlxG.collide(lvlFunc,crusherGroup,crusherHitsObjectCallback);
+			checkForDangerousFlyAndCrusherCollision();
+			checkForFlyInPortal();
+			checkForCrusherGoingThroughWalls();
 			checkForFlyCloneParadox();
 			checkForFlyCrush();
 			
+		}
+		
+		private function checkForDangerousFlyAndCrusherCollision():void {
+			for (var i:uint = 0; i < flyGroup.length; i++) {
+				var tmpFly:SprFly = flyGroup.members[i];
+				if (!tmpFly.isDangerous()) {continue;}
+				for (var j:uint = 0; j < crusherGroup.length; j++) {
+					var tmpCrusher:SprCrusher = crusherGroup.members[j];
+					if (tmpCrusher.overlaps(tmpFly)) {
+						secondChance();
+					}
+				}
+			}
+		}
+		
+		private function checkForFlyInPortal():void {
+			for (var i:uint = 0; i < portalGroup.length; i++) {
+				var tmpPortal:SprPortal = portalGroup.members[i];
+				for (var j:uint = 0; j < flyGroup.length; j++) {
+					var tmpFly:SprFly = flyGroup.members[j];
+					if (tmpFly.overlaps(tmpPortal)) {
+						win();
+					}
+				}
+			}
+		}
+		
+		private function checkForCrusherGoingThroughWalls():void {
+			for (var i:uint = 0; i < crusherGroup.length; i++) {
+				var tmpCrusher:SprCrusher = crusherGroup.members[i];
+				if (tmpCrusher.overlaps(lvlFunc)) {
+					tmpCrusher.reverseDirection();
+				}
+			}
 		}
 		
 		private function checkForFlyCloneParadox():void {
 			// does the fly overlap one of its past selves?
 			if (flyOverlapsClone()) {
 				// oh no! this is a paradox! quickly, it's a second chance!
-				FlxG.log("checkForFlyCloneParadox :: incomplete ::");
+				secondChance();
 			}
 		}
 		
@@ -98,7 +169,7 @@ package
 			if (fly.isTouching(FlxObject.LEFT) && fly.isTouching(FlxObject.RIGHT) ||
 				fly.isTouching(FlxObject.UP) && fly.isTouching(FlxObject.DOWN)) {
 				// oh no! it has been crushed! quickly, it's a second chance!
-				FlxG.log("checkForFlyCrush :: incomplete ::");
+				secondChance();
 			}
 		}
 		
@@ -269,5 +340,18 @@ package
 			return _point;
 		}
 		
+		private function win():void {
+			FlxG.log(":: win :: not yet implemented :: in "+this);
+		}
+		
+		private function secondChance():void {
+			FlxG.log(":: second chance :: not yet implemented :: in "+this);
+		}
+		
+		/*
+		private function crusherHitsObjectCallback(tmpObject:FlxObject,tmpCrusher:SprCrusher):void {
+			tmpCrusher.reverseDirection();
+		}
+		*/
 	}
 }
