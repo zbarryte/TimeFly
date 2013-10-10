@@ -256,6 +256,7 @@ package
 			spawnNewFly();
 			//fly.disableRecording();
 			fly.hideInPortal();
+			fly.isTraveling = true;
 			timeArrow.goFastForward();
 			tintOverlay(kForwardTintColor);
 		}
@@ -265,6 +266,7 @@ package
 			spawnNewFly();
 			//fly.disableRecording();
 			fly.hideInPortal();
+			fly.isTraveling = true;
 			timeArrow.goFastBackward();
 			tintOverlay(kBackwardTintColor);
 		}
@@ -274,6 +276,7 @@ package
 				canControlFly = true;
 				//fly.enableRecording();
 				fly.showFromPortal();
+				fly.isTraveling = false;
 				fly.startRecordingAtThisFrame();
 				timeArrow.goNormalForward();
 				hideOverlay();
@@ -341,11 +344,11 @@ package
 		}
 		
 		private function win():void {
-			FlxG.log(":: win :: not yet implemented :: in "+this);
+			FlxG.log("you win!");
 		}
 		
 		private function secondChance():void {
-			FlxG.log(":: second chance :: not yet implemented :: in "+this);
+			FlxG.log("quickly, it's a second chance!");
 		}
 		
 		/*

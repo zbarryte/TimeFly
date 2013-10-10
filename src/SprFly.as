@@ -18,6 +18,8 @@ package
 		private var isMovingLeft:Boolean;
 		private var isMovingRight:Boolean;
 		
+		public var isTraveling:Boolean;
+		
 		//private var flyPortal:SprFlyPortal;
 		
 		public function SprFly(X:Number=0,Y:Number=0)
@@ -73,7 +75,7 @@ package
 		override protected function updateVideo():void {
 			play(kAnimIdle);
 			
-			if (isBetweenFrames()) {
+			if (isBetweenFrames() && !isTraveling) {
 				showFromPortal();
 			} else {
 				hideInPortal();
@@ -110,13 +112,17 @@ package
 		}
 		
 		public function hideInPortal():void {
+			velocity.x = 0;
+			velocity.y = 0;
 			disableRecording();
+			//color = 0x0000ff;
 			visible = false;
 			//flyPortal.visible = true;
 		}
 		
 		public function showFromPortal():void {
 			enableRecording();
+			//color = 0xffffff;
 			visible = true;
 			//flyPortal.visible = false;
 		}
@@ -130,7 +136,7 @@ package
 		}
 		
 		public function isDangerous():Boolean {
-			return isBetweenFrames();
+			return isBetweenFrames() && _canRecord;
 		}
 	}
 }
