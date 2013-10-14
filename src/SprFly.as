@@ -4,10 +4,10 @@ package
 	
 	public class SprFly extends ZNodeTime
 	{
-		private const kWidth:uint = 32;
-		private const kHeight:uint = 32;
+		private const kWidth:uint = 8;
+		private const kHeight:uint = 8;
 		
-		private const kMoveAccel:Number = kWidth*22.0;
+		private const kMoveAccel:Number = kWidth*22.0*4.0;
 		private const kDrag:Number = kMoveAccel;
 		private const kMaxVel:Number = kMoveAccel;
 		
@@ -20,16 +20,21 @@ package
 		
 		public var isTraveling:Boolean;
 		
-		//private var flyPortal:SprFlyPortal;
+		private var imgPortal:SprFlyPortal;
+		private var imgFly:ZNode;
+		
+		private const kCloneColor:Number = 0xff0000;
 		
 		public function SprFly(X:Number=0,Y:Number=0)
 		{
 			//FlxG.log("("+X+","+Y+")");
 			
 			super(X,Y);
-			loadGraphic(Glob.kFlySheet,true,false,kWidth,kHeight);
+			width = kWidth;
+			height = kHeight;
 			
-			addAnimation(kAnimIdle,[0,1],22,true);
+			addImgFly();
+			addImgPortal();
 			
 			drag.x = kDrag;
 			drag.y = kDrag;
@@ -40,6 +45,20 @@ package
 			
 			//flyPortal = new SprFlyPortal();
 			//flyPortal.visible = false;
+		}
+		
+		private function addImgFly():void {
+			imgFly = new ZNode();
+			imgFly.loadGraphic(Glob.kFlySheet,true,false,32,32);
+			imgFly.addAnimation(kAnimIdle,[0,1],22,true);
+			add(imgFly);
+		}
+		
+		private function addImgPortal():void {
+			imgPortal = new SprFlyPortal();
+			imgPortal.visible = false;
+			imgPortal.color = kCloneColor;
+			add(imgPortal);
 		}
 		
 		private function resetBools():void {
@@ -73,7 +92,7 @@ package
 		}
 		
 		override protected function updateVideo():void {
-			play(kAnimIdle);
+			imgFly.play(kAnimIdle);
 			
 			if (isBetweenFrames() && !isTraveling) {
 				showFromPortal();
@@ -116,15 +135,33 @@ package
 			velocity.y = 0;
 			disableRecording();
 			//color = 0x0000ff;
-			visible = false;
+			imgFly.visible = false;
 			//flyPortal.visible = true;
+			imgPortal.visible = true;
 		}
 		
 		public function showFromPortal():void {
 			enableRecording();
 			//color = 0xffffff;
-			visible = true;
+			imgFly.visible = true;
 			//flyPortal.visible = false;
+			imgPortal.visible = false;
+		}
+		
+		public function clonify():void {
+			imgFly.color = kCloneColor;
+			stopRecordingAtThisFrame();
+		}
+		
+		public function startTimeTraveling():void {
+			hideInPortal();
+			isTraveling = true;
+		}
+		
+		public function stopTimeTraveling():void {
+			showFromPortal();
+			isTraveling = false;
+			startRecordingAtThisFrame();
 		}
 		
 		public function startRecordingAtThisFrame():void {

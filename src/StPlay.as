@@ -26,7 +26,6 @@ package
 		private var portalGroup:FlxGroup;
 		private var crusherGroup:FlxGroup;
 		
-		private const kCloneColor:Number = 0xff0000;
 		private const kForwardTintColor:Number = 0x00ff00;
 		private const kBackwardTintColor:Number = 0xff0000;
 		
@@ -254,9 +253,12 @@ package
 		private function travelForward():void {
 			canControlFly = false;
 			spawnNewFly();
+			fly.startTimeTraveling();
 			//fly.disableRecording();
+			/*
 			fly.hideInPortal();
 			fly.isTraveling = true;
+			*/
 			timeArrow.goFastForward();
 			tintOverlay(kForwardTintColor);
 		}
@@ -264,9 +266,12 @@ package
 		private function travelBackward():void {
 			canControlFly = false;
 			spawnNewFly();
+			fly.startTimeTraveling();
 			//fly.disableRecording();
+			/*
 			fly.hideInPortal();
 			fly.isTraveling = true;
+			*/
 			timeArrow.goFastBackward();
 			tintOverlay(kBackwardTintColor);
 		}
@@ -274,18 +279,24 @@ package
 		private function endTimeTravel():void {
 			if (!canControlFly) {
 				canControlFly = true;
+				fly.stopTimeTraveling();
 				//fly.enableRecording();
+				/*
 				fly.showFromPortal();
 				fly.isTraveling = false;
 				fly.startRecordingAtThisFrame();
+				*/
 				timeArrow.goNormalForward();
 				hideOverlay();
 			}
 		}
 		
 		private function spawnNewFly():void {
+			/*
 			fly.color = kCloneColor;
 			fly.stopRecordingAtThisFrame();
+			*/
+			fly.clonify();
 			var tmpFly:SprFly = new SprFly(fly.x,fly.y);
 			flyGroup.add(tmpFly);
 		}
@@ -314,7 +325,11 @@ package
 				if (_array) {
 					for (var j:uint = 0; j < _array.length; j++) {
 						var _point:FlxPoint = pointForTile(_array[j],_map);
-						_group.add(new _class(_point.x,_point.y));
+						var _object:FlxObject = new _class(_point.x,_point.y);
+						_object.x += (_map.width/_map.widthInTiles)/2.0 - _object.width/2.0;
+						_object.y += (_map.width/_map.widthInTiles)/2.0 - _object.height/2.0;
+						//_group.add(new _class(_point.x,_point.y));
+						_group.add(_object);
 						if (_hide) {
 							_map.setTileByIndex(_array[j],0);
 						}
