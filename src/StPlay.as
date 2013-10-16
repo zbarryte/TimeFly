@@ -20,8 +20,8 @@ package
 		private const kSpawnCrusherLeft:Array = [4];
 		private const kSpawnCrusherRight:Array = [5];
 		//private const kSpawnTrack:Array = [8,9,10,11,12,13,14,15,16,18,19,20,21,22,23,24,25,26];
-		private const kSpawnTrackNS:Array = [6,7,8,18];
-		private const kSpawnTrackEW:Array = [4,5,9,19];
+		private const kSpawnTrackNS:Array = [6,7,8,18,12,22];
+		private const kSpawnTrackEW:Array = [4,5,9,19,12,22];
 		
 		private var timeArrow:TimeArrow;
 		private var timeRecord:TimeRecord;
@@ -420,7 +420,7 @@ package
 				var tmpCrusher:SprCrusher = crusherGroup.members[i];
 				var tmpTrack:SprTrack = overlappedTrackForCrusher(tmpCrusher);
 				
-				if (tmpTrack == null) {/*FlxG.log("!!!!"); */continue;}
+				if (tmpTrack == null) {continue;}
 				
 				var tmpNextTrack:SprTrack = nextTrackAfterCrusher(tmpTrack,tmpCrusher);
 				
