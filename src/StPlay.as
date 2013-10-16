@@ -8,23 +8,31 @@ package
 		private const kKeysDown:Array = ["S","DOWN"];
 		private const kKeysLeft:Array = ["A","LEFT"];
 		private const kKeysRight:Array = ["D","RIGHT"];
-		private const kKeysTravelForward:Array = ["E","SPACE"];
-		private const kKeysTravelBackward:Array = ["Q","SHIFT"];
+		private const kKeysTravelForward:Array = ["FOUR"];
+		private const kKeysTravelBackward:Array = ["THREE"];
 		
+		private const kSpawnWall:Array = [1,18,19,20,21,22,23,24,25,26];
 		private const kSpawnPortal:Array = [2];
 		private const kSpawnFly:Array = [3];
+		//private const kSpawnCrusher:Array = [4,5,6,7];
 		private const kSpawnCrusherUp:Array = [6];
 		private const kSpawnCrusherDown:Array = [7];
 		private const kSpawnCrusherLeft:Array = [4];
 		private const kSpawnCrusherRight:Array = [5];
+		//private const kSpawnTrack:Array = [8,9,10,11,12,13,14,15,16,18,19,20,21,22,23,24,25,26];
+		private const kSpawnTrackNS:Array = [6,7,8,18];
+		private const kSpawnTrackEW:Array = [4,5,9,19];
 		
 		private var timeArrow:TimeArrow;
 		private var timeRecord:TimeRecord;
 		
 		private var lvlFunc:FlxTilemap;
-		private var flyGroup:FlxGroup;
+		
+		private var wallGroup:FlxGroup;
+		private var trackGroup:FlxGroup;
 		private var portalGroup:FlxGroup;
 		private var crusherGroup:FlxGroup;
+		private var flyGroup:FlxGroup;
 		
 		private const kForwardTintColor:Number = 0x00ff00;
 		private const kBackwardTintColor:Number = 0xff0000;
@@ -38,6 +46,8 @@ package
 			addTimeArrow();
 			//initTimeRecord();
 			addLevel();
+			addWalls();
+			addTracks();
 			addPortals();
 			addCrushers();
 			addFlies();
@@ -57,7 +67,36 @@ package
 		
 		private function addLevel():void {
 			lvlFunc = LevelsStore.currentFlxTilemapFunctional();
-			add(lvlFunc);
+			if (Glob.kDebugOn) {add(lvlFunc);}
+		}
+		
+		private function addWalls():void {
+			wallGroup = groupFromSpawn(kSpawnWall,SprWall,lvlFunc,true);
+			add(wallGroup);
+		}
+		
+		private function addTracks():void {
+			
+			trackGroup = new FlxGroup();
+			
+			var i:uint;
+			var tmpTrack:SprTrack;
+			
+			var tmpTrackNSGroup:FlxGroup = groupFromSpawn(kSpawnTrackNS,SprTrack,lvlFunc,true);
+			for (i = 0; i < tmpTrackNSGroup.length; i++) {
+				tmpTrack = tmpTrackNSGroup.members[i];
+				tmpTrack.mapNS();
+			}
+			addGroupMembersToGroup(trackGroup,tmpTrackNSGroup);
+			
+			var tmpTrackEWGroup:FlxGroup = groupFromSpawn(kSpawnTrackEW,SprTrack,lvlFunc,true);
+			for (i = 0; i < tmpTrackEWGroup.length; i++) {
+				tmpTrack = tmpTrackEWGroup.members[i];
+				tmpTrack.mapEW();
+			}
+			addGroupMembersToGroup(trackGroup,tmpTrackEWGroup);
+			
+			add(trackGroup);
 		}
 		
 		private function addCrushers():void {
@@ -109,15 +148,17 @@ package
 		}
 		
 		override protected function updateMechanics():void {
-			FlxG.collide(lvlFunc,flyGroup);
+			FlxG.collide(wallGroup,flyGroup);
+			//FlxG.collide(lvlFunc,flyGroup);
 			//FlxG.collide(crusherGroup,flyGroup);
 			//FlxG.collide(crusherGroup,crusherGroup,crusherHitsObjectCallback);
 			//FlxG.collide(lvlFunc,crusherGroup,crusherHitsObjectCallback);
 			checkForDangerousFlyAndCrusherCollision();
 			checkForFlyInPortal();
-			checkForCrusherGoingThroughWalls();
+			//checkForCrusherGoingThroughWalls();
 			checkForFlyCloneParadox();
 			checkForFlyCrush();
+			guideCrushersAlongTracks();
 			
 		}
 		
@@ -146,14 +187,17 @@ package
 			}
 		}
 		
+		/*
 		private function checkForCrusherGoingThroughWalls():void {
 			for (var i:uint = 0; i < crusherGroup.length; i++) {
 				var tmpCrusher:SprCrusher = crusherGroup.members[i];
-				if (tmpCrusher.overlaps(lvlFunc)) {
+				//if (tmpCrusher.overlaps(lvlFunc)) {
+				if (tmpCrusher.overlaps(wallGroup)) {
 					tmpCrusher.reverseDirection();
 				}
 			}
 		}
+		*/
 		
 		private function checkForFlyCloneParadox():void {
 			// does the fly overlap one of its past selves?
@@ -318,25 +362,24 @@ package
 			return false;
 		}
 		
-		private function groupFromSpawn(_spawn:Array,_class:Class,_map:FlxTilemap,_hide:Boolean=true):FlxGroup {
-			var _group:FlxGroup = new FlxGroup();
-			for (var i:uint = 0; i <_spawn.length; i++) {
-				var _array:Array = _map.getTileInstances(_spawn[i]);
-				if (_array) {
-					for (var j:uint = 0; j < _array.length; j++) {
-						var _point:FlxPoint = pointForTile(_array[j],_map);
-						var _object:FlxObject = new _class(_point.x,_point.y);
-						_object.x += (_map.width/_map.widthInTiles)/2.0 - _object.width/2.0;
-						_object.y += (_map.width/_map.widthInTiles)/2.0 - _object.height/2.0;
-						//_group.add(new _class(_point.x,_point.y));
-						_group.add(_object);
-						if (_hide) {
-							_map.setTileByIndex(_array[j],0);
+		private function groupFromSpawn(tmpSpawn:Array,tmpClass:Class,tmpLvl:FlxTilemap,tmpHide:Boolean=true):FlxGroup {
+			var tmpGroup:FlxGroup = new FlxGroup();
+			for (var i:uint = 0; i < tmpSpawn.length; i++) {
+				var tmpArray:Array = tmpLvl.getTileInstances(tmpSpawn[i]);
+				if (tmpArray) {
+					for (var j:uint = 0; j < tmpArray.length; j++) {
+						var _point:FlxPoint = pointForTile(tmpArray[j],tmpLvl);
+						var _object:FlxObject = new tmpClass(_point.x,_point.y);
+						_object.x += (tmpLvl.width/tmpLvl.widthInTiles)/2.0 - _object.width/2.0;
+						_object.y += (tmpLvl.width/tmpLvl.widthInTiles)/2.0 - _object.height/2.0;
+						tmpGroup.add(_object);
+						if (tmpHide) {
+							//tmpLvl.setTileByIndex(tmpArray[j],0);
 						}
 					}
 				}
 			}
-			return _group;
+			return tmpGroup;
 		}
 		
 		private function setCallbackFromSpawn(_spawn:Array,_callback:Function,_map:FlxTilemap,_hide:Boolean=true):void {
@@ -371,5 +414,99 @@ package
 			tmpCrusher.reverseDirection();
 		}
 		*/
+		
+		private function guideCrushersAlongTracks():void {
+			for (var i:uint = 0; i < crusherGroup.length; i++) {
+				var tmpCrusher:SprCrusher = crusherGroup.members[i];
+				var tmpTrack:SprTrack = overlappedTrackForCrusher(tmpCrusher);
+				
+				if (tmpTrack == null) {/*FlxG.log("!!!!"); */continue;}
+				
+				var tmpNextTrack:SprTrack = nextTrackAfterCrusher(tmpTrack,tmpCrusher);
+				
+				if (tmpNextTrack == null) {
+					tmpCrusher.reverseDirection();
+				}
+			}
+		}
+		
+		
+		private function overlappedTrackForCrusher(tmpCrusher:SprCrusher):SprTrack {
+			var tmpReturnTrack:SprTrack;
+			
+			for (var i:uint = 0; i < trackGroup.length; i++) {
+				var tmpTrack:SprTrack = trackGroup.members[i];
+								
+				if (tmpTrack.overlaps(tmpCrusher) && ((tmpCrusher.isLeft && tmpTrack.canEnterW()) ||
+													  (tmpCrusher.isRight && tmpTrack.canEnterE()) ||
+													  (tmpCrusher.isUp && tmpTrack.canEnterS()) ||
+													  (tmpCrusher.isDown && tmpTrack.canEnterN()))) {
+					if (tmpReturnTrack == null) {
+						tmpReturnTrack = tmpTrack;
+					} else if (tmpCrusher.isLeft && tmpTrack.x > tmpReturnTrack.x ||
+					           tmpCrusher.isRight && tmpTrack.x < tmpReturnTrack.x ||
+							   tmpCrusher.isUp && tmpTrack.y > tmpReturnTrack.y ||
+							   tmpCrusher.isDown && tmpTrack.y < tmpReturnTrack.y) {
+						tmpReturnTrack = tmpTrack;
+					}
+				}
+			}
+			
+			return tmpReturnTrack;
+		}
+		
+		private function nextTrackAfterCrusher(tmpTrack:SprTrack,tmpCrusher:SprCrusher):SprTrack {
+			
+			if (tmpTrack == null) {return tmpTrack;}
+			
+			var tmpGuessPoint:FlxPoint = new FlxPoint(tmpTrack.x + tmpTrack.width/2.0,tmpTrack.y + tmpTrack.height/2.0);
+			var tmpDelta:Number = tmpTrack.width;
+			
+			if (tmpCrusher.isLeft) {
+				tmpGuessPoint.x -= tmpDelta;
+			}
+			else if (tmpCrusher.isRight) {
+				tmpGuessPoint.x += tmpDelta;
+			}
+			else if (tmpCrusher.isUp) {
+				tmpGuessPoint.y -= tmpDelta;
+			}
+			else if (tmpCrusher.isDown) {
+				tmpGuessPoint.y += tmpDelta;
+			}
+			
+			var tmpTrackAtPoint:SprTrack = trackAtPoint(tmpGuessPoint);
+			if (tmpTrackAtPoint == null) {return tmpTrackAtPoint;}
+			
+			else if (tmpCrusher.isLeft && tmpTrackAtPoint.canEnterW()) {
+				return tmpTrackAtPoint;
+			}
+			else if (tmpCrusher.isRight && tmpTrackAtPoint.canEnterE()) {
+				return tmpTrackAtPoint;
+			}
+			else if (tmpCrusher.isUp && tmpTrackAtPoint.canEnterS()) {
+				return tmpTrackAtPoint;
+			}
+			else if (tmpCrusher.isDown && tmpTrackAtPoint.canEnterN()) {
+				return tmpTrackAtPoint;
+			}
+			
+			return tmpTrackAtPoint;
+		}
+		
+		private function trackAtPoint(tmpPoint:FlxPoint):SprTrack {
+			var tmpOverlapTrack:SprTrack;
+			
+			for (var i:uint = 0; i < trackGroup.length; i++) {
+				var tmpTrack:SprTrack = trackGroup.members[i];
+				if (tmpTrack.overlapsPoint(tmpPoint)) {
+					tmpOverlapTrack = tmpTrack;
+					break;
+				}
+					
+			}
+			
+			return tmpOverlapTrack;
+		}
 	}
 }

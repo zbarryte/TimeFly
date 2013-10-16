@@ -34,7 +34,7 @@ package
 		}
 		
 		override public function draw():void {
-			if (_hasGraphic && visible) {super.draw();}
+			if ((_hasGraphic && visible) /*|| Glob.kDebugOn*/) {super.draw();}
 			for (var i:uint = 0; i < _children.length; i++) {
 				var tmpChild:FlxSprite = _children.members[i];
 				if (!tmpChild.visible) continue;

@@ -18,6 +18,11 @@ package
 			goInDirection();
 		}
 		
+		public function get isUp():Boolean {return _direction.x == kUp.x && _direction.y == kUp.y;}
+		public function get isDown():Boolean {return _direction.x == kDown.x && _direction.y == kDown.y;}
+		public function get isLeft():Boolean {return _direction.x == kLeft.x && _direction.y == kLeft.y;}
+		public function get isRight():Boolean {return _direction.x == kRight.x && _direction.y == kRight.y;}
+		
 		protected var _velocityX:Number;
 		protected var _velocityY:Number;
 		

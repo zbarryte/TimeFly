@@ -4,13 +4,13 @@ package
 	import org.flixel.FlxGame;
 	import org.flixel.FlxG;
 	
-	[SWF(width="640", height="480", backgroundColor="#000000")]
+	[SWF(width="896", height="512", backgroundColor="#000000")]
 	
 	public class TimeFly extends FlxGame
 	{
 		public function TimeFly()
 		{
-			super(640,480,StPlay,1,60,60,true);
+			super(896,512,StPlay,1,60,60,true);
 			
 			FlxG.debug = Glob.kDebugOn;
 		}

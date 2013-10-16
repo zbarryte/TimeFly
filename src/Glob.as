@@ -8,6 +8,7 @@ package
 		
 		public static const timeArrow:TimeArrow = new TimeArrow();
 		
+		[Embed(source="../assets/spr_wall.png")] public static const kWallSheet:Class;
 		[Embed(source="../assets/spr_fly.png")] public static const kFlySheet:Class;
 		[Embed(source="../assets/spr_portal.png")] public static const kPortalSheet:Class;
 		[Embed(source="../assets/spr_crusher.png")] public static const kCrusherSheet:Class;
