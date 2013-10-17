@@ -22,7 +22,7 @@ package
 		[Embed("../assets/mapCSV_functional_002.csv",mimeType="application/octet-stream")] private static const kFunc002Sheet:Class;
 		[Embed("../assets/mapCSV_functional_003.csv",mimeType="application/octet-stream")] private static const kFunc003Sheet:Class;
 		
-		private static var _num:uint = 2;
+		private static var _num:uint = 1;
 		//private static var _num:uint = 0;
 		public static function get num():uint {
 			return _num;

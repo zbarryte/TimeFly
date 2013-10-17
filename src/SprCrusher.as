@@ -10,7 +10,7 @@ package
 		public static const kLeft:FlxPoint = new FlxPoint(-1.0,0.0);
 		public static const kRight:FlxPoint = new FlxPoint(1.0,0.0);
 		
-		private const kRate:Number = 44;
+		private const kRate:Number = 32;
 		protected var _direction:FlxPoint;
 		
 		public function set direction(tmpDirection:FlxPoint):void {

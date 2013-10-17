@@ -453,13 +453,15 @@ package
 				var tmpTrack:SprTrack = overlappedTrackForCrusher(tmpCrusher);
 				
 				if (tmpTrack == null) {continue;}
-								
-				changeCrusherVelocityBasedOnTrackCurve(tmpTrack,tmpCrusher);
 				
 				var tmpNextTrack:SprTrack = nextTrackAfterCrusher(tmpTrack,tmpCrusher);
 				
 				if (tmpNextTrack == null) {
-					tmpCrusher.reverseDirection();
+					tmpCrusher.x = tmpTrack.x;
+					tmpCrusher.y = tmpTrack.y;
+					
+					changeCrusherVelocityBasedOnTrackCurve(tmpTrack,tmpCrusher);
+					//tmpCrusher.reverseDirection();
 				}
 			}
 		}
@@ -549,6 +551,7 @@ package
 			
 			if ((tmpTrack.x < tmpCrusher.x + tmpDelta && tmpCrusher.x - tmpDelta < tmpTrack.x) &&
 				(tmpTrack.y < tmpCrusher.y + tmpDelta && tmpCrusher.y - tmpDelta < tmpTrack.y)) {
+			//if (tmpTrack.x == tmpCrusher.x && tmpCrusher.y == tmpTrack.y) {
 				
 				if (tmpCrusher.isDown) {
 					if (tmpTrack.isNE) {
@@ -556,6 +559,7 @@ package
 					}
 					else if (tmpTrack.isNS) {
 						// do nothing, keep going
+						tmpCrusher.reverseDirection();
 					}
 					else if (tmpTrack.isNW) {
 						tmpCrusher.goLeft();
@@ -564,6 +568,7 @@ package
 				else if (tmpCrusher.isUp) {
 					if (tmpTrack.isNS) {
 						// do nothing, keep going
+						tmpCrusher.reverseDirection();
 					}
 					else if (tmpTrack.isES) {
 						tmpCrusher.goRight();
@@ -581,6 +586,7 @@ package
 					}
 					else if (tmpTrack.isEW) {
 						// do nothing, keep going
+						tmpCrusher.reverseDirection();
 					}
 				}
 				else if (tmpCrusher.isRight) {
@@ -589,6 +595,7 @@ package
 					}
 					else if (tmpTrack.isEW) {
 						// do nothing, keep going
+						tmpCrusher.reverseDirection();
 					}
 					else if (tmpTrack.isSW) {
 						tmpCrusher.goDown();
