@@ -20,8 +20,12 @@ package
 		private const kSpawnCrusherLeft:Array = [4];
 		private const kSpawnCrusherRight:Array = [5];
 		//private const kSpawnTrack:Array = [8,9,10,11,12,13,14,15,16,18,19,20,21,22,23,24,25,26];
+		private const kSpawnTrackNE:Array = [11,14,21,24];
 		private const kSpawnTrackNS:Array = [6,7,8,18,12,22];
+		private const kSpawnTrackNW:Array = [10,15,20,25];;
+		private const kSpawnTrackES:Array = [10,16,20,26];
 		private const kSpawnTrackEW:Array = [4,5,9,19,12,22];
+		private const kSpawnTrackSW:Array = [11,13,21,23];
 		
 		private var timeArrow:TimeArrow;
 		private var timeRecord:TimeRecord;
@@ -82,6 +86,13 @@ package
 			var i:uint;
 			var tmpTrack:SprTrack;
 			
+			var tmpTrackNEGroup:FlxGroup = groupFromSpawn(kSpawnTrackNE,SprTrack,lvlFunc,true);
+			for (i = 0; i < tmpTrackNEGroup.length; i++) {
+				tmpTrack = tmpTrackNEGroup.members[i];
+				tmpTrack.mapNE();
+			}
+			addGroupMembersToGroup(trackGroup,tmpTrackNEGroup);
+			
 			var tmpTrackNSGroup:FlxGroup = groupFromSpawn(kSpawnTrackNS,SprTrack,lvlFunc,true);
 			for (i = 0; i < tmpTrackNSGroup.length; i++) {
 				tmpTrack = tmpTrackNSGroup.members[i];
@@ -89,12 +100,33 @@ package
 			}
 			addGroupMembersToGroup(trackGroup,tmpTrackNSGroup);
 			
+			var tmpTrackNWGroup:FlxGroup = groupFromSpawn(kSpawnTrackNW,SprTrack,lvlFunc,true);
+			for (i = 0; i < tmpTrackNWGroup.length; i++) {
+				tmpTrack = tmpTrackNWGroup.members[i];
+				tmpTrack.mapNW();
+			}
+			addGroupMembersToGroup(trackGroup,tmpTrackNWGroup);
+			
+			var tmpTrackESGroup:FlxGroup = groupFromSpawn(kSpawnTrackES,SprTrack,lvlFunc,true);
+			for (i = 0; i < tmpTrackESGroup.length; i++) {
+				tmpTrack = tmpTrackESGroup.members[i];
+				tmpTrack.mapES();
+			}
+			addGroupMembersToGroup(trackGroup,tmpTrackESGroup);
+			
 			var tmpTrackEWGroup:FlxGroup = groupFromSpawn(kSpawnTrackEW,SprTrack,lvlFunc,true);
 			for (i = 0; i < tmpTrackEWGroup.length; i++) {
 				tmpTrack = tmpTrackEWGroup.members[i];
 				tmpTrack.mapEW();
 			}
 			addGroupMembersToGroup(trackGroup,tmpTrackEWGroup);
+			
+			var tmpTrackSWGroup:FlxGroup = groupFromSpawn(kSpawnTrackSW,SprTrack,lvlFunc,true);
+			for (i = 0; i < tmpTrackSWGroup.length; i++) {
+				tmpTrack = tmpTrackSWGroup.members[i];
+				tmpTrack.mapSW();
+			}
+			addGroupMembersToGroup(trackGroup,tmpTrackSWGroup);
 			
 			add(trackGroup);
 		}
@@ -421,6 +453,8 @@ package
 				var tmpTrack:SprTrack = overlappedTrackForCrusher(tmpCrusher);
 				
 				if (tmpTrack == null) {continue;}
+								
+				changeCrusherVelocityBasedOnTrackCurve(tmpTrack,tmpCrusher);
 				
 				var tmpNextTrack:SprTrack = nextTrackAfterCrusher(tmpTrack,tmpCrusher);
 				
@@ -437,8 +471,8 @@ package
 			for (var i:uint = 0; i < trackGroup.length; i++) {
 				var tmpTrack:SprTrack = trackGroup.members[i];
 								
-				if (tmpTrack.overlaps(tmpCrusher) && ((tmpCrusher.isLeft && tmpTrack.canEnterW()) ||
-													  (tmpCrusher.isRight && tmpTrack.canEnterE()) ||
+				if (tmpTrack.overlaps(tmpCrusher) && ((tmpCrusher.isLeft && tmpTrack.canEnterE()) ||
+													  (tmpCrusher.isRight && tmpTrack.canEnterW()) ||
 													  (tmpCrusher.isUp && tmpTrack.canEnterS()) ||
 													  (tmpCrusher.isDown && tmpTrack.canEnterN()))) {
 					if (tmpReturnTrack == null) {
@@ -478,10 +512,10 @@ package
 			var tmpTrackAtPoint:SprTrack = trackAtPoint(tmpGuessPoint);
 			if (tmpTrackAtPoint == null) {return tmpTrackAtPoint;}
 			
-			else if (tmpCrusher.isLeft && tmpTrackAtPoint.canEnterW()) {
+			else if (tmpCrusher.isLeft && tmpTrackAtPoint.canEnterE()) {
 				return tmpTrackAtPoint;
 			}
-			else if (tmpCrusher.isRight && tmpTrackAtPoint.canEnterE()) {
+			else if (tmpCrusher.isRight && tmpTrackAtPoint.canEnterW()) {
 				return tmpTrackAtPoint;
 			}
 			else if (tmpCrusher.isUp && tmpTrackAtPoint.canEnterS()) {
@@ -507,6 +541,61 @@ package
 			}
 			
 			return tmpOverlapTrack;
+		}
+		
+		private function changeCrusherVelocityBasedOnTrackCurve(tmpTrack:SprTrack,tmpCrusher:SprCrusher):void {
+			
+			var tmpDelta:Number = 5.0;
+			
+			if ((tmpTrack.x < tmpCrusher.x + tmpDelta && tmpCrusher.x - tmpDelta < tmpTrack.x) &&
+				(tmpTrack.y < tmpCrusher.y + tmpDelta && tmpCrusher.y - tmpDelta < tmpTrack.y)) {
+				
+				if (tmpCrusher.isDown) {
+					if (tmpTrack.isNE) {
+						tmpCrusher.goRight();
+					}
+					else if (tmpTrack.isNS) {
+						// do nothing, keep going
+					}
+					else if (tmpTrack.isNW) {
+						tmpCrusher.goLeft();
+					}
+				}
+				else if (tmpCrusher.isUp) {
+					if (tmpTrack.isNS) {
+						// do nothing, keep going
+					}
+					else if (tmpTrack.isES) {
+						tmpCrusher.goRight();
+					}
+					else if (tmpTrack.isSW) {
+						tmpCrusher.goLeft();
+					}
+				}
+				else if (tmpCrusher.isLeft) {
+					if (tmpTrack.isNE) {
+						tmpCrusher.goUp();
+					}
+					else if (tmpTrack.isES) {
+						tmpCrusher.goDown();
+					}
+					else if (tmpTrack.isEW) {
+						// do nothing, keep going
+					}
+				}
+				else if (tmpCrusher.isRight) {
+					if (tmpTrack.isNW) {
+						tmpCrusher.goUp();
+					}
+					else if (tmpTrack.isEW) {
+						// do nothing, keep going
+					}
+					else if (tmpTrack.isSW) {
+						tmpCrusher.goDown();
+					}
+				}
+			
+			}
 		}
 	}
 }

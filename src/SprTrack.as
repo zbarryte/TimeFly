@@ -102,7 +102,7 @@ package
 		}
 		
 		private function doesMap(tmpTo:uint,tmpFrom:uint):Boolean {
-			return _map[tmpTo] == tmpFrom;
+			return (_map[tmpTo] == tmpFrom || _map[tmpFrom] == tmpTo);
 		}
 		
 		public function get isNE():Boolean {
