@@ -20,12 +20,22 @@ package
 		private const kSpawnCrusherLeft:Array = [4];
 		private const kSpawnCrusherRight:Array = [5];
 		//private const kSpawnTrack:Array = [8,9,10,11,12,13,14,15,16,18,19,20,21,22,23,24,25,26];
-		private const kSpawnTrackNE:Array = [11,14,21,24];
+		
+		private const kSpawnTrackNE:Array = [11,21,14,24];
+		//private const kSpawnTrackNE:Array = [14,24];
 		private const kSpawnTrackNS:Array = [6,7,8,18,12,22];
-		private const kSpawnTrackNW:Array = [10,15,20,25];;
-		private const kSpawnTrackES:Array = [10,16,20,26];
+		private const kSpawnTrackNW:Array = [10,20,15,25];
+		private const kSpawnTrackES:Array = [10,20,16,26];
+		//private const kSpawnTrackNW:Array = [15,25];
+		//private const kSpawnTrackES:Array = [16,26];
 		private const kSpawnTrackEW:Array = [4,5,9,19,12,22];
-		private const kSpawnTrackSW:Array = [11,13,21,23];
+		private const kSpawnTrackSW:Array = [11,21,13,23];
+		//private const kSpawnTrackSW:Array = [13,23];
+		private const kSpawnTrackNEandSW:Array = [];
+		private const kSpawnTrackNWandES:Array = [];
+		//private const kSpawnTrackNEandSW:Array = [11,21];
+		//private const kSpawnTrackNWandES:Array = [10,20];
+		
 		
 		private var timeArrow:TimeArrow;
 		private var timeRecord:TimeRecord;
@@ -71,7 +81,7 @@ package
 		
 		private function addLevel():void {
 			lvlFunc = LevelsStore.currentFlxTilemapFunctional();
-			if (Glob.kDebugOn) {add(lvlFunc);}
+			//if (Glob.kDebugOn) {add(lvlFunc);}
 		}
 		
 		private function addWalls():void {
@@ -127,6 +137,22 @@ package
 				tmpTrack.mapSW();
 			}
 			addGroupMembersToGroup(trackGroup,tmpTrackSWGroup);
+			
+			var tmpTrackNEandSWGroup:FlxGroup = groupFromSpawn(kSpawnTrackNEandSW,SprTrack,lvlFunc,true);
+			for (i = 0; i < tmpTrackNEandSWGroup.length; i++) {
+				tmpTrack = tmpTrackNEandSWGroup.members[i];
+				tmpTrack.mapNE();
+				tmpTrack.mapSW();
+			}
+			addGroupMembersToGroup(trackGroup,tmpTrackNEandSWGroup);
+			
+			var tmpTrackNWandESGroup:FlxGroup = groupFromSpawn(kSpawnTrackNWandES,SprTrack,lvlFunc,true);
+			for (i = 0; i < tmpTrackNWandESGroup.length; i++) {
+				tmpTrack = tmpTrackNWandESGroup.members[i];
+				tmpTrack.mapNW();
+				tmpTrack.mapES();
+			}
+			addGroupMembersToGroup(trackGroup,tmpTrackNWandESGroup);
 			
 			add(trackGroup);
 		}
@@ -472,8 +498,17 @@ package
 					
 					tmpCrusher.x = tmpTrack.x;
 					tmpCrusher.y = tmpTrack.y;
-										
+					
+					/*
+					if (tmpCrusher.isDown) {
+						FlxG.log("\n");
+						tmpTrack.displayEnabledDirections();
+						tmpCrusher.displayDirection();
+					}
+					*/
+					
 					changeCrusherVelocityBasedOnTrackCurve(tmpTrack,tmpCrusher);
+					
 					//tmpCrusher.reverseDirection();
 				}
 			}
@@ -517,10 +552,10 @@ package
 			
 			if (tmpTrack == null) {return null;}
 			
-			if (tmpCrusher.isLeft && !tmpTrack.canExitW() ||
-				tmpCrusher.isRight && !tmpTrack.canExitE() ||
-				tmpCrusher.isUp && !tmpTrack.canExitN() ||
-				tmpCrusher.isDown && !tmpTrack.canExitS()) {
+			if ((tmpCrusher.isLeft && !tmpTrack.canExitW()) ||
+				(tmpCrusher.isRight && !tmpTrack.canExitE()) ||
+				(tmpCrusher.isUp && !tmpTrack.canExitN()) ||
+				(tmpCrusher.isDown && !tmpTrack.canExitS())) {
 				return null;
 			}
 			
@@ -546,16 +581,16 @@ package
 				var tmpTrackAtPoint:SprTrack = trackGroup.members[i];
 				if (tmpTrackAtPoint.overlapsPoint(tmpGuessPoint)) {
 						
-					if (tmpCrusher.isLeft && tmpTrackAtPoint.canEnterE() && tmpTrack.canExitW()) {
+					if (tmpCrusher.isLeft && tmpTrackAtPoint.canEnterE()) {
 						return tmpTrackAtPoint;
 					}
-					else if (tmpCrusher.isRight && tmpTrackAtPoint.canEnterW() && tmpTrack.canExitE()) {
+					else if (tmpCrusher.isRight && tmpTrackAtPoint.canEnterW()) {
 						return tmpTrackAtPoint;
 					}
-					else if (tmpCrusher.isUp && tmpTrackAtPoint.canEnterS() && tmpTrack.canExitN()) {
+					else if (tmpCrusher.isUp && tmpTrackAtPoint.canEnterS()) {
 						return tmpTrackAtPoint;
 					}
-					else if (tmpCrusher.isDown && tmpTrackAtPoint.canEnterN() && tmpTrack.canExitS()) {
+					else if (tmpCrusher.isDown && tmpTrackAtPoint.canEnterN()) {
 						return tmpTrackAtPoint;
 					}
 				}

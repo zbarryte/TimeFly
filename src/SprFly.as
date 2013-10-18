@@ -8,7 +8,7 @@ package
 		private const kHeight:uint = 8;
 		
 		private const kMoveAccel:Number = kWidth*22.0*8.0;
-		private const kDrag:Number = kMoveAccel*0.5;
+		private const kDrag:Number = kMoveAccel*0.75;
 		private const kMaxVel:Number = kMoveAccel*0.5;
 		
 		private const kAnimIdle:String = "kAnimIdle";

@@ -21,8 +21,9 @@ package
 		[Embed("../assets/mapCSV_functional_001.csv",mimeType="application/octet-stream")] private static const kFunc001Sheet:Class;
 		[Embed("../assets/mapCSV_functional_002.csv",mimeType="application/octet-stream")] private static const kFunc002Sheet:Class;
 		[Embed("../assets/mapCSV_functional_003.csv",mimeType="application/octet-stream")] private static const kFunc003Sheet:Class;
+		[Embed("../assets/mapCSV_functional_004.csv",mimeType="application/octet-stream")] private static const kFunc004Sheet:Class;
 		
-		private static var _num:uint = 1;
+		private static var _num:uint = 3;
 		//private static var _num:uint = 0;
 		public static function get num():uint {
 			return _num;
@@ -31,7 +32,7 @@ package
 			_num = (setNum < csvs.length) ? setNum : csvs.length;
 		}
 		
-		private static const csvs:Array = [kFunc001Sheet,kFunc002Sheet,kFunc003Sheet];
+		private static const csvs:Array = [kFunc001Sheet,kFunc002Sheet,kFunc003Sheet,kFunc004Sheet];
 		private static function get currentCSV():Class {
 			return csvs[num];
 		}

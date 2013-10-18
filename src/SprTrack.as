@@ -1,7 +1,8 @@
 package
 {
 	import flash.utils.Dictionary;
-
+	import org.flixel.FlxG;
+	
 	public class SprTrack extends ZNode
 	{
 		private const kNorth:uint = 0;
@@ -127,6 +128,15 @@ package
 		
 		public function get isSW():Boolean {
 			return doesMap(kSouth,kWest);
+		}
+		
+		public function displayEnabledDirections():void {
+			var tmpStr:String = "";
+			if (canEnterN()) {tmpStr+="N";}
+			if (canEnterE()) {tmpStr+="E";}
+			if (canEnterS()) {tmpStr+="S";}
+			if (canEnterW()) {tmpStr+="W";}
+			FlxG.log(tmpStr);
 		}
 	}
 }
