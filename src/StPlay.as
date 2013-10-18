@@ -434,11 +434,19 @@ package
 		}
 		
 		private function win():void {
-			FlxG.log("you win!");
+			//FlxG.log("you win!");
+			var tmpCallback:Function = function():void {
+				FlxG.switchState(new StPlay());
+			}
+			FlxG.camera.fade(0xffffffff,0.22,tmpCallback);
 		}
 		
 		private function secondChance():void {
-			FlxG.log("quickly, it's a second chance!");
+			var tmpCallback:Function = function():void {
+				FlxG.switchState(new StPlay());
+			}
+			FlxG.camera.fade(0xff000000,0.22,tmpCallback);
+			//FlxG.log("quickly, it's a second chance!");
 		}
 		
 		/*
@@ -452,14 +460,19 @@ package
 				var tmpCrusher:SprCrusher = crusherGroup.members[i];
 				var tmpTrack:SprTrack = overlappedTrackForCrusher(tmpCrusher);
 				
-				if (tmpTrack == null) {continue;}
+				if (tmpTrack == null) {FlxG.log("continue");continue;}
 				
 				var tmpNextTrack:SprTrack = nextTrackAfterCrusher(tmpTrack,tmpCrusher);
 				
+				//if (tmpTrack.isNW && tmpNextTrack.isNS) {tmpNextTrack = null;FlxG.log(tmpTrack.canExitS());}
+				
 				if (tmpNextTrack == null) {
+					
+					//FlxG.log((tmpTrack.canEnterN() ? "N" : "")+(tmpTrack.canEnterE() ? "E" : "")+(tmpTrack.canEnterS() ? "S" : "")+(tmpTrack.canEnterW() ? "W" : ""));
+					
 					tmpCrusher.x = tmpTrack.x;
 					tmpCrusher.y = tmpTrack.y;
-					
+										
 					changeCrusherVelocityBasedOnTrackCurve(tmpTrack,tmpCrusher);
 					//tmpCrusher.reverseDirection();
 				}
@@ -469,6 +482,7 @@ package
 		
 		private function overlappedTrackForCrusher(tmpCrusher:SprCrusher):SprTrack {
 			var tmpReturnTrack:SprTrack;
+			//var tmpReturnDistSq:Number;
 			
 			for (var i:uint = 0; i < trackGroup.length; i++) {
 				var tmpTrack:SprTrack = trackGroup.members[i];
@@ -479,12 +493,20 @@ package
 													  (tmpCrusher.isDown && tmpTrack.canEnterN()))) {
 					if (tmpReturnTrack == null) {
 						tmpReturnTrack = tmpTrack;
+						//tmpReturnDistSq = Math.pow(tmpReturnTrack.x - tmpCrusher.x,2.0) + Math.pow(tmpReturnTrack.y - tmpCrusher.y,2.0);
 					} else if (tmpCrusher.isLeft && tmpTrack.x > tmpReturnTrack.x ||
 					           tmpCrusher.isRight && tmpTrack.x < tmpReturnTrack.x ||
 							   tmpCrusher.isUp && tmpTrack.y > tmpReturnTrack.y ||
 							   tmpCrusher.isDown && tmpTrack.y < tmpReturnTrack.y) {
 						tmpReturnTrack = tmpTrack;
 					}
+					/*else {
+						var tmpDistSq:Number = Math.pow(tmpTrack.x - tmpCrusher.x,2.0) + Math.pow(tmpTrack.y - tmpCrusher.y,2.0);
+						if (tmpDistSq < tmpReturnDistSq) {
+							tmpReturnTrack = tmpTrack;
+							tmpReturnDistSq = tmpDistSq;
+						}
+					}*/
 				}
 			}
 			
@@ -493,7 +515,14 @@ package
 		
 		private function nextTrackAfterCrusher(tmpTrack:SprTrack,tmpCrusher:SprCrusher):SprTrack {
 			
-			if (tmpTrack == null) {return tmpTrack;}
+			if (tmpTrack == null) {return null;}
+			
+			if (tmpCrusher.isLeft && !tmpTrack.canExitW() ||
+				tmpCrusher.isRight && !tmpTrack.canExitE() ||
+				tmpCrusher.isUp && !tmpTrack.canExitN() ||
+				tmpCrusher.isDown && !tmpTrack.canExitS()) {
+				return null;
+			}
 			
 			var tmpGuessPoint:FlxPoint = new FlxPoint(tmpTrack.x + tmpTrack.width/2.0,tmpTrack.y + tmpTrack.height/2.0);
 			var tmpDelta:Number = tmpTrack.width;
@@ -511,39 +540,71 @@ package
 				tmpGuessPoint.y += tmpDelta;
 			}
 			
-			var tmpTrackAtPoint:SprTrack = trackAtPoint(tmpGuessPoint);
+			//var tmpTrackAtPoint:SprTrack = null;
+			
+			for (var i:uint = 0; i < trackGroup.length; i++) {
+				var tmpTrackAtPoint:SprTrack = trackGroup.members[i];
+				if (tmpTrackAtPoint.overlapsPoint(tmpGuessPoint)) {
+						
+					if (tmpCrusher.isLeft && tmpTrackAtPoint.canEnterE() && tmpTrack.canExitW()) {
+						return tmpTrackAtPoint;
+					}
+					else if (tmpCrusher.isRight && tmpTrackAtPoint.canEnterW() && tmpTrack.canExitE()) {
+						return tmpTrackAtPoint;
+					}
+					else if (tmpCrusher.isUp && tmpTrackAtPoint.canEnterS() && tmpTrack.canExitN()) {
+						return tmpTrackAtPoint;
+					}
+					else if (tmpCrusher.isDown && tmpTrackAtPoint.canEnterN() && tmpTrack.canExitS()) {
+						return tmpTrackAtPoint;
+					}
+				}
+			}
+			
+			/*
+			//var tmpTrackAtPoint:SprTrack = trackAtPoint(tmpGuessPoint,tmpTrack,tmpCrusher);
 			if (tmpTrackAtPoint == null) {return tmpTrackAtPoint;}
 			
-			else if (tmpCrusher.isLeft && tmpTrackAtPoint.canEnterE()) {
+			else if (tmpCrusher.isLeft && tmpTrackAtPoint.canEnterE() && tmpTrack.canExitW()) {
 				return tmpTrackAtPoint;
 			}
-			else if (tmpCrusher.isRight && tmpTrackAtPoint.canEnterW()) {
+			else if (tmpCrusher.isRight && tmpTrackAtPoint.canEnterW() && tmpTrack.canExitE()) {
 				return tmpTrackAtPoint;
 			}
-			else if (tmpCrusher.isUp && tmpTrackAtPoint.canEnterS()) {
+			else if (tmpCrusher.isUp && tmpTrackAtPoint.canEnterS() && tmpTrack.canExitN()) {
 				return tmpTrackAtPoint;
 			}
-			else if (tmpCrusher.isDown && tmpTrackAtPoint.canEnterN()) {
+			else if (tmpCrusher.isDown && tmpTrackAtPoint.canEnterN() && tmpTrack.canExitS()) {
 				return tmpTrackAtPoint;
+			} else {
+				tmpTrackAtPoint = null;
 			}
 			
 			return tmpTrackAtPoint;
+			*/
+			return null;
 		}
 		
-		private function trackAtPoint(tmpPoint:FlxPoint):SprTrack {
+		/*
+		private function trackAtPoint(tmpPoint:FlxPoint,tmpTrack:SprTrack,tmpCrusher:SprCrusher):SprTrack {
 			var tmpOverlapTrack:SprTrack;
 			
 			for (var i:uint = 0; i < trackGroup.length; i++) {
 				var tmpTrack:SprTrack = trackGroup.members[i];
 				if (tmpTrack.overlapsPoint(tmpPoint)) {
+					
+					if (tmpCrusher.isLeft && tmpTrack.canEnterW()
+					
 					tmpOverlapTrack = tmpTrack;
 					break;
+					
 				}
 					
 			}
 			
 			return tmpOverlapTrack;
 		}
+		*/
 		
 		private function changeCrusherVelocityBasedOnTrackCurve(tmpTrack:SprTrack,tmpCrusher:SprCrusher):void {
 			

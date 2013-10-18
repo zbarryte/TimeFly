@@ -1,7 +1,7 @@
 package
 {
-	import org.flixel.FlxPoint;
 	import org.flixel.FlxG;
+	import org.flixel.FlxPoint;
 	
 	public class SprCrusher extends ZNodeTime
 	{
@@ -32,6 +32,15 @@ package
 			loadGraphic(Glob.kCrusherSheet);
 			//mass = Number.MAX_VALUE;
 			
+		}
+		
+		public function displayDirection():void {
+			var tmpDir:String;
+			if (isUp) {tmpDir = "UP";}
+			else if (isDown) {tmpDir = "DOWN";}
+			else if (isLeft) {tmpDir = "LEFT";}
+			else if (isRight) {tmpDir = "RIGHT";}
+			FlxG.log(tmpDir);
 		}
 		
 		public function goUp():void {
