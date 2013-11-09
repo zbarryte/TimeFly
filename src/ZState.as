@@ -3,6 +3,7 @@ package
 	import org.flixel.FlxG;
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxState;
+	import org.flixel.FlxText;
 	
 	public class ZState extends FlxState
 	{
@@ -22,10 +23,11 @@ package
 			FlxG.bgColor = 0xffffffff;
 			createScene();
 			addOverlay();
+			addDebug();
 		}
 		
 		protected function createScene():void {
-			FlxG.log(":: createScene() :: not yet implemented by " + this);
+			//FlxG.log(":: createScene() :: not yet implemented by " + this);
 		}
 		
 		private function addOverlay():void {
@@ -33,6 +35,13 @@ package
 			_overlay.makeGraphic(FlxG.width,FlxG.height);
 			hideOverlay();
 			add(_overlay);
+		}
+		
+		private function addDebug():void {
+			var tmpText:ZText = new ZText(0,0,FlxG.width);
+			tmpText.text = "## DEBUG MODE ##";
+			tmpText.alignment = "center";
+			add(tmpText);
 		}
 		
 		override public function update():void {
@@ -50,7 +59,7 @@ package
 		}
 		
 		protected function updateAnimations():void {
-			FlxG.log(":: updateAnimations() :: not yet implemented by " + this);
+			//FlxG.log(":: updateAnimations() :: not yet implemented by " + this);
 		}
 		
 		protected function updateMechanics():void {
@@ -58,11 +67,11 @@ package
 		}
 		
 		protected function updateControls():void {
-			FlxG.log(":: updateControls() :: not yet implemented by " + this);
+			//FlxG.log(":: updateControls() :: not yet implemented by " + this);
 		}
 		
 		protected function updatePause():void {
-			FlxG.log(":: updatePause() :: not yet implemented by " + this);
+			//FlxG.log(":: updatePause() :: not yet implemented by " + this);
 		}
 		
 		protected function tintOverlay(tmpColor:Number):void {

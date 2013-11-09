@@ -4,6 +4,10 @@ package
 	
 	public class Glob
 	{	
+		public static function log(tmpData:Object):void {
+			FlxG.log(tmpData);
+		}
+		
 		public static const kDebugOn:Boolean = true;
 		
 		public static const timeArrow:TimeArrow = new TimeArrow();

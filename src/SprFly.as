@@ -68,7 +68,7 @@ package
 			isMovingRight = false;
 		}
 		
-		override protected function updateLocation():void {
+		override protected function updateMechanics():void {
 			acceleration.x = 0;
 			acceleration.y = 0;
 			if (isMovingUp) {
@@ -91,7 +91,7 @@ package
 			resetBools();
 		}
 		
-		override protected function updateVideo():void {
+		override protected function updateAV():void {
 			imgFly.play(kAnimIdle);
 			
 			if (isBetweenFrames() && !isTraveling) {

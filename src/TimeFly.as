@@ -10,7 +10,7 @@ package
 	{
 		public function TimeFly()
 		{
-			super(896,512,StPlay,1,60,60,true);
+			super(896,512,StTitle,1,60,60,true);
 			
 			FlxG.debug = Glob.kDebugOn;
 		}

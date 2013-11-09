@@ -78,13 +78,13 @@ package
 			timeRecord.addEventAtFrame(tmpEvent,timeArrow.frame);
 		}
 		
-		override protected function updateLocation():void {
+		override protected function updateMechanics():void {
 			var tmpTimeDirection:int = (timeArrow.isForward()) ? 1 : -1;
 			velocity.x = _velocityX*timeArrow.rate*tmpTimeDirection;
 			velocity.y = _velocityY*timeArrow.rate*tmpTimeDirection;
 		}
 		
-		override protected function updateVideo():void {
+		override protected function updateAV():void {
 			//
 		}
 	}

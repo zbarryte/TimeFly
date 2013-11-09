@@ -43,11 +43,11 @@ package
 			//
 		}
 		
-		override protected function updateLocation():void {
+		override protected function updateMechanics():void {
 			//
 		}
 		
-		override protected function updateVideo():void {
+		override protected function updateAV():void {
 			// 
 		}
 	}
