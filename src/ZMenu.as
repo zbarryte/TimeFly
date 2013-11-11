@@ -1,5 +1,6 @@
 package
 {
+	import org.flixel.FlxBasic;
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxSprite;
@@ -22,15 +23,19 @@ package
 		}
 		
 		/**
+		 * Overridden <code>add</code>
+		 * 
 		 * Adds a button to the menu.
-		 * It must be a <code>ZButton</code>
+		 * It must be a <code>ZButton</code>, otherwise no effect
 		 * 
 		 * @param	tmpBtn	The button to be added.
 		 * 
 		 */
-		public function addButton(tmpBtn:ZButton):void {
+		override public function add(tmpBasic:FlxBasic):FlxBasic {
+			var tmpBtn:ZButton = tmpBasic as ZButton;
+			if (!tmpBtn) {Glob.log("ERROR :: ZMenu add given non-ZButton"); return null;}
 			if (isEmpty()) {tmpBtn.curse()}
-			add(tmpBtn);
+			return super.add(tmpBtn);
 		}
 		
 		/**

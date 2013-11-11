@@ -11,7 +11,7 @@ package
 		
 		public function BtnBasic(tmpSelectCallback:Function,tmpText:String=null,tmpX:Number=0,tmpY:Number=0)
 		{
-			super(tmpSelectCallback,tmpText,tmpX,tmpY,GSpritinator.kBtnTitleSheet);
+			super(tmpSelectCallback,tmpText,tmpX,tmpY,GSpritinator.kBtnTitle);
 		}
 		
 		override public function curse():void {

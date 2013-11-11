@@ -4,8 +4,19 @@ package
 	
 	public class Glob
 	{	
+		public static const controller:GController = new GController();
+		public static const spritinator:GSpritinator = new GSpritinator();
+		
+		
+		public static const kScreenWidth:Number = FlxG.width;
+		public static const kScreenHeight:Number = FlxG.height;
+		
 		public static function log(tmpData:Object):void {
 			FlxG.log(tmpData);
+		}
+		
+		public static function getClass(tmpObject:Object):Class {
+			return FlxU.getClass(FlxU.getClassName(tmpObject));
 		}
 		
 		public static const kDebugOn:Boolean = true;

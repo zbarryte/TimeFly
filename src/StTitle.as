@@ -20,7 +20,8 @@ package
 			
 			// PLAY
 			var callbackPlay:Function = function():void {
-				Glob.log("PLAY");
+				//Glob.log("PLAY");
+				switchState(StLoad);
 			};
 			var textPlay:String = "PLAY";
 			var btnPlay:BtnBasic = new BtnBasic(callbackPlay,textPlay);
@@ -47,6 +48,20 @@ package
 			mnu.add(btnSettings);
 			
 			add(mnu);
+		}
+		
+		override protected function updateControls():void {
+			if (Glob.controller.justPressed(GController.curseForward)) {
+				mnu.curseForward();
+			}
+			
+			if (Glob.controller.justPressed(GController.curseBackwards)) {
+				mnu.curseBackwards();
+			}
+			
+			if (Glob.controller.justPressed(GController.select)) {
+				mnu.select();
+			}
 		}
 	}
 }

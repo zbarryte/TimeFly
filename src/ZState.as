@@ -97,5 +97,11 @@ package
 		protected function disableControls():void {
 			_isControllable = false;
 		}
+		
+		public function switchState(tmpClass:Class):void {
+			var tmpState:ZState = new tmpClass();
+			// anythng to init it properly could go here
+			FlxG.switchState(tmpState); // this could also be something with a timer, a fade, who knows, whatever
+		}
 	}
 }

@@ -1,7 +1,9 @@
 package
 {
-	import org.flixel.FlxG;
 	import flash.events.MouseEvent;
+	
+	import org.flixel.FlxG;
+	import org.flixel.FlxPoint;
 	
 	public class GController
 	{
@@ -9,6 +11,9 @@ package
 		public static const right:Array = ["RIGHT","D"];
 		public static const up:Array = ["UP","W"];
 		public static const down:Array = ["DOWN","S"];
+		
+		public static const timeForward:Array = ["E","4"];
+		public static const timeBacward:Array = ["Q","3"];
 		
 		public static const pause:Array = ["P","ESCAPE"];
 		public static const select:Array = ["SPACE","ENTER"];
@@ -104,6 +109,16 @@ package
 		 */
 		public function justReleasedLeftClick():Boolean {
 			return FlxG.mouse.justReleased();
+		}
+		
+		/**
+		 * @return	The point clicked
+		 */
+		public function clickPoint():FlxPoint {
+			var tmpPoint:FlxPoint = new FlxPoint();
+			tmpPoint.x = FlxG.mouse.x;
+			tmpPoint.y = FlxG.mouse.y;
+			return tmpPoint;
 		}
 	}
 }
