@@ -4,9 +4,9 @@ package
 	
 	public class ZText extends FlxText
 	{
-		public function ZText(X:Number, Y:Number, Width:uint, Text:String=null, EmbeddedFont:Boolean=true)
+		public function ZText(tmpX:Number, tmpY:Number, tmpWidth:uint, tmpText:String=null, tmpEmbeddedFont:Boolean=true)
 		{
-			super(X, Y, Width, Text, EmbeddedFont);
+			super(tmpX, tmpY, tmpWidth, tmpText, tmpEmbeddedFont);
 			color = 0xff000000;
 			alignment = "center";
 		}

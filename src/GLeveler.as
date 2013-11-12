@@ -2,7 +2,7 @@ package
 {
 	import org.flixel.FlxTilemap;
 
-	public class LevelsStore
+	public class GLeveler
 	{
 		public static const kTileWidth:uint = 32;
 		public static const kTileHeight:uint = 32;
@@ -29,7 +29,7 @@ package
 			return _num;
 		}
 		public static function set num(setNum:uint):void {
-			_num = (setNum < csvs.length) ? setNum : csvs.length;
+			_num = (setNum < csvs.length) ? setNum : csvs.length - 1;
 		}
 		
 		public static function get numMax():uint {

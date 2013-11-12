@@ -115,8 +115,30 @@ package
 		 * Do not override this in children, unless you call <code>super</code>
 		 */
 		override public function draw():void {
-			if (_overlay) {_overlay.draw();}
+			if (_overlay && _overlay.visible) {_overlay.draw();}
 			super.draw();
+		}
+		
+		/**
+		 * Hides all buttons in the menu.
+		 */
+		public function hide():void {
+			_overlay.visible = false;
+			for (var i:uint = 0; i < length; i++) {
+				var tmpBtn:ZButton = members[i];
+				tmpBtn.visible = false;
+			}
+		}
+		
+		/**
+		 * Shows all buttons in the menu.
+		 */
+		public function show():void {
+			_overlay.visible = true;
+			for (var i:uint = 0; i < length; i++) {
+				var tmpBtn:ZButton = members[i];
+				tmpBtn.visible = true;
+			}
 		}
 	}
 }

@@ -51,15 +51,15 @@ package
 		}
 		
 		override protected function updateControls():void {
-			if (Glob.controller.justPressed(GController.curseForward)) {
+			if (Glob.kController.justPressed(GController.kCurseForward)) {
 				mnu.curseForward();
 			}
 			
-			if (Glob.controller.justPressed(GController.curseBackwards)) {
+			if (Glob.kController.justPressed(GController.kCurseBackwards)) {
 				mnu.curseBackwards();
 			}
 			
-			if (Glob.controller.justPressed(GController.select)) {
+			if (Glob.kController.justPressed(GController.kSelect)) {
 				mnu.select();
 			}
 		}

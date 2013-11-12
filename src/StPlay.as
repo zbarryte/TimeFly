@@ -3,14 +3,7 @@ package
 	import org.flixel.*;
 
 	public class StPlay extends ZState
-	{
-		private const kKeysUp:Array = ["W","UP"];
-		private const kKeysDown:Array = ["S","DOWN"];
-		private const kKeysLeft:Array = ["A","LEFT"];
-		private const kKeysRight:Array = ["D","RIGHT"];
-		private const kKeysTravelForward:Array = ["FOUR"];
-		private const kKeysTravelBackward:Array = ["THREE"];
-		
+	{	
 		private const kSpawnWall:Array = [1,18,19,20,21,22,23,24,25,26];
 		private const kSpawnPortal:Array = [2];
 		private const kSpawnFly:Array = [3];
@@ -53,6 +46,12 @@ package
 		
 		private var canControlFly:Boolean;
 		
+		private var isPaused:Boolean;
+		private var mnuPause:ZMenu;
+		
+		private var isDead:Boolean;
+		private var mnuDead:ZMenu;
+		
 		override protected function createScene():void
 		{
 			FlxG.bgColor = 0xffcc88ff;
@@ -65,6 +64,7 @@ package
 			addPortals();
 			addCrushers();
 			addFlies();
+			addPauseMenu();
 		}
 		
 		private function addTimeArrow():void {
@@ -80,7 +80,7 @@ package
 		*/
 		
 		private function addLevel():void {
-			lvlFunc = LevelsStore.currentFlxTilemapFunctional();
+			lvlFunc = GLeveler.currentFlxTilemapFunctional();
 			//if (Glob.kDebugOn) {add(lvlFunc);}
 		}
 		
@@ -198,14 +198,56 @@ package
 			return tmpFly;
 		}
 		
-		override protected function updateAnimations():void {
-			/*
-			runEvents();
-			recordEvents();
-			*/
+		private function addPauseMenu():void {
+			mnuPause = new ZMenu(true);
+			
+			var tmpMargin:uint = 22;
+			
+			// CONTINUE
+			var tmpCallbackContinue:Function = function():void {
+				resume();
+			};
+			var tmpTextContinue:String = "CONTINUE";
+			var tmpBtnContinue:BtnBasic = new BtnBasic(tmpCallbackContinue,tmpTextContinue);
+			mnuPause.add(tmpBtnContinue);
+			tmpBtnContinue.centerX();
+			tmpBtnContinue.placeAtScreenYPercentage(0.22);
+			
+			// EXIT
+			var tmpCallbackExit:Function = function():void {
+				switchState(StLoad);
+			};
+			var tmpTextExit:String = "EXIT";
+			var tmpBtnExit:BtnBasic = new BtnBasic(tmpCallbackExit,tmpTextExit);
+			mnuPause.add(tmpBtnExit);
+			tmpBtnExit.placeBelowSprite(tmpBtnContinue,tmpMargin);
+			
+			add(mnuPause);
+			mnuPause.hide();
 		}
 		
-		override protected function updateMechanics():void {
+		override public function update():void {
+			if (isPaused) {updatePause(); return;}
+			super.update();
+		}
+		
+		private function updatePause():void {
+			if (Glob.kController.justPressed(GController.kPause)) {
+				resume();
+			}
+			
+			if (Glob.kController.justPressed(GController.kCurseForward)) {
+				mnuPause.curseForward();
+			}
+			if (Glob.kController.justPressed(GController.kCurseBackwards)) {
+				mnuPause.curseBackwards();
+			}
+			if (Glob.kController.justPressed(GController.kSelect)) {
+				mnuPause.select();
+			}
+		}
+		
+		override protected function updateScene():void {
 			FlxG.collide(wallGroup,flyGroup);
 			//FlxG.collide(lvlFunc,flyGroup);
 			//FlxG.collide(crusherGroup,flyGroup);
@@ -314,40 +356,35 @@ package
 		
 		override protected function updateControls():void {
 			
+			if (Glob.kController.justPressed(GController.kPause)) {
+				pause();
+			}
+			
 			if (canControlFly) {
-				if (Glob.pressedAfter(kKeysUp,kKeysDown)) {
+				if (Glob.kController.pressedAfter(GController.kUp,GController.kDown)) {
 					fly.moveUp();
 				}
-				if (Glob.pressedAfter(kKeysDown,kKeysUp)) {
+				if (Glob.kController.pressedAfter(GController.kDown,GController.kUp)) {
 					fly.moveDown();
 				}
 				
-				if (Glob.pressedAfter(kKeysLeft,kKeysRight)) {
+				if (Glob.kController.pressedAfter(GController.kLeft,GController.kRight)) {
 					fly.moveLeft();
 				}
-				if (Glob.pressedAfter(kKeysRight,kKeysLeft)) {
+				if (Glob.kController.pressedAfter(GController.kRight,GController.kLeft)) {
 					fly.moveRight();
 				}
 			}
 			
-			/*
-			if (Glob.pressedAfter(kKeysTravelForward,kKeysTravelBackward)) {
-				//timeArrow.goForward();
+			if (Glob.kController.justPressed(GController.kTimeForward)) {
 				travelForward();
 			}
-			if (Glob.pressedAfter(kKeysTravelBackward,kKeysTravelBackward)) {
-				//timeArrow.goBackward();
-				travelBackward();
-			}*/
-			
-			if (Glob.justPressed(kKeysTravelForward)) {
-				travelForward();
-			}
-			else if (Glob.justPressed(kKeysTravelBackward)) {
+			else if (Glob.kController.justPressed(GController.kTimeBackward)) {
 				travelBackward();
 			}
 			
-			if (!Glob.pressed(kKeysTravelForward) && !Glob.pressed(kKeysTravelBackward)) {
+			if (!Glob.kController.pressed(GController.kTimeForward) &&
+				!Glob.kController.pressed(GController.kTimeBackward)) {
 				endTimeTravel();
 			}
 		}
@@ -401,10 +438,6 @@ package
 			fly.clonify();
 			var tmpFly:SprFly = new SprFly(fly.x,fly.y);
 			flyGroup.add(tmpFly);
-		}
-		
-		override protected function updatePause():void {
-			//
 		}
 		
 		private function flyOverlapsClone():Boolean {
@@ -473,6 +506,16 @@ package
 			}
 			FlxG.camera.fade(0xff000000,0.22,tmpCallback);
 			//FlxG.log("quickly, it's a second chance!");
+		}
+		
+		private function pause():void {
+			mnuPause.show();
+			isPaused = true;
+		}
+		
+		private function resume():void {
+			mnuPause.hide();
+			isPaused = false;
 		}
 		
 		/*

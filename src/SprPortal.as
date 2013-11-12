@@ -16,7 +16,7 @@ package
 		public function SprPortal(X:Number=0, Y:Number=0)
 		{
 			super(X,Y);
-			loadGraphic(Glob.kPortalSheet);
+			loadGraphic(GSpritinator.kPortal);
 			antialiasing = true;
 			scaleDir = 1;
 		}

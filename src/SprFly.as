@@ -49,7 +49,7 @@ package
 		
 		private function addImgFly():void {
 			imgFly = new ZNode();
-			imgFly.loadGraphic(Glob.kFlySheet,true,false,32,32);
+			imgFly.loadGraphic(GSpritinator.kFly,true,false,32,32);
 			imgFly.addAnimation(kAnimIdle,[0,1],22,true);
 			add(imgFly);
 		}

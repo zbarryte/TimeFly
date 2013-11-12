@@ -7,20 +7,20 @@ package
 	
 	public class GController
 	{
-		public static const left:Array = ["LEFT","A"];
-		public static const right:Array = ["RIGHT","D"];
-		public static const up:Array = ["UP","W"];
-		public static const down:Array = ["DOWN","S"];
+		public static const kLeft:Array = ["LEFT","A"];
+		public static const kRight:Array = ["RIGHT","D"];
+		public static const kUp:Array = ["UP","W"];
+		public static const kDown:Array = ["DOWN","S"];
 		
-		public static const timeForward:Array = ["E","4"];
-		public static const timeBacward:Array = ["Q","3"];
+		public static const kTimeForward:Array = ["E","FOUR"];
+		public static const kTimeBackward:Array = ["Q","THREE"];
 		
-		public static const pause:Array = ["P","ESCAPE"];
-		public static const select:Array = ["SPACE","ENTER"];
-		public static const back:Array = ["ESCAPE"];
+		public static const kPause:Array = ["P","ESCAPE"];
 		
-		public static const curseBackwards:Array = left.concat(up);
-		public static const curseForward:Array = right.concat(down);
+		public static const kSelect:Array = ["SPACE","ENTER"];
+		public static const kBack:Array = ["ESCAPE"];
+		public static const kCurseBackwards:Array = kLeft.concat(kUp);
+		public static const kCurseForward:Array = kRight.concat(kDown);
 		
 		/**
 		 * Checks whether or not any of the keys in the array is being pressed. Wraps <code>FlxG.keys.pressed</code>

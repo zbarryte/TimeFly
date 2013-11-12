@@ -7,6 +7,17 @@ package
 	public class ZNode extends FlxSprite
 	{
 		protected var _children:FlxGroup;
+		public var parent:ZNode;
+		
+		public function get xScreen():Number {
+			if (!parent) {return x;}
+			return parent.x + x;
+		}
+		
+		public function get yScreen():Number {
+			if (!parent) {return y;}
+			return parent.y + y;
+		}
 		
 		public function ZNode(tmpX:Number=0,tmpY:Number=0,tmpSimpleGraphic:Class=null)
 		{
@@ -24,12 +35,17 @@ package
 		 */
 		public function add(tmpSpr:FlxSprite):void {
 			_children.add(tmpSpr);
+			var tmpNode:ZNode = tmpSpr as ZNode;
+			if (tmpNode) {
+				tmpNode.parent = this;
+			}
 		}
 		
 		/**
 		 * Draws node and its children.
 		 * Temporarily moves children into place, and then resets their values to their originals.
 		 */
+		
 		override public function draw():void {
 			if (visible) {super.draw();}
 			for (var i:uint = 0; i < _children.length; i++) {

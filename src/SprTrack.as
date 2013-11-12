@@ -16,8 +16,8 @@ package
 		{
 			super(tmpX, tmpY);
 			
-			width = LevelsStore.kTileWidth;
-			height = LevelsStore.kTileHeight;
+			width = GLeveler.kTileWidth;
+			height = GLeveler.kTileHeight;
 			
 			_map = new Dictionary();
 		}

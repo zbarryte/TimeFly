@@ -7,7 +7,6 @@ package
 	
 	public class ZState extends FlxState
 	{
-		protected var _isPlaying:Boolean;
 		protected var _isControllable:Boolean;
 		protected var _overlay:FlxSprite;
 		
@@ -15,10 +14,13 @@ package
 		{
 			super();
 			
-			_isPlaying = true;
 			enableControls();
 		}
 		
+		/**
+		 * Overridden <code>create</code> method.
+		 * If you override this, you'll lose the debug stuff, unless you call <code>super.create()</code>
+		 */
 		override public function create():void {
 			FlxG.bgColor = 0xffffffff;
 			createScene();
@@ -26,8 +28,12 @@ package
 			addDebug();
 		}
 		
+		/**
+		 * Creates the scene.
+		 * Override this instead of overriding <code>create</code>
+		 */
 		protected function createScene():void {
-			//FlxG.log(":: createScene() :: not yet implemented by " + this);
+			// implemented by children
 		}
 		
 		private function addOverlay():void {
@@ -44,34 +50,35 @@ package
 			add(tmpText);
 		}
 		
+		/**
+		 * Overridden <code>update</code> method.
+		 * Overriding again will obviate calls to sub-updates, unless <code>super.update()</code> is called
+		 * 
+		 * Calls <code>updateScene</code>.
+		 * Calls <code>updateControls</code> if isControllable
+		 */
 		override public function update():void {
-			if (_isPlaying) {
-				super.update();
-				updateAnimations();
-				updateMechanics();
-				if (_isControllable) {
-					updateControls();
-				}
-			}
-			else {
-				updatePause();
+			super.update();
+			updateScene();
+			if (_isControllable) {
+				updateControls();
 			}
 		}
 		
-		protected function updateAnimations():void {
-			//FlxG.log(":: updateAnimations() :: not yet implemented by " + this);
+		/**
+		 * Updates the scene.
+		 * Override this to specify what goes on in the scene.
+		 */
+		protected function updateScene():void {
+			// implemented by children
 		}
 		
-		protected function updateMechanics():void {
-			
-		}
-		
+		/**
+		 * Updates the controls
+		 * Override this to specify the controls
+		 */
 		protected function updateControls():void {
-			//FlxG.log(":: updateControls() :: not yet implemented by " + this);
-		}
-		
-		protected function updatePause():void {
-			//FlxG.log(":: updatePause() :: not yet implemented by " + this);
+			// implemented by children
 		}
 		
 		protected function tintOverlay(tmpColor:Number):void {

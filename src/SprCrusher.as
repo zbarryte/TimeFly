@@ -29,7 +29,7 @@ package
 		public function SprCrusher(tmpX:Number=0,tmpY:Number=0,tmpSimpleGraphic:Class=null)
 		{
 			super(tmpX,tmpY,tmpSimpleGraphic);
-			loadGraphic(Glob.kCrusherSheet);
+			loadGraphic(GSpritinator.kCrusher);
 			//mass = Number.MAX_VALUE;
 			
 		}
