@@ -32,7 +32,7 @@ package
 		}*/
 		
 		public function placeMarkerAtPoint(tmpPoint:FlxPoint):void {
-			if (tmpPoint.x < x || x + width - _marker.width < tmpPoint.x ||
+			if (tmpPoint.x < x || x + width + _marker.width < tmpPoint.x ||
 				tmpPoint.y < _marker.yScreen || _marker.yScreen + _marker.height < tmpPoint.y) {
 				return;
 			}

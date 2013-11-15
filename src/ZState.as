@@ -35,14 +35,12 @@ package
 		protected function createScene():void {
 			// implemented by children
 		}
-		
 		private function addOverlay():void {
 			_overlay = new FlxSprite();
 			_overlay.makeGraphic(FlxG.width,FlxG.height);
 			hideOverlay();
 			add(_overlay);
 		}
-		
 		private function addDebug():void {
 			var tmpText:ZText = new ZText(0,0,FlxG.width);
 			tmpText.text = "## DEBUG MODE ##";
