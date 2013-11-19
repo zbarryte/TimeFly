@@ -504,7 +504,9 @@ package
 		private function win():void {
 			//FlxG.log("you win!");
 			var tmpCallback:Function = function():void {
-				FlxG.switchState(new StPlay());
+				GLeveler.num ++;
+				switchState(StPlay);
+				//FlxG.switchState(new StPlay());
 			}
 			FlxG.camera.fade(0xffffffff,0.22,tmpCallback);
 		}

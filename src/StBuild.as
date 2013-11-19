@@ -14,8 +14,8 @@ package
 		}
 		
 		override protected function createScene():void {
-			addToolsPanel();
 			addBuildArea();
+			addToolsPanel();
 		}
 		
 		private function addToolsPanel():void {
@@ -59,6 +59,7 @@ package
 			}
 			*/
 			if (Glob.kController.justPressedLeftClick()) {
+				
 				if (Glob.kController.mouseOver(buildArea)) {	
 					drawTileAtClick();
 				}

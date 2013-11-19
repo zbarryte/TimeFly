@@ -2,10 +2,15 @@ package
 {
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
+	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
 	
 	public class ZNode extends FlxSprite
 	{
+		//public var xLocal:Number;
+		//public var yLocal:Number;
+		
+		
 		protected var _children:FlxGroup;
 		public var parent:ZNode;
 		
@@ -45,7 +50,6 @@ package
 		 * Draws node and its children.
 		 * Temporarily moves children into place, and then resets their values to their originals.
 		 */
-		
 		override public function draw():void {
 			if (visible) {super.draw();}
 			for (var i:uint = 0; i < _children.length; i++) {
@@ -71,6 +75,23 @@ package
 			super.update();
 			updateMechanics();
 			updateAV();
+			
+			/*
+			x = xLocal + (parent ? parent.x : 0);
+			y = yLocal + (parent ? parent.y : 0);
+			*/
+			
+			/*
+			if (parent) {
+				x = xLocal + parent.x;
+				y = yLocal + parent.y;
+			}*/
+			
+			
+			for (var i:uint = 0; i < _children.length; i++) {
+				var tmpChild:FlxSprite = _children.members[i];
+				tmpChild.update();
+			}
 		}
 		
 		protected function updateMechanics():void {
@@ -144,6 +165,11 @@ package
 		
 		public function placeFarBottom():void {
 			y = FlxG.height - height;
+		}
+		
+		public function isPointInBoundingBox(tmpPoint:FlxPoint):Boolean {
+			return !(tmpPoint.x < xScreen || xScreen + width < tmpPoint.x ||
+					 tmpPoint.y < yScreen || yScreen + height < tmpPoint.y);
 		}
 	}
 }

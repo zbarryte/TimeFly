@@ -127,10 +127,16 @@ package
 		 * 
 		 * @return	Whether or not the mouse is over a particular object
 		 */
-		public function mouseOver(tmpNode:FlxObject):Boolean {
+		public function mouseOver(tmpObject:FlxObject):Boolean {
+			
+			var tmpNode:ZNode = tmpObject as ZNode;
+			if (tmpNode) {
+				return tmpNode.isPointInBoundingBox(clickPoint());
+			}
+			
 			var tmpPoint:FlxPoint = clickPoint();
-			return (tmpNode.x <= tmpPoint.x && tmpPoint.x <= tmpNode.x + tmpNode.width
-				&& tmpNode.y <= tmpPoint.y && tmpPoint.y <= tmpNode.y + tmpNode.height);
+			return (tmpObject.x <= tmpPoint.x && tmpPoint.x <= tmpObject.x + tmpObject.width
+				&& tmpObject.y <= tmpPoint.y && tmpPoint.y <= tmpObject.y + tmpObject.height);
 		}
 	}
 }

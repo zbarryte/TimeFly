@@ -25,5 +25,9 @@ package
 			}			
 			_marker.x = tmpPoint.x - x;
 		}
+		
+		public function get percentageToCompletion():Number {
+			return 1.0 - (x + width - _marker.xScreen - _marker.width)/(width);
+		}
 	}
 }

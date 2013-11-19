@@ -6,6 +6,9 @@ package
 	{
 		private const kMoveDist:uint = 2;
 		
+		private var minute:ZNode;
+		private var hour:ZNode;
+		
 		public function SldrLoad(tmpX:Number, tmpY:Number)
 		{
 			var tmpMarker:ZNode = new ZNode();
@@ -15,6 +18,14 @@ package
 			tmpClockFace.loadGraphic(GSpritinator.kSliderMarkerClockFace);
 			tmpMarker.add(tmpClockFace);
 			tmpClockFace.x = tmpMarker.width/2.0 - tmpClockFace.width/2.0;
+			
+			hour = new ZNode();
+			hour.loadGraphic(GSpritinator.kSliderMarkerClockHour);
+			tmpClockFace.add(hour);
+			
+			minute = new ZNode();
+			minute.loadGraphic(GSpritinator.kSliderMarkerClockMinute);
+			tmpClockFace.add(minute);
 			
 			super(tmpX, tmpY, GSpritinator.kSliderBar, tmpMarker);
 		}
@@ -27,6 +38,7 @@ package
 		
 		private function updateMarkerProperties():void {
 			// some stuff here about the clock on top
+			adjustClockHands();
 		}
 		
 		private function updateStuffBasedOnMarkerPosition():void {
@@ -34,7 +46,9 @@ package
 		}
 		
 		public function snapMarker():void {
-			_marker.x = (width - _marker.width)*(GLeveler.num/GLeveler.numMax)
+			_marker.x = (width - _marker.width)*(GLeveler.num/GLeveler.numMax);
+			//Glob.log(percentageToCompletion);
+			adjustClockHands();
 		}
 		
 		public function goForward():void {
@@ -51,6 +65,11 @@ package
 			var tmpPoint:FlxPoint = new FlxPoint(_marker.xScreen - kMoveDist,_marker.yScreen);
 			placeMarkerAtPoint(tmpPoint);
 			*/
+		}
+		
+		private function adjustClockHands():void {
+			minute.angle = percentageToCompletion * 360 * 24;
+			hour.angle = percentageToCompletion * 360 * 2;
 		}
 	}
 }

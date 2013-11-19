@@ -14,6 +14,8 @@ package
 		[Embed(source="../assets/spr_time_meter_pellet.png")] public static const kTimeMeterPellet:Class;
 		[Embed(source="../assets/spr_tools_panel.png")] public static const kToolsPanel:Class;
 		[Embed(source="../assets/spr_tile_palette.png")] public static const kTilePalette:Class;
+		[Embed(source="../assets/spr_slider_marker_clock_hour.png")] public static const kSliderMarkerClockHour:Class;
+		[Embed(source="../assets/spr_slider_marker_clock_minute.png")] public static const kSliderMarkerClockMinute:Class;		
 		
 		public function GSpritinator()
 		{
