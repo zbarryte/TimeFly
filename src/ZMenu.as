@@ -33,7 +33,7 @@ package
 		 */
 		override public function add(tmpBasic:FlxBasic):FlxBasic {
 			var tmpBtn:ZButton = tmpBasic as ZButton;
-			if (!tmpBtn) {Glob.log("ERROR :: ZMenu add given non-ZButton"); return null;}
+			if (!tmpBtn) {Glob.log("ERROR :: ZMenu function, add, given non-ZButton"); return null;}
 			if (isEmpty()) {tmpBtn.curse()}
 			return super.add(tmpBtn);
 		}

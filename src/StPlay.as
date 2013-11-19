@@ -33,13 +33,14 @@ package
 		private var timeArrow:TimeArrow;
 		private var timeRecord:TimeRecord;
 		
-		private var lvlFunc:FlxTilemap;
+		private var lvlFunc:ZTilemap;
 		
 		private var wallGroup:FlxGroup;
 		private var trackGroup:FlxGroup;
 		private var portalGroup:FlxGroup;
 		private var crusherGroup:FlxGroup;
 		private var flyGroup:FlxGroup;
+		private var timeMeter:SprTimeMeter;
 		
 		private const kForwardTintColor:Number = 0x00ff00;
 		private const kBackwardTintColor:Number = 0xff0000;
@@ -64,6 +65,7 @@ package
 			addPortals();
 			addCrushers();
 			addFlies();
+			addTimeMeter();
 			addPauseMenu();
 		}
 		
@@ -80,8 +82,10 @@ package
 		*/
 		
 		private function addLevel():void {
-			lvlFunc = GLeveler.currentFlxTilemapFunctional();
-			//if (Glob.kDebugOn) {add(lvlFunc);}
+			//lvlFunc = GLeveler.currentFlxTilemapFunctional();
+			lvlFunc = GLeveler.lvlFunc
+			if (Glob.kDebugOn) {add(lvlFunc);}
+			lvlFunc.centerXY();
 		}
 		
 		private function addWalls():void {
@@ -224,6 +228,11 @@ package
 			
 			add(mnuPause);
 			mnuPause.hide();
+		}
+		
+		private function addTimeMeter():void {
+			timeMeter = new SprTimeMeter();
+			add(timeMeter);
 		}
 		
 		override public function update():void {
@@ -453,7 +462,7 @@ package
 			return false;
 		}
 		
-		private function groupFromSpawn(tmpSpawn:Array,tmpClass:Class,tmpLvl:FlxTilemap,tmpHide:Boolean=true):FlxGroup {
+		private function groupFromSpawn(tmpSpawn:Array,tmpClass:Class,tmpLvl:ZTilemap,tmpHide:Boolean=true):FlxGroup {
 			var tmpGroup:FlxGroup = new FlxGroup();
 			for (var i:uint = 0; i < tmpSpawn.length; i++) {
 				var tmpArray:Array = tmpLvl.getTileInstances(tmpSpawn[i]);
@@ -473,7 +482,7 @@ package
 			return tmpGroup;
 		}
 		
-		private function setCallbackFromSpawn(_spawn:Array,_callback:Function,_map:FlxTilemap,_hide:Boolean=true):void {
+		private function setCallbackFromSpawn(_spawn:Array,_callback:Function,_map:ZTilemap,_hide:Boolean=true):void {
 			for (var i:uint = 0; i <_spawn.length; i++) {
 				_map.setTileProperties(_spawn[i],FlxObject.ANY,_callback);
 				var _array:Array = _map.getTileInstances(_spawn[i]);
@@ -485,9 +494,9 @@ package
 			}
 		}
 		
-		private function pointForTile(_tile:uint,_map:FlxTilemap):FlxPoint {
-			var _x:Number = (_map.width/_map.widthInTiles)*(int)(_tile%_map.widthInTiles);
-			var _y:Number = (_map.width/_map.widthInTiles)*(int)(_tile/_map.widthInTiles);
+		private function pointForTile(_tile:uint,_map:ZTilemap):FlxPoint {
+			var _x:Number = _map.x + (_map.width/_map.widthInTiles)*(int)(_tile%_map.widthInTiles);
+			var _y:Number = _map.y + (_map.width/_map.widthInTiles)*(int)(_tile/_map.widthInTiles);
 			var _point:FlxPoint = new FlxPoint(_x,_y);
 			return _point;
 		}

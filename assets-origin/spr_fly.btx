@@ -1,0 +1,42 @@
+btx = 1.0
+texture.assetname = spr_fly.png
+texture.width  = 70
+texture.height = 70
+
+image.assetname = spr_fly0001.png
+
+image.uvs = 0.514285714285714 0.514285714285714 0.971428571428571 0.514285714285714 0.971428571428571 0.971428571428571 0.514285714285714 0.971428571428571
+image.rotated = false
+image.trimmed = false
+image.origsize = 32 32
+image.offset = 0 0
+image.trimmedsize = 32 32
+
+image.assetname = spr_fly0002.png
+
+image.uvs = 0.514285714285714 0.0285714285714286 0.971428571428571 0.0285714285714286 0.971428571428571 0.485714285714286 0.514285714285714 0.485714285714286
+image.rotated = false
+image.trimmed = false
+image.origsize = 32 32
+image.offset = 0 0
+image.trimmedsize = 32 32
+
+image.assetname = spr_fly0003.png
+
+image.uvs = 0.0285714285714286 0.514285714285714 0.485714285714286 0.514285714285714 0.485714285714286 0.971428571428571 0.0285714285714286 0.971428571428571
+image.rotated = false
+image.trimmed = false
+image.origsize = 32 32
+image.offset = 0 0
+image.trimmedsize = 32 32
+
+image.assetname = spr_fly0004.png
+
+image.uvs = 0.0285714285714286 0.0285714285714286 0.485714285714286 0.0285714285714286 0.485714285714286 0.485714285714286 0.0285714285714286 0.485714285714286
+image.rotated = false
+image.trimmed = false
+image.origsize = 32 32
+image.offset = 0 0
+image.trimmedsize = 32 32
+
+

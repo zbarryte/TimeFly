@@ -31,7 +31,8 @@ package
 			
 			// BUILD
 			var callbackBuild:Function = function():void {
-				Glob.log("BUILD");
+				//Glob.log("BUILD");
+				switchState(StBuild);
 			};
 			var textBuild:String = "BUILD";
 			var btnBuild:BtnBasic = new BtnBasic(callbackBuild,textBuild);

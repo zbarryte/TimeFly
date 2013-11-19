@@ -1,14 +1,22 @@
 package
 {
-	import org.flixel.FlxTilemap;
+	//import org.flixel.FlxTilemap;
 
 	public class GLeveler
 	{
 		public static const kTileWidth:uint = 32;
 		public static const kTileHeight:uint = 32;
 		
+		/*
 		public static function currentFlxTilemapFunctional():FlxTilemap {
 			var map:FlxTilemap = new FlxTilemap();
+			map.loadMap(new currentCSV,kTilesFunc,widthFunc,heightFunc);
+			return map;
+		}
+		*/
+		
+		public static function get lvlFunc():ZTilemap {
+			var map:ZTilemap = new ZTilemap();
 			map.loadMap(new currentCSV,kTilesFunc,widthFunc,heightFunc);
 			return map;
 		}
@@ -23,8 +31,7 @@ package
 		[Embed("../assets/mapCSV_functional_003.csv",mimeType="application/octet-stream")] private static const kFunc003Sheet:Class;
 		[Embed("../assets/mapCSV_functional_004.csv",mimeType="application/octet-stream")] private static const kFunc004Sheet:Class;
 		
-		private static var _num:uint = 3;
-		//private static var _num:uint = 0;
+		private static var _num:uint = 0;
 		public static function get num():uint {
 			return _num;
 		}

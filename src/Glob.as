@@ -5,6 +5,10 @@ package
 	
 	public class Glob
 	{	
+		public static function get elapsed():Number {
+			return FlxG.elapsed;
+		}
+		
 		public static const kDebugOn:Boolean = true;
 		
 		public static const kLeveler:GLeveler = new GLeveler();

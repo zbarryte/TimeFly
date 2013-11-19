@@ -4,6 +4,7 @@ package
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
+	import org.flixel.FlxObject;
 	
 	public class GController
 	{
@@ -119,6 +120,17 @@ package
 			tmpPoint.x = FlxG.mouse.x;
 			tmpPoint.y = FlxG.mouse.y;
 			return tmpPoint;
+		}
+		
+		/**
+		 * Checks whether ore not the mouse is over a particular object
+		 * 
+		 * @return	Whether or not the mouse is over a particular object
+		 */
+		public function mouseOver(tmpNode:FlxObject):Boolean {
+			var tmpPoint:FlxPoint = clickPoint();
+			return (tmpNode.x <= tmpPoint.x && tmpPoint.x <= tmpNode.x + tmpNode.width
+				&& tmpNode.y <= tmpPoint.y && tmpPoint.y <= tmpNode.y + tmpNode.height);
 		}
 	}
 }

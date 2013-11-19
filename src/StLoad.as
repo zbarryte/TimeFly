@@ -46,6 +46,7 @@ package
 			if (Glob.kController.pressedLeftClick()) {
 				sldr.placeMarkerAtPoint(Glob.kController.clickPoint());
 			}
+			
 			if (Glob.kController.justPressed(GController.kTimeForward)) {
 				// move slider forward one unit
 				sldr.goForward();
@@ -54,6 +55,14 @@ package
 				// move slider backward one unit
 				sldr.goBackward();
 			}
+			
+			/*
+			if (Glob.kController.pressed(GController.kTimeForward)) {
+				sldr.goForward();
+			}
+			if (Glob.kController.pressed(GController.kTimeBackward)) {
+				sldr.goBackward();
+			}*/
 			
 			if (Glob.kController.justReleasedLeftClick() ||
 				Glob.kController.justReleased(GController.kTimeForward) ||
