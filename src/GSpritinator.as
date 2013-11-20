@@ -16,6 +16,7 @@ package
 		[Embed(source="../assets/spr_tile_palette.png")] public static const kTilePalette:Class;
 		[Embed(source="../assets/spr_slider_marker_clock_hour.png")] public static const kSliderMarkerClockHour:Class;
 		[Embed(source="../assets/spr_slider_marker_clock_minute.png")] public static const kSliderMarkerClockMinute:Class;		
+		[Embed(source="../assets/spr_slider_tick.png")] public static const kSliderTick:Class;
 		
 		public function GSpritinator()
 		{

@@ -36,7 +36,8 @@ package
 			return _num;
 		}
 		public static function set num(setNum:uint):void {
-			_num = (setNum < csvs.length) ? setNum : csvs.length - 1;
+			if (setNum >= csvs.length) {return;}
+			_num = setNum;
 		}
 		
 		public static function get numMax():uint {

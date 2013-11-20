@@ -1,6 +1,7 @@
 package
 {
 	import org.flixel.FlxPoint;
+	import org.flixel.FlxGroup;
 
 	public class SldrLoad extends ZSlider
 	{
@@ -28,6 +29,20 @@ package
 			tmpClockFace.add(minute);
 			
 			super(tmpX, tmpY, GSpritinator.kSliderBar, tmpMarker);
+			
+			addTicks();
+		}
+		
+		override protected function addTicks():void {
+			//_tickGroup = new FlxGroup();
+			for (var i:uint = 0; i <= GLeveler.numMax; i++) {
+				var tmpTick:ZNode = new ZNode();
+				tmpTick.loadGraphic(GSpritinator.kSliderTick);
+				tmpTick.x = (width - _marker.width)*(i/GLeveler.numMax) + _marker.width/2.0 - tmpTick.width/2.0;
+				//_tickGroup.add(tmpTick);
+				tmpTick.y = height/2.0 - tmpTick.height/2.0;
+				add(tmpTick);
+			}
 		}
 		
 		override public function placeMarkerAtPoint(tmpPoint:FlxPoint):void {
