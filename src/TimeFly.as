@@ -18,7 +18,7 @@ package
 			super.create(FlashEvent);
 			stage.removeEventListener(Event.DEACTIVATE,onFocusLost);
 			stage.removeEventListener(Event.ACTIVATE,onFocus);
-			stage.align = "TOP";
+			stage.align = "LEFT";
 		}
 	}
 }
