@@ -18,7 +18,7 @@ package
 			var tmpClockFace:ZNode = new ZNode();
 			tmpClockFace.loadGraphic(GSpritinator.kSliderMarkerClockFace);
 			tmpMarker.add(tmpClockFace);
-			tmpClockFace.x = tmpMarker.width/2.0 - tmpClockFace.width/2.0;
+			tmpClockFace.xLocal = tmpMarker.width/2.0 - tmpClockFace.width/2.0;
 			
 			hour = new ZNode();
 			hour.loadGraphic(GSpritinator.kSliderMarkerClockHour);
@@ -38,9 +38,9 @@ package
 			for (var i:uint = 0; i <= GLeveler.numMax; i++) {
 				var tmpTick:ZNode = new ZNode();
 				tmpTick.loadGraphic(GSpritinator.kSliderTick);
-				tmpTick.x = (width - _marker.width)*(i/GLeveler.numMax) + _marker.width/2.0 - tmpTick.width/2.0;
+				tmpTick.xLocal = (width - _marker.width)*(i/GLeveler.numMax) + _marker.width/2.0 - tmpTick.width/2.0;
 				//_tickGroup.add(tmpTick);
-				tmpTick.y = height/2.0 - tmpTick.height/2.0;
+				tmpTick.yLocal = height/2.0 - tmpTick.height/2.0;
 				add(tmpTick);
 			}
 		}
@@ -61,7 +61,7 @@ package
 		}
 		
 		public function snapMarker():void {
-			_marker.x = (width - _marker.width)*(GLeveler.num/GLeveler.numMax);
+			_marker.xLocal = (width - _marker.width)*(GLeveler.num/GLeveler.numMax);
 			//Glob.log(percentageToCompletion);
 			adjustClockHands();
 		}

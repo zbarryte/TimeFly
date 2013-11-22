@@ -10,7 +10,16 @@ package
 		}
 		
 		override protected function createScene():void {
+			addTitle();
 			addMenu();
+		}
+		
+		private function addTitle():void {
+			var tmpTitle:ZNode = new ZNode();
+			tmpTitle.loadGraphic(GSpritinator.kTitle);
+			tmpTitle.centerX();
+			tmpTitle.placeAtScreenYPercentage(0.4);
+			add(tmpTitle);
 		}
 		
 		private function addMenu():void {
@@ -37,7 +46,7 @@ package
 			var textBuild:String = "BUILD";
 			var btnBuild:BtnBasic = new BtnBasic(callbackBuild,textBuild);
 			btnBuild.placeRightOfSprite(btnPlay,tmpMargin);
-			mnu.add(btnBuild);
+			//mnu.add(btnBuild);
 			
 			// SETTINGS
 			var callbackSettings:Function = function():void {
@@ -46,7 +55,7 @@ package
 			var textSettings:String = "SETTINGS";
 			var btnSettings:BtnBasic = new BtnBasic(callbackSettings,textSettings);
 			btnSettings.placeRightOfSprite(btnBuild,tmpMargin);
-			mnu.add(btnSettings);
+			//mnu.add(btnSettings);
 			
 			add(mnu);
 		}

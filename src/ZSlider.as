@@ -17,7 +17,7 @@ package
 			_marker = tmpMarker;
 			if (_marker) {
 				add(_marker);
-				_marker.y = -_marker.height/2.0 + height/2.0;
+				_marker.yLocal = -_marker.height/2.0 + height/2.0;
 			}
 		}
 
@@ -30,7 +30,8 @@ package
 				tmpPoint.y < _marker.yScreen || _marker.yScreen + _marker.height < tmpPoint.y) {				
 				return;
 			}			
-			_marker.x = tmpPoint.x - x;
+			//_marker.x = tmpPoint.x - x;
+			_marker.xLocal = tmpPoint.x - x;
 		}
 		
 		public function get percentageToCompletion():Number {

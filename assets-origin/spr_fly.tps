@@ -2,7 +2,7 @@
 <data version="1.0">
     <struct type="Settings">
         <key>fileFormatVersion</key>
-        <int>0</int>
+        <int>1</int>
         <key>variation</key>
         <string>main</string>
         <key>verbose</key>
@@ -20,9 +20,9 @@
         <key>dpi</key>
         <uint>72</uint>
         <key>dataFormat</key>
-        <string>batterytech</string>
+        <string>cocos2d</string>
         <key>textureFileName</key>
-        <filename>spr_fly.png</filename>
+        <filename>../assets/spr_fly.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>ditherType</key>
@@ -40,7 +40,7 @@
             </struct>
         </struct>
         <key>shapePadding</key>
-        <uint>2</uint>
+        <uint>0</uint>
         <key>jpgQuality</key>
         <uint>80</uint>
         <key>pngOptimizationLevel</key>
@@ -50,7 +50,7 @@
         <key>textureFormat</key>
         <enum type="SettingsBase::TextureFormat">png</enum>
         <key>borderPadding</key>
-        <uint>2</uint>
+        <uint>0</uint>
         <key>maxTextureSize</key>
         <QSize>
             <key>width</key>
@@ -70,7 +70,7 @@
         <key>algorithmSettings</key>
         <struct type="AlgorithmSettings">
             <key>algorithm</key>
-            <enum type="AlgorithmSettings::AlgorithmId">MaxRects</enum>
+            <enum type="AlgorithmSettings::AlgorithmId">Basic</enum>
             <key>freeSizeMode</key>
             <enum type="AlgorithmSettings::AlgorithmFreeSizeMode">Best</enum>
             <key>sizeConstraints</key>
@@ -111,7 +111,7 @@
             <enum type="AndEngine::MagFilter">MagLinear</enum>
         </struct>
         <key>dataFileName</key>
-        <filename>spr_fly.btx</filename>
+        <filename>spr_fly.plist</filename>
         <key>mainExtension</key>
         <string></string>
         <key>forceIdenticalLayout</key>
@@ -119,7 +119,7 @@
         <key>outputFormat</key>
         <enum type="SettingsBase::OutputFormat">RGBA8888</enum>
         <key>autoAliasEnabled</key>
-        <true/>
+        <false/>
         <key>trimSpriteNames</key>
         <false/>
         <key>globalSpriteSettings</key>
@@ -133,7 +133,7 @@
             <key>extrude</key>
             <uint>0</uint>
             <key>trimThreshold</key>
-            <uint>2</uint>
+            <uint>1</uint>
             <key>trimMode</key>
             <enum type="SpriteSettings::TrimMode">None</enum>
             <key>heuristicMask</key>

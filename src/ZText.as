@@ -2,25 +2,29 @@ package
 {
 	import org.flixel.FlxText;
 	
-	public class ZText extends FlxText
+	public class ZText extends ZNode
 	{
-		//protected var _flxText:FlxText;
+		protected var _flxText:FlxText;
 		
-		public function ZText(tmpX:Number, tmpY:Number, tmpWidth:uint, tmpText:String=null, tmpEmbeddedFont:Boolean=true)
+		public function ZText(tmpX:Number,tmpY:Number,tmpWidth:uint,tmpText:String=null,tmpEmbeddedFont:Boolean=true)
 		{
-			//_flxText = new FlxText(tmpX, tmpY, tmpWidth, tmpText, tmpEmbeddedFont);
-			super(tmpX, tmpY, tmpWidth, tmpText, tmpEmbeddedFont);
+			super(tmpX,tmpY);
+			_flxText = new FlxText(tmpX,tmpY,tmpWidth,tmpText,tmpEmbeddedFont);
+			//height = _flxText.height;
+			//width = _flxText.width;
+			//add(_flxText);
+			//super(tmpX, tmpY, tmpWidth, tmpText, tmpEmbeddedFont);
 			color = 0xff000000;
 			alignment = "center";
 		}
 		
-		/*
 		override public function update():void {
 			super.update();
 			_flxText.x = xScreen;
 			_flxText.y = yScreen;
 			_flxText.color = color;
-			_flxText.update();
+			//Glob.log(_flxText.x);
+			//_flxText.update();
 		}
 		
 		override public function draw():void {
@@ -39,6 +43,5 @@ package
 		public function set size(tmpSize:Number):void {
 			_flxText.size = tmpSize;
 		}
-		*/
 	}
 }

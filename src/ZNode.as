@@ -7,28 +7,45 @@ package
 	
 	public class ZNode extends FlxSprite
 	{
-		//public var xLocal:Number;
-		//public var yLocal:Number;
+		public var xLocal:Number;
+		public var yLocal:Number;
 		
 		
 		protected var _children:FlxGroup;
-		public var parent:ZNode;
+		protected var _parent:ZNode;
+		
+		public function set parent(tmpParent:ZNode):void {
+			_parent = tmpParent;
+		}
+		
+		protected var _graphic:Class;
 		
 		public function get xScreen():Number {
-			if (!parent) {return x;}
-			return parent.x + x;
+			//if (!_parent) {return x;}
+			//return _parent.xScreen + x;
+			return x;
 		}
 		
 		public function get yScreen():Number {
-			if (!parent) {return y;}
-			return parent.y + y;
+			//if (!_parent) {return y;}
+			//return _parent.yScreen + y;
+			return y;
 		}
 		
 		public function ZNode(tmpX:Number=0,tmpY:Number=0,tmpSimpleGraphic:Class=null)
 		{
 			super(tmpX,tmpY,tmpSimpleGraphic);
 			
+			xLocal = 0;
+			yLocal = 0;
+						
 			_children = new FlxGroup();
+			_graphic = tmpSimpleGraphic;
+		}
+		
+		override public function loadGraphic(Graphic:Class, Animated:Boolean=false, Reverse:Boolean=false, Width:uint=0, Height:uint=0, Unique:Boolean=false):FlxSprite {
+			_graphic = Graphic;
+			return super.loadGraphic(Graphic,Animated,Reverse,Width,Height,Unique);
 		}
 		
 		/**
@@ -38,20 +55,23 @@ package
 		 * @param	tmpSpr	The sprite to be displayed
 		 * 
 		 */
-		public function add(tmpSpr:FlxSprite):void {
-			_children.add(tmpSpr);
-			var tmpNode:ZNode = tmpSpr as ZNode;
-			if (tmpNode) {
-				tmpNode.parent = this;
-			}
+		public function add(tmpNode:ZNode):void {
+		//public function add(tmpSpr:FlxSprite):void {
+			tmpNode.parent = this;
+			_children.add(tmpNode);
+			//var tmpNode:ZNode = tmpSpr as ZNode;
+			//if (tmpNode) {
+				//tmpNode.parent = this;
+			//}
 		}
 		
 		/**
 		 * Draws node and its children.
 		 * Temporarily moves children into place, and then resets their values to their originals.
 		 */
+		/*
 		override public function draw():void {
-			if (visible) {super.draw();}
+			if (visible && (_graphic != null)) {super.draw();}
 			for (var i:uint = 0; i < _children.length; i++) {
 				var tmpChild:FlxSprite = _children.members[i];
 				// store original values
@@ -70,6 +90,14 @@ package
 				//tmpChild.color = tmpColor;
 			}
 		}
+		*/
+		override public function draw():void {
+			if (visible && _graphic != null) {super.draw();}
+			for (var i:uint = 0; i < _children.length; i++) {
+				var tmpChild:ZNode = _children.members[i];
+				tmpChild.draw();
+			}
+		}
 		
 		override public function update():void {
 			super.update();
@@ -81,11 +109,11 @@ package
 			y = yLocal + (parent ? parent.y : 0);
 			*/
 			
-			/*
-			if (parent) {
-				x = xLocal + parent.x;
-				y = yLocal + parent.y;
-			}*/
+			
+			if (_parent) {
+				x = xLocal + _parent.x;
+				y = yLocal + _parent.y;
+			}
 			
 			
 			for (var i:uint = 0; i < _children.length; i++) {

@@ -17,6 +17,8 @@ package
 		[Embed(source="../assets/spr_slider_marker_clock_hour.png")] public static const kSliderMarkerClockHour:Class;
 		[Embed(source="../assets/spr_slider_marker_clock_minute.png")] public static const kSliderMarkerClockMinute:Class;		
 		[Embed(source="../assets/spr_slider_tick.png")] public static const kSliderTick:Class;
+		[Embed(source="../assets/spr_play_frame.png")] public static const kPlayFrame:Class;
+		[Embed(source="../assets/spr_title.png")] public static const kTitle:Class;
 		
 		public function GSpritinator()
 		{

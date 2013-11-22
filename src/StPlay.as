@@ -65,6 +65,8 @@ package
 			addPortals();
 			addCrushers();
 			addFlies();
+			
+			addFrame();
 			addTimeMeter();
 			addPauseMenu();
 		}
@@ -202,6 +204,12 @@ package
 			return tmpFly;
 		}
 		
+		private function addFrame():void {
+			var tmpFrame:ZNode = new ZNode();
+			tmpFrame.loadGraphic(GSpritinator.kPlayFrame);
+			add(tmpFrame);
+		}
+		
 		private function addPauseMenu():void {
 			mnuPause = new ZMenu(true);
 			
@@ -232,6 +240,8 @@ package
 		
 		private function addTimeMeter():void {
 			timeMeter = new SprTimeMeter();
+			timeMeter.x = 16;
+			timeMeter.y = 32*3;
 			add(timeMeter);
 		}
 		

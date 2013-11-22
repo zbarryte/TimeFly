@@ -10,7 +10,7 @@ package
 	{
 		public function TimeFly()
 		{
-			super(1024,576,StTitle,1,60,60,true);
+			super(1024,576,StLoad,1,60,60,true);
 			forceDebugger = Glob.kDebugOn;
 		}
 		
