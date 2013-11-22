@@ -33,7 +33,7 @@ package
 			addTicks();
 		}
 		
-		override protected function addTicks():void {
+		/*override protected*/ private function addTicks():void {
 			//_tickGroup = new FlxGroup();
 			for (var i:uint = 0; i <= GLeveler.numMax; i++) {
 				var tmpTick:ZNode = new ZNode();

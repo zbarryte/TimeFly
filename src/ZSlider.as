@@ -21,10 +21,13 @@ package
 			}
 		}
 
+		/*
 		protected function addTicks():void {
 			// implemented by children
 		}
+		*/
 		
+		/*
 		public function placeMarkerAtPoint(tmpPoint:FlxPoint):void {
 			if (tmpPoint.x < x - _marker.width || x + width - _marker.width < tmpPoint.x ||
 				tmpPoint.y < _marker.yScreen || _marker.yScreen + _marker.height < tmpPoint.y) {				
@@ -36,6 +39,20 @@ package
 		
 		public function get percentageToCompletion():Number {
 			return 1.0 - (x + width - _marker.xScreen - _marker.width)/(width - _marker.width);
+		}
+		*/
+		
+		public function placeMarkerAtPoint(tmpPoint:FlxPoint):void {
+			if (tmpPoint.x < x - _marker.width || x + width - _marker.width < tmpPoint.x ||
+				tmpPoint.y < _marker.y || _marker.y + _marker.height < tmpPoint.y) {				
+				return;
+			}			
+			//_marker.x = tmpPoint.x - x;
+			_marker.xLocal = tmpPoint.x - x;
+		}
+		
+		public function get percentageToCompletion():Number {
+			return 1.0 - (x + width - _marker.x - _marker.width)/(width - _marker.width);
 		}
 	}
 }

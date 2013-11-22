@@ -10,8 +10,8 @@ package
 		{
 			super(tmpX,tmpY);
 			_flxText = new FlxText(tmpX,tmpY,tmpWidth,tmpText,tmpEmbeddedFont);
-			//height = _flxText.height;
-			//width = _flxText.width;
+			height = _flxText.height;
+			width = _flxText.width;
 			//add(_flxText);
 			//super(tmpX, tmpY, tmpWidth, tmpText, tmpEmbeddedFont);
 			color = 0xff000000;
@@ -20,8 +20,8 @@ package
 		
 		override public function update():void {
 			super.update();
-			_flxText.x = xScreen;
-			_flxText.y = yScreen;
+			_flxText.x = x;
+			_flxText.y = y;
 			_flxText.color = color;
 			//Glob.log(_flxText.x);
 			//_flxText.update();

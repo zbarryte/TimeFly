@@ -15,7 +15,7 @@ package
 				tmpLabel.text = tmpText;
 				tmpLabel.alignment = "center";
 				tmpLabel.size = height/3.0;
-				tmpLabel.y = height/2.0 - tmpLabel.height/2.0;
+				tmpLabel.yLocal = height/2.0 - tmpLabel.height/2.0;
 				add(tmpLabel);
 				tmpLabel.scrollFactor.x = 0;
 				tmpLabel.scrollFactor.y = 0;

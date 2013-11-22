@@ -10,7 +10,6 @@ package
 		public var xLocal:Number;
 		public var yLocal:Number;
 		
-		
 		protected var _children:FlxGroup;
 		protected var _parent:ZNode;
 		
@@ -20,6 +19,7 @@ package
 		
 		protected var _graphic:Class;
 		
+		/*
 		public function get xScreen():Number {
 			//if (!_parent) {return x;}
 			//return _parent.xScreen + x;
@@ -31,6 +31,7 @@ package
 			//return _parent.yScreen + y;
 			return y;
 		}
+		*/
 		
 		public function ZNode(tmpX:Number=0,tmpY:Number=0,tmpSimpleGraphic:Class=null)
 		{
@@ -195,9 +196,16 @@ package
 			y = FlxG.height - height;
 		}
 		
+		/*
 		public function isPointInBoundingBox(tmpPoint:FlxPoint):Boolean {
 			return !(tmpPoint.x < xScreen || xScreen + width < tmpPoint.x ||
 					 tmpPoint.y < yScreen || yScreen + height < tmpPoint.y);
+		}
+		*/
+		
+		public function isPointInBoundingBox(tmpPoint:FlxPoint):Boolean {
+			return !(tmpPoint.x < x || x + width < tmpPoint.x ||
+				tmpPoint.y < y || y + height < tmpPoint.y);
 		}
 	}
 }
