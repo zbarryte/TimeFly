@@ -19,20 +19,6 @@ package
 		
 		protected var _graphic:Class;
 		
-		/*
-		public function get xScreen():Number {
-			//if (!_parent) {return x;}
-			//return _parent.xScreen + x;
-			return x;
-		}
-		
-		public function get yScreen():Number {
-			//if (!_parent) {return y;}
-			//return _parent.yScreen + y;
-			return y;
-		}
-		*/
-		
 		public function ZNode(tmpX:Number=0,tmpY:Number=0,tmpSimpleGraphic:Class=null)
 		{
 			super(tmpX,tmpY,tmpSimpleGraphic);
@@ -57,41 +43,14 @@ package
 		 * 
 		 */
 		public function add(tmpNode:ZNode):void {
-		//public function add(tmpSpr:FlxSprite):void {
 			tmpNode.parent = this;
 			_children.add(tmpNode);
-			//var tmpNode:ZNode = tmpSpr as ZNode;
-			//if (tmpNode) {
-				//tmpNode.parent = this;
-			//}
 		}
 		
 		/**
 		 * Draws node and its children.
 		 * Temporarily moves children into place, and then resets their values to their originals.
 		 */
-		/*
-		override public function draw():void {
-			if (visible && (_graphic != null)) {super.draw();}
-			for (var i:uint = 0; i < _children.length; i++) {
-				var tmpChild:FlxSprite = _children.members[i];
-				// store original values
-				var tmpX:Number = tmpChild.x;
-				var tmpY:Number = tmpChild.y;
-				//var tmpColor:uint = tmpChild.color;
-				// offset child values
-				tmpChild.x = x + tmpChild.x;
-				tmpChild.y = y + tmpChild.y;
-				//tmpChild.color = color;
-				// draw child
-				tmpChild.draw();
-				// reset child's offset values to original values
-				tmpChild.x = tmpX;
-				tmpChild.y = tmpY;
-				//tmpChild.color = tmpColor;
-			}
-		}
-		*/
 		override public function draw():void {
 			if (visible && _graphic != null) {super.draw();}
 			for (var i:uint = 0; i < _children.length; i++) {
@@ -104,11 +63,6 @@ package
 			super.update();
 			updateMechanics();
 			updateAV();
-			
-			/*
-			x = xLocal + (parent ? parent.x : 0);
-			y = yLocal + (parent ? parent.y : 0);
-			*/
 			
 			
 			if (_parent) {
@@ -195,13 +149,6 @@ package
 		public function placeFarBottom():void {
 			y = FlxG.height - height;
 		}
-		
-		/*
-		public function isPointInBoundingBox(tmpPoint:FlxPoint):Boolean {
-			return !(tmpPoint.x < xScreen || xScreen + width < tmpPoint.x ||
-					 tmpPoint.y < yScreen || yScreen + height < tmpPoint.y);
-		}
-		*/
 		
 		public function isPointInBoundingBox(tmpPoint:FlxPoint):Boolean {
 			return !(tmpPoint.x < x || x + width < tmpPoint.x ||

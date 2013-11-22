@@ -51,6 +51,8 @@ package
 			imgFly = new ZNode();
 			imgFly.loadGraphic(GSpritinator.kFly,true,false,32,32);
 			imgFly.addAnimation(kAnimIdle,[0,1,2,3],22,true);
+			imgFly.xLocal = width/2.0 - imgFly.width/2.0;
+			imgFly.yLocal = height/2.0 - imgFly.height/2.0;
 			add(imgFly);
 		}
 		
@@ -58,6 +60,8 @@ package
 			imgPortal = new SprFlyPortal();
 			imgPortal.visible = false;
 			imgPortal.color = kCloneColor;
+			imgPortal.xLocal = width/2.0 - imgFly.width/2.0;
+			imgPortal.yLocal = height/2.0 - imgFly.width/2.0;
 			add(imgPortal);
 		}
 		

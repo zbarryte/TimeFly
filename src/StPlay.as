@@ -86,7 +86,7 @@ package
 		private function addLevel():void {
 			//lvlFunc = GLeveler.currentFlxTilemapFunctional();
 			lvlFunc = GLeveler.lvlFunc
-			if (Glob.kDebugOn) {add(lvlFunc);}
+			//if (Glob.kDebugOn) {add(lvlFunc);}
 			lvlFunc.centerXY();
 		}
 		
