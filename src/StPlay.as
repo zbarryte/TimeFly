@@ -55,7 +55,10 @@ package
 		
 		override protected function createScene():void
 		{
-			FlxG.bgColor = 0xffcc88ff;
+			//FlxG.bgColor = 0xffcc88ff;
+			FlxG.bgColor = 0xff402040;
+			//FlxG.bgColor = 0xcc402040;
+			
 			
 			addTimeArrow();
 			//initTimeRecord();
