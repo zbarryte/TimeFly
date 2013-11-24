@@ -12,12 +12,11 @@ package
 		
 		protected var _children:FlxGroup;
 		protected var _parent:ZNode;
+		protected var _graphic:Class;
 		
 		public function set parent(tmpParent:ZNode):void {
 			_parent = tmpParent;
 		}
-		
-		protected var _graphic:Class;
 		
 		public function ZNode(tmpX:Number=0,tmpY:Number=0,tmpSimpleGraphic:Class=null)
 		{
@@ -72,7 +71,7 @@ package
 			
 			
 			for (var i:uint = 0; i < _children.length; i++) {
-				var tmpChild:FlxSprite = _children.members[i];
+				var tmpChild:ZNode = _children.members[i];
 				tmpChild.update();
 			}
 		}
@@ -88,27 +87,27 @@ package
 		override public function postUpdate():void {
 			super.postUpdate();
 			for (var i:uint = 0; i < _children.length; i++) {
-				var tmpChild:FlxSprite = _children.members[i];
+				var tmpChild:ZNode = _children.members[i];
 				tmpChild.postUpdate();
 			}
 		}
 		
-		public function placeBelowSprite(tmpSpr:FlxSprite,tmpMargin:int=0):void {
+		public function placeBelowSprite(tmpSpr:ZNode,tmpMargin:int=0):void {
 			x = tmpSpr.x;
 			y = tmpSpr.y + tmpSpr.height + tmpMargin;
 		}
 		
-		public function placeAboveSprite(tmpSpr:FlxSprite,tmpMargin:int=0):void {
+		public function placeAboveSprite(tmpSpr:ZNode,tmpMargin:int=0):void {
 			x = tmpSpr.x;
 			y = tmpSpr.y - height - tmpMargin;
 		}
 		
-		public function placeRightOfSprite(tmpSpr:FlxSprite,tmpMargin:int=0):void {
+		public function placeRightOfSprite(tmpSpr:ZNode,tmpMargin:int=0):void {
 			x = tmpSpr.x + tmpSpr.width + tmpMargin;
 			y = tmpSpr.y;
 		}
 		
-		public function placeLeftOfSprite(tmpSpr:FlxSprite,tmpMargin:int=0):void {
+		public function placeLeftOfSprite(tmpSpr:ZNode,tmpMargin:int=0):void {
 			x = tmpSpr.x - width - tmpMargin;
 			y = tmpSpr.y;
 		}

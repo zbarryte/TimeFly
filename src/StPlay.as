@@ -57,13 +57,9 @@ package
 		
 		override protected function createScene():void
 		{
-			//FlxG.bgColor = 0xffcc88ff;
-			FlxG.bgColor = 0x40402040;
-			//FlxG.bgColor = 0xcc402040;
-			
+			FlxG.bgColor = 0xff402040;
 			
 			addTimeArrow();
-			//initTimeRecord();
 			addLevel();
 			addWalls();
 			addTracks();
@@ -82,21 +78,14 @@ package
 			add(timeArrow);
 		}
 		
-		/*
-		private function initTimeRecord():void {
-			timeRecord = new TimeRecord();
-		}
-		*/
-		
 		private function addLevel():void {
-			//lvlFunc = GLeveler.currentFlxTilemapFunctional();
 			lvlFunc = GLeveler.lvlFunc
 			//if (Glob.kDebugOn) {add(lvlFunc);}
 			lvlFunc.centerXY();
 		}
 		
 		private function addWalls():void {
-			wallGroup = groupFromSpawn(kSpawnWall,SprWall,lvlFunc,true);
+			wallGroup = groupFromSpawn(kSpawnWall,SprWall,lvlFunc);
 			add(wallGroup);
 		}
 		
@@ -107,49 +96,49 @@ package
 			var i:uint;
 			var tmpTrack:SprTrack;
 			
-			var tmpTrackNEGroup:FlxGroup = groupFromSpawn(kSpawnTrackNE,SprTrack,lvlFunc,true);
+			var tmpTrackNEGroup:FlxGroup = groupFromSpawn(kSpawnTrackNE,SprTrack,lvlFunc);
 			for (i = 0; i < tmpTrackNEGroup.length; i++) {
 				tmpTrack = tmpTrackNEGroup.members[i];
 				tmpTrack.mapNE();
 			}
 			addGroupMembersToGroup(trackGroup,tmpTrackNEGroup);
 			
-			var tmpTrackNSGroup:FlxGroup = groupFromSpawn(kSpawnTrackNS,SprTrack,lvlFunc,true);
+			var tmpTrackNSGroup:FlxGroup = groupFromSpawn(kSpawnTrackNS,SprTrack,lvlFunc);
 			for (i = 0; i < tmpTrackNSGroup.length; i++) {
 				tmpTrack = tmpTrackNSGroup.members[i];
 				tmpTrack.mapNS();
 			}
 			addGroupMembersToGroup(trackGroup,tmpTrackNSGroup);
 			
-			var tmpTrackNWGroup:FlxGroup = groupFromSpawn(kSpawnTrackNW,SprTrack,lvlFunc,true);
+			var tmpTrackNWGroup:FlxGroup = groupFromSpawn(kSpawnTrackNW,SprTrack,lvlFunc);
 			for (i = 0; i < tmpTrackNWGroup.length; i++) {
 				tmpTrack = tmpTrackNWGroup.members[i];
 				tmpTrack.mapNW();
 			}
 			addGroupMembersToGroup(trackGroup,tmpTrackNWGroup);
 			
-			var tmpTrackESGroup:FlxGroup = groupFromSpawn(kSpawnTrackES,SprTrack,lvlFunc,true);
+			var tmpTrackESGroup:FlxGroup = groupFromSpawn(kSpawnTrackES,SprTrack,lvlFunc);
 			for (i = 0; i < tmpTrackESGroup.length; i++) {
 				tmpTrack = tmpTrackESGroup.members[i];
 				tmpTrack.mapES();
 			}
 			addGroupMembersToGroup(trackGroup,tmpTrackESGroup);
 			
-			var tmpTrackEWGroup:FlxGroup = groupFromSpawn(kSpawnTrackEW,SprTrack,lvlFunc,true);
+			var tmpTrackEWGroup:FlxGroup = groupFromSpawn(kSpawnTrackEW,SprTrack,lvlFunc);
 			for (i = 0; i < tmpTrackEWGroup.length; i++) {
 				tmpTrack = tmpTrackEWGroup.members[i];
 				tmpTrack.mapEW();
 			}
 			addGroupMembersToGroup(trackGroup,tmpTrackEWGroup);
 			
-			var tmpTrackSWGroup:FlxGroup = groupFromSpawn(kSpawnTrackSW,SprTrack,lvlFunc,true);
+			var tmpTrackSWGroup:FlxGroup = groupFromSpawn(kSpawnTrackSW,SprTrack,lvlFunc);
 			for (i = 0; i < tmpTrackSWGroup.length; i++) {
 				tmpTrack = tmpTrackSWGroup.members[i];
 				tmpTrack.mapSW();
 			}
 			addGroupMembersToGroup(trackGroup,tmpTrackSWGroup);
 			
-			var tmpTrackNEandSWGroup:FlxGroup = groupFromSpawn(kSpawnTrackNEandSW,SprTrack,lvlFunc,true);
+			var tmpTrackNEandSWGroup:FlxGroup = groupFromSpawn(kSpawnTrackNEandSW,SprTrack,lvlFunc);
 			for (i = 0; i < tmpTrackNEandSWGroup.length; i++) {
 				tmpTrack = tmpTrackNEandSWGroup.members[i];
 				tmpTrack.mapNE();
@@ -157,7 +146,7 @@ package
 			}
 			addGroupMembersToGroup(trackGroup,tmpTrackNEandSWGroup);
 			
-			var tmpTrackNWandESGroup:FlxGroup = groupFromSpawn(kSpawnTrackNWandES,SprTrack,lvlFunc,true);
+			var tmpTrackNWandESGroup:FlxGroup = groupFromSpawn(kSpawnTrackNWandES,SprTrack,lvlFunc);
 			for (i = 0; i < tmpTrackNWandESGroup.length; i++) {
 				tmpTrack = tmpTrackNWandESGroup.members[i];
 				tmpTrack.mapNW();
@@ -171,17 +160,18 @@ package
 		private function addCrushers():void {
 			
 			crusherGroup = new FlxGroup();
+			/* don't add crushers*/ return;
 			
-			var tmpCrusherLeftGroup:FlxGroup = groupFromSpawn(kSpawnCrusherLeft,SprCrusherLeft,lvlFunc,true);
+			var tmpCrusherLeftGroup:FlxGroup = groupFromSpawn(kSpawnCrusherLeft,SprCrusherLeft,lvlFunc);
 			addGroupMembersToGroup(crusherGroup,tmpCrusherLeftGroup);
 			
-			var tmpCrusherRightGroup:FlxGroup = groupFromSpawn(kSpawnCrusherRight,SprCrusherRight,lvlFunc,true);
+			var tmpCrusherRightGroup:FlxGroup = groupFromSpawn(kSpawnCrusherRight,SprCrusherRight,lvlFunc);
 			addGroupMembersToGroup(crusherGroup,tmpCrusherRightGroup);
 			
-			var tmpCrusherUpGroup:FlxGroup = groupFromSpawn(kSpawnCrusherUp,SprCrusherUp,lvlFunc,true);
+			var tmpCrusherUpGroup:FlxGroup = groupFromSpawn(kSpawnCrusherUp,SprCrusherUp,lvlFunc);
 			addGroupMembersToGroup(crusherGroup,tmpCrusherUpGroup);
 			
-			var tmpCrusherDownGroup:FlxGroup = groupFromSpawn(kSpawnCrusherDown,SprCrusherDown,lvlFunc,true);
+			var tmpCrusherDownGroup:FlxGroup = groupFromSpawn(kSpawnCrusherDown,SprCrusherDown,lvlFunc);
 			addGroupMembersToGroup(crusherGroup,tmpCrusherDownGroup);
 			
 			add(crusherGroup);
@@ -194,12 +184,12 @@ package
 		}
 		
 		private function addPortals():void {
-			portalGroup = groupFromSpawn(kSpawnPortal,SprPortal,lvlFunc,true);
+			portalGroup = groupFromSpawn(kSpawnPortal,SprPortal,lvlFunc);
 			add(portalGroup);
 		}
 		
 		private function addFlies():void {
-			flyGroup = groupFromSpawn(kSpawnFly,SprFly,lvlFunc,true);
+			flyGroup = groupFromSpawn(kSpawnFly,SprFly,lvlFunc);
 			add(flyGroup);
 		}
 		
@@ -280,13 +270,8 @@ package
 		
 		override protected function updateScene():void {
 			FlxG.collide(wallGroup,flyGroup);
-			//FlxG.collide(lvlFunc,flyGroup);
-			//FlxG.collide(crusherGroup,flyGroup);
-			//FlxG.collide(crusherGroup,crusherGroup,crusherHitsObjectCallback);
-			//FlxG.collide(lvlFunc,crusherGroup,crusherHitsObjectCallback);
 			checkForDangerousFlyAndCrusherCollision();
 			checkForFlyInPortal();
-			//checkForCrusherGoingThroughWalls();
 			checkForFlyCloneParadox();
 			checkForFlyCrush();
 			guideCrushersAlongTracks();
@@ -318,18 +303,6 @@ package
 			}
 		}
 		
-		/*
-		private function checkForCrusherGoingThroughWalls():void {
-			for (var i:uint = 0; i < crusherGroup.length; i++) {
-				var tmpCrusher:SprCrusher = crusherGroup.members[i];
-				//if (tmpCrusher.overlaps(lvlFunc)) {
-				if (tmpCrusher.overlaps(wallGroup)) {
-					tmpCrusher.reverseDirection();
-				}
-			}
-		}
-		*/
-		
 		private function checkForFlyCloneParadox():void {
 			// does the fly overlap one of its past selves?
 			if (flyOverlapsClone()) {
@@ -346,44 +319,6 @@ package
 				secondChance();
 			}
 		}
-		
-		/*
-		private function runEvents():void {
-			timeRecord.runEventOfFrame(timeArrow.frame);
-		}
-		
-		
-		private function recordEvents():void {
-			recordFlyPosition();
-		}
-		*/
-		
-		
-		//private function recordFlyPosition():void {
-
-			/*
-			var x_:Number = fly.x;
-			var y_:Number = fly.y;
-			var event_:Function = function():void {
-				fly.x = x_;
-				fly.y = y_;
-			};
-			timeRecord.addEventAtFrame(event_,timeArrow.frame);
-			
-			
-			// record an event for each fly
-			for (var i:uint = 0; i < flyGroup.length; i++) {
-				var tmpFly:SprFly = flyGroup.members[i];
-				var tmpX:Number = tmpFly.x;
-				var tmpY:Number = tmpFly.y;
-				var tmpEvent:Function = function():void {
-					tmpFly.x = tmpX;
-					tmpFly.y = tmpY;
-				};
-				timeRecord.addEventAtFrame(tmpEvent,timeArrow.frame);
-			}
-			*/
-		//}
 		
 		override protected function updateControls():void {
 			
@@ -421,27 +356,19 @@ package
 		}
 		
 		private function travelForward():void {
+			if (!timeMeter.canTravelForward()) {return;}
 			canControlFly = false;
 			spawnNewFly();
 			fly.startTimeTraveling();
-			//fly.disableRecording();
-			/*
-			fly.hideInPortal();
-			fly.isTraveling = true;
-			*/
 			timeArrow.goFastForward();
 			tintOverlay(kForwardTintColor);
 		}
 		
 		private function travelBackward():void {
+			if (!timeMeter.canTravelBackward()) {return;}
 			canControlFly = false;
 			spawnNewFly();
 			fly.startTimeTraveling();
-			//fly.disableRecording();
-			/*
-			fly.hideInPortal();
-			fly.isTraveling = true;
-			*/
 			timeArrow.goFastBackward();
 			tintOverlay(kBackwardTintColor);
 		}
@@ -450,22 +377,12 @@ package
 			if (!canControlFly) {
 				canControlFly = true;
 				fly.stopTimeTraveling();
-				//fly.enableRecording();
-				/*
-				fly.showFromPortal();
-				fly.isTraveling = false;
-				fly.startRecordingAtThisFrame();
-				*/
 				timeArrow.goNormalForward();
 				hideOverlay();
 			}
 		}
 		
 		private function spawnNewFly():void {
-			/*
-			fly.color = kCloneColor;
-			fly.stopRecordingAtThisFrame();
-			*/
 			fly.clonify();
 			var tmpFly:SprFly = new SprFly(fly.x,fly.y);
 			flyGroup.add(tmpFly);
@@ -484,7 +401,7 @@ package
 			return false;
 		}
 		
-		private function groupFromSpawn(tmpSpawn:Array,tmpClass:Class,tmpLvl:ZTilemap,tmpHide:Boolean=true):FlxGroup {
+		private function groupFromSpawn(tmpSpawn:Array,tmpClass:Class,tmpLvl:ZTilemap):FlxGroup {
 			var tmpGroup:FlxGroup = new FlxGroup();
 			for (var i:uint = 0; i < tmpSpawn.length; i++) {
 				var tmpArray:Array = tmpLvl.getTileInstances(tmpSpawn[i]);
@@ -495,9 +412,6 @@ package
 						_object.x += (tmpLvl.width/tmpLvl.widthInTiles)/2.0 - _object.width/2.0;
 						_object.y += (tmpLvl.width/tmpLvl.widthInTiles)/2.0 - _object.height/2.0;
 						tmpGroup.add(_object);
-						if (tmpHide) {
-							//tmpLvl.setTileByIndex(tmpArray[j],0);
-						}
 					}
 				}
 			}
@@ -551,41 +465,21 @@ package
 			isPaused = false;
 		}
 		
-		/*
-		private function crusherHitsObjectCallback(tmpObject:FlxObject,tmpCrusher:SprCrusher):void {
-			tmpCrusher.reverseDirection();
-		}
-		*/
-		
 		private function guideCrushersAlongTracks():void {
 			for (var i:uint = 0; i < crusherGroup.length; i++) {
 				var tmpCrusher:SprCrusher = crusherGroup.members[i];
 				var tmpTrack:SprTrack = overlappedTrackForCrusher(tmpCrusher);
 				
-				if (tmpTrack == null) {/*FlxG.log("continue");*/continue;}
+				if (tmpTrack == null) {continue;}
 				
 				var tmpNextTrack:SprTrack = nextTrackAfterCrusher(tmpTrack,tmpCrusher);
 				
-				//if (tmpTrack.isNW && tmpNextTrack.isNS) {tmpNextTrack = null;FlxG.log(tmpTrack.canExitS());}
-				
 				if (tmpNextTrack == null) {
-					
-					//FlxG.log((tmpTrack.canEnterN() ? "N" : "")+(tmpTrack.canEnterE() ? "E" : "")+(tmpTrack.canEnterS() ? "S" : "")+(tmpTrack.canEnterW() ? "W" : ""));
-					
+
 					tmpCrusher.x = tmpTrack.x;
 					tmpCrusher.y = tmpTrack.y;
 					
-					/*
-					if (tmpCrusher.isDown) {
-						FlxG.log("\n");
-						tmpTrack.displayEnabledDirections();
-						tmpCrusher.displayDirection();
-					}
-					*/
-					
 					changeCrusherVelocityBasedOnTrackCurve(tmpTrack,tmpCrusher);
-					
-					//tmpCrusher.reverseDirection();
 				}
 			}
 		}
@@ -593,7 +487,6 @@ package
 		
 		private function overlappedTrackForCrusher(tmpCrusher:SprCrusher):SprTrack {
 			var tmpReturnTrack:SprTrack;
-			//var tmpReturnDistSq:Number;
 			
 			for (var i:uint = 0; i < trackGroup.length; i++) {
 				var tmpTrack:SprTrack = trackGroup.members[i];
@@ -604,20 +497,12 @@ package
 													  (tmpCrusher.isDown && tmpTrack.canEnterN()))) {
 					if (tmpReturnTrack == null) {
 						tmpReturnTrack = tmpTrack;
-						//tmpReturnDistSq = Math.pow(tmpReturnTrack.x - tmpCrusher.x,2.0) + Math.pow(tmpReturnTrack.y - tmpCrusher.y,2.0);
 					} else if (tmpCrusher.isLeft && tmpTrack.x > tmpReturnTrack.x ||
 					           tmpCrusher.isRight && tmpTrack.x < tmpReturnTrack.x ||
 							   tmpCrusher.isUp && tmpTrack.y > tmpReturnTrack.y ||
 							   tmpCrusher.isDown && tmpTrack.y < tmpReturnTrack.y) {
 						tmpReturnTrack = tmpTrack;
 					}
-					/*else {
-						var tmpDistSq:Number = Math.pow(tmpTrack.x - tmpCrusher.x,2.0) + Math.pow(tmpTrack.y - tmpCrusher.y,2.0);
-						if (tmpDistSq < tmpReturnDistSq) {
-							tmpReturnTrack = tmpTrack;
-							tmpReturnDistSq = tmpDistSq;
-						}
-					}*/
 				}
 			}
 			
@@ -651,8 +536,6 @@ package
 				tmpGuessPoint.y += tmpDelta;
 			}
 			
-			//var tmpTrackAtPoint:SprTrack = null;
-			
 			for (var i:uint = 0; i < trackGroup.length; i++) {
 				var tmpTrackAtPoint:SprTrack = trackGroup.members[i];
 				if (tmpTrackAtPoint.overlapsPoint(tmpGuessPoint)) {
@@ -672,50 +555,8 @@ package
 				}
 			}
 			
-			/*
-			//var tmpTrackAtPoint:SprTrack = trackAtPoint(tmpGuessPoint,tmpTrack,tmpCrusher);
-			if (tmpTrackAtPoint == null) {return tmpTrackAtPoint;}
-			
-			else if (tmpCrusher.isLeft && tmpTrackAtPoint.canEnterE() && tmpTrack.canExitW()) {
-				return tmpTrackAtPoint;
-			}
-			else if (tmpCrusher.isRight && tmpTrackAtPoint.canEnterW() && tmpTrack.canExitE()) {
-				return tmpTrackAtPoint;
-			}
-			else if (tmpCrusher.isUp && tmpTrackAtPoint.canEnterS() && tmpTrack.canExitN()) {
-				return tmpTrackAtPoint;
-			}
-			else if (tmpCrusher.isDown && tmpTrackAtPoint.canEnterN() && tmpTrack.canExitS()) {
-				return tmpTrackAtPoint;
-			} else {
-				tmpTrackAtPoint = null;
-			}
-			
-			return tmpTrackAtPoint;
-			*/
 			return null;
 		}
-		
-		/*
-		private function trackAtPoint(tmpPoint:FlxPoint,tmpTrack:SprTrack,tmpCrusher:SprCrusher):SprTrack {
-			var tmpOverlapTrack:SprTrack;
-			
-			for (var i:uint = 0; i < trackGroup.length; i++) {
-				var tmpTrack:SprTrack = trackGroup.members[i];
-				if (tmpTrack.overlapsPoint(tmpPoint)) {
-					
-					if (tmpCrusher.isLeft && tmpTrack.canEnterW()
-					
-					tmpOverlapTrack = tmpTrack;
-					break;
-					
-				}
-					
-			}
-			
-			return tmpOverlapTrack;
-		}
-		*/
 		
 		private function changeCrusherVelocityBasedOnTrackCurve(tmpTrack:SprTrack,tmpCrusher:SprCrusher):void {
 			
@@ -723,7 +564,6 @@ package
 			
 			if ((tmpTrack.x < tmpCrusher.x + tmpDelta && tmpCrusher.x - tmpDelta < tmpTrack.x) &&
 				(tmpTrack.y < tmpCrusher.y + tmpDelta && tmpCrusher.y - tmpDelta < tmpTrack.y)) {
-			//if (tmpTrack.x == tmpCrusher.x && tmpCrusher.y == tmpTrack.y) {
 				
 				if (tmpCrusher.isDown) {
 					if (tmpTrack.isNE) {

@@ -78,6 +78,20 @@ package
 		}
 		
 		/**
+		 * Returns true if time is normal rate
+		 */
+		public function isNormal():Boolean {
+			return _rate == kNormalRate;
+		}
+		
+		/**
+		 * Returns true if time is fast rate
+		 */
+		public function isFast():Boolean {
+			return _rate == kFastRate;
+		}
+		
+		/**
 		 * Reverses the direction of time.
 		 */
 		public function reverse():void {

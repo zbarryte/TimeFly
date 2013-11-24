@@ -2,7 +2,7 @@ package
 {
 	import org.flixel.FlxGroup;
 
-	public class SprTimeMeter extends ZNode
+	public class SprTimeMeter extends ZNodeTime
 	{
 		private var pellets:FlxGroup;
 		private var numPellets:uint;
@@ -11,11 +11,18 @@ package
 		private const kPelletIncreasePeriod:Number = 1.1;
 		private var timer:Number;
 		
+		private const kNumPelletsForward:uint = 2;
+		private const kNumPelletsBackward:uint = 1;
+		
+		private var timerTravel:Number;
+		private const kTimerTravelPeriod:Number = 0.5;
+		
 		public function SprTimeMeter(tmpX:Number=0, tmpY:Number=0)
 		{
 			super(tmpX, tmpY, GSpritinator.kTimeMeter);
 			addPellets();
 			resetTimer();
+			resetTimerTravel();
 			updatePelletVisibility();
 		}
 		
@@ -36,11 +43,37 @@ package
 			timer = 0;
 		}
 		
+		private function resetTimerTravel():void {
+			timerTravel = 0;
+		}
+		
 		override protected function updateMechanics():void {
-			timer += Glob.elapsed;
-			if (timer > kPelletIncreasePeriod) {
-				resetTimer();
-				addPellet();
+			
+			if (timeArrow.isForward() && timeArrow.isNormal()) {
+				timer += Glob.elapsed;
+				if (timer > kPelletIncreasePeriod) {
+					resetTimer();
+					addPellet();
+				}
+				//Glob.log("normal");
+			}
+			
+			if (timeArrow.isForward() && timeArrow.isFast()) {
+				timerTravel += Glob.elapsed;
+				if (timerTravel > kTimerTravelPeriod) {
+					resetTimerTravel();
+					travelForward();
+				}
+				//Glob.log("fast forward");
+			}
+			
+			else if (timeArrow.isBackward() && timeArrow.isFast()) {
+				timerTravel += Glob.elapsed;
+				if (timerTravel > kTimerTravelPeriod) {
+					resetTimerTravel();
+					travelBackward();
+				}
+				//Glob.log("fast backward");
 			}
 		}
 		
@@ -53,7 +86,7 @@ package
 		private function updatePelletVisibility():void {
 			
 			var tmpCompletion:Number = percentageToCompletion();
-			Glob.log(tmpCompletion);
+			//Glob.log(tmpCompletion);
 			
 			for (var i:uint = 0; i < pellets.length; i++) {
 				var tmpPellet:ZNode = pellets.members[i];
@@ -73,6 +106,38 @@ package
 		
 		private function percentageToCompletion():Number {
 			return Number(numPellets)/Number(kNumPelletsMax);
+		}
+		
+		private function canRemovePellets(tmpNumPellets:uint):Boolean {
+			Glob.log(tmpNumPellets);
+			return tmpNumPellets <= numPellets;
+		}
+		
+		private function removePellets(tmpNumPellets:uint):void {
+			//Glob.log(tmpNumPellets + " num pellets");
+			//if (canRemovePellets(tmpNumPellets)) {
+				numPellets -= tmpNumPellets;
+				updatePelletVisibility();
+				//resetTimer();
+				//return true;
+			//}
+			//return false;
+		}
+		
+		public function canTravelForward():Boolean {
+			return canRemovePellets(kNumPelletsForward);
+		}
+		
+		public function canTravelBackward():Boolean {
+			return canRemovePellets(kNumPelletsBackward);
+		}
+		
+		public function travelForward():void {
+			removePellets(kNumPelletsForward);
+		}
+		
+		public function travelBackward():void {
+			removePellets(kNumPelletsBackward);
 		}
 	}
 }

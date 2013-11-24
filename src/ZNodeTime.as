@@ -51,7 +51,7 @@ package
 		
 		
 		protected function recordEvents():void {
-			FlxG.log(":: recordEvents() :: not yet implemented by " + this);
+			//FlxG.log(":: recordEvents() :: not yet implemented by " + this);
 		}
 		
 		public function enableRecording():void {
