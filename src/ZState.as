@@ -8,7 +8,7 @@ package
 	public class ZState extends FlxState
 	{
 		protected var _isControllable:Boolean;
-		protected var _overlay:FlxSprite;
+		//protected var _overlay:FlxSprite;
 		
 		public function ZState()
 		{
@@ -24,7 +24,7 @@ package
 		override public function create():void {
 			FlxG.bgColor = 0xffffffff;
 			createScene();
-			addOverlay();
+			//addOverlay();
 			addDebug();
 		}
 		
@@ -35,12 +35,14 @@ package
 		protected function createScene():void {
 			// implemented by children
 		}
+		/*
 		private function addOverlay():void {
 			_overlay = new FlxSprite();
 			_overlay.makeGraphic(FlxG.width,FlxG.height);
 			hideOverlay();
 			add(_overlay);
 		}
+		*/
 		private function addDebug():void {
 			var tmpText:ZText = new ZText(0,0,FlxG.width);
 			tmpText.text = "## DEBUG MODE ##";
@@ -77,22 +79,6 @@ package
 		 */
 		protected function updateControls():void {
 			// implemented by children
-		}
-		
-		protected function tintOverlay(tmpColor:Number):void {
-			_overlay.visible = true;
-			_overlay.alpha = 0.5;
-			_overlay.color = tmpColor;
-		}
-		
-		protected function hideOverlay():void {
-			_overlay.visible = false;
-			_overlay.alpha = 1.0;
-			_overlay.color = 0xffffffff;
-		}
-		
-		protected function hideOverlayPreserveTint():void {
-			_overlay.visible = false;
 		}
 		
 		protected function enableControls():void {

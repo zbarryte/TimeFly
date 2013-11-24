@@ -53,10 +53,12 @@ package
 		private var isDead:Boolean;
 		private var mnuDead:ZMenu;
 		
+		private var overlay:FlxSprite;
+		
 		override protected function createScene():void
 		{
 			//FlxG.bgColor = 0xffcc88ff;
-			FlxG.bgColor = 0xff402040;
+			FlxG.bgColor = 0x40402040;
 			//FlxG.bgColor = 0xcc402040;
 			
 			
@@ -68,7 +70,7 @@ package
 			addPortals();
 			addCrushers();
 			addFlies();
-			
+			addOverlay();
 			addFrame();
 			addTimeMeter();
 			addPauseMenu();
@@ -205,6 +207,13 @@ package
 			var tmpFly:SprFly = flyGroup.members[flyGroup.length-1];
 			if (!tmpFly) {FlxG.log("ERROR :: NO FLY AT INDEX REQUESTED ::"); return null};
 			return tmpFly;
+		}
+		
+		private function addOverlay():void {
+			overlay = new FlxSprite();
+			overlay.makeGraphic(FlxG.width,FlxG.height);
+			hideOverlay();
+			add(overlay);
 		}
 		
 		private function addFrame():void {
@@ -553,7 +562,7 @@ package
 				var tmpCrusher:SprCrusher = crusherGroup.members[i];
 				var tmpTrack:SprTrack = overlappedTrackForCrusher(tmpCrusher);
 				
-				if (tmpTrack == null) {FlxG.log("continue");continue;}
+				if (tmpTrack == null) {/*FlxG.log("continue");*/continue;}
 				
 				var tmpNextTrack:SprTrack = nextTrackAfterCrusher(tmpTrack,tmpCrusher);
 				
@@ -766,6 +775,22 @@ package
 				}
 			
 			}
+		}
+		
+		protected function tintOverlay(tmpColor:Number):void {
+			overlay.visible = true;
+			overlay.alpha = 0.5;
+			overlay.color = tmpColor;
+		}
+		
+		protected function hideOverlay():void {
+			overlay.visible = false;
+			overlay.alpha = 1.0;
+			overlay.color = 0xffffffff;
+		}
+		
+		protected function hideOverlayPreserveTint():void {
+			overlay.visible = false;
 		}
 	}
 }
