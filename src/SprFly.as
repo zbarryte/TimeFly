@@ -7,9 +7,10 @@ package
 		private const kWidth:uint = 8;
 		private const kHeight:uint = 8;
 		
-		private const kMoveAccel:Number = kWidth*22.0*8.0;
+		private const kMoveAccel:Number = 32.0*11.0;
 		private const kDrag:Number = kMoveAccel*0.75;
 		private const kMaxVel:Number = kMoveAccel*0.5;
+		private const kMaxVelFast:Number = kMaxVel*2.2;
 		
 		private const kAnimIdle:String = "kAnimIdle";
 		
@@ -17,6 +18,7 @@ package
 		private var isMovingDown:Boolean;
 		private var isMovingLeft:Boolean;
 		private var isMovingRight:Boolean;
+		private var isSpeedBoosted:Boolean;
 		
 		public var isTraveling:Boolean;
 		
@@ -38,8 +40,8 @@ package
 			
 			drag.x = kDrag;
 			drag.y = kDrag;
-			maxVelocity.x = kMaxVel;
-			maxVelocity.y = kMaxVel;
+			//maxVelocity.x = kMaxVel;
+			//maxVelocity.y = kMaxVel;
 			
 			resetBools();
 			
@@ -70,23 +72,28 @@ package
 			isMovingDown = false;
 			isMovingLeft = false;
 			isMovingRight = false;
+			isSpeedBoosted = false;
 		}
 		
 		override protected function updateMechanics():void {
 			acceleration.x = 0;
 			acceleration.y = 0;
+			maxVelocity.x = (isSpeedBoosted ? kMaxVelFast : kMaxVel);
+			maxVelocity.y = (isSpeedBoosted ? kMaxVelFast : kMaxVel);
 			if (isMovingUp) {
-				acceleration.y -= kMoveAccel;
+				acceleration.y -= kMoveAccel*(isSpeedBoosted ? 2 : 1);
 			}
 			if (isMovingDown) {
-				acceleration.y += kMoveAccel;
+				acceleration.y += kMoveAccel*(isSpeedBoosted ? 2 : 1);
 			}
 			if (isMovingLeft) {
-				acceleration.x -= kMoveAccel;
+				acceleration.x -= kMoveAccel*(isSpeedBoosted ? 2 : 1);
 			}
 			if (isMovingRight) {
-				acceleration.x += kMoveAccel;
+				acceleration.x += kMoveAccel*(isSpeedBoosted ? 2 : 1);
 			}
+			
+			Glob.log(isSpeedBoosted);
 			
 			// will move if I decide to make better nodes
 			//flyPortal.x = x;
@@ -178,6 +185,10 @@ package
 		
 		public function isDangerous():Boolean {
 			return isBetweenFrames() && _canRecord;
+		}
+		
+		public function speedBoost():void {
+			isSpeedBoosted = true;
 		}
 	}
 }

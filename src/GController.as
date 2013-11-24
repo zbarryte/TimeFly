@@ -13,6 +13,8 @@ package
 		public static const kUp:Array = ["UP","W"];
 		public static const kDown:Array = ["DOWN","S"];
 		
+		public static const kSpeedBoost:Array = ["SHIFT","TAB"];
+		
 		public static const kTimeForward:Array = ["E","FOUR"];
 		public static const kTimeBackward:Array = ["Q","THREE"];
 		

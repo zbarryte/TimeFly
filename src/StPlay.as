@@ -327,17 +327,21 @@ package
 			}
 			
 			if (canControlFly) {
+				if (Glob.kController.pressed(GController.kSpeedBoost)) {
+					fly.speedBoost();
+				}
+				
 				if (Glob.kController.pressedAfter(GController.kUp,GController.kDown)) {
 					fly.moveUp();
 				}
-				if (Glob.kController.pressedAfter(GController.kDown,GController.kUp)) {
+				else if (Glob.kController.pressedAfter(GController.kDown,GController.kUp)) {
 					fly.moveDown();
 				}
 				
 				if (Glob.kController.pressedAfter(GController.kLeft,GController.kRight)) {
 					fly.moveLeft();
 				}
-				if (Glob.kController.pressedAfter(GController.kRight,GController.kLeft)) {
+				else if (Glob.kController.pressedAfter(GController.kRight,GController.kLeft)) {
 					fly.moveRight();
 				}
 			}
