@@ -8,14 +8,14 @@ package
 		private var numPellets:uint;
 		private const kNumPelletsMax:uint = 20;
 		
-		private const kPelletIncreasePeriod:Number = 1.1;
+		private const kPelletIncreasePeriod:Number = 0.5;
 		private var timer:Number;
 		
 		private const kNumPelletsForward:uint = 2;
 		private const kNumPelletsBackward:uint = 1;
 		
 		private var timerTravel:Number;
-		private const kTimerTravelPeriod:Number = 0.5;
+		private const kTimerTravelPeriod:Number = kPelletIncreasePeriod/2.0;
 		
 		public function SprTimeMeter(tmpX:Number=0, tmpY:Number=0)
 		{
@@ -108,19 +108,19 @@ package
 			return Number(numPellets)/Number(kNumPelletsMax);
 		}
 		
-		private function canRemovePellets(tmpNumPellets:uint):Boolean {
-			Glob.log(tmpNumPellets);
+		private function canRemovePellets(tmpNumPellets:int):Boolean {
+			//Glob.log(numPellets);
 			return tmpNumPellets <= numPellets;
 		}
 		
 		private function removePellets(tmpNumPellets:uint):void {
 			//Glob.log(tmpNumPellets + " num pellets");
-			//if (canRemovePellets(tmpNumPellets)) {
+			if (canRemovePellets(tmpNumPellets)) {
 				numPellets -= tmpNumPellets;
 				updatePelletVisibility();
 				//resetTimer();
 				//return true;
-			//}
+			}
 			//return false;
 		}
 		

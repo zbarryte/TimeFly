@@ -349,8 +349,10 @@ package
 				travelBackward();
 			}
 			
-			if (!Glob.kController.pressed(GController.kTimeForward) &&
-				!Glob.kController.pressed(GController.kTimeBackward)) {
+			if (
+			(!Glob.kController.pressed(GController.kTimeForward) && !Glob.kController.pressed(GController.kTimeBackward)) ||
+			(Glob.timeArrow.isFast() && Glob.timeArrow.isForward() && !timeMeter.canTravelForward()) ||
+			(Glob.timeArrow.isFast() && Glob.timeArrow.isBackward() && !timeMeter.canTravelBackward())) {
 				endTimeTravel();
 			}
 		}
