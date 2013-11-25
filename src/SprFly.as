@@ -7,9 +7,9 @@ package
 		private const kWidth:uint = 8;
 		private const kHeight:uint = 8;
 		
-		private const kMoveAccel:Number = 32.0*11.0;
-		private const kDrag:Number = kMoveAccel*0.75;
-		private const kMaxVel:Number = kMoveAccel*0.5;
+		private const kMoveAccel:Number = 32.0*11.0*0.5;
+		private const kDrag:Number = kMoveAccel;
+		private const kMaxVel:Number = kMoveAccel;
 		private const kMaxVelFast:Number = kMaxVel*2.2;
 		
 		private const kAnimIdle:String = "kAnimIdle";
@@ -92,9 +92,7 @@ package
 			if (isMovingRight) {
 				acceleration.x += kMoveAccel*(isSpeedBoosted ? 2 : 1);
 			}
-			
-			Glob.log(isSpeedBoosted);
-			
+						
 			// will move if I decide to make better nodes
 			//flyPortal.x = x;
 			//flyPortal.y = y;

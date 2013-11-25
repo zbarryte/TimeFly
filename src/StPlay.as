@@ -29,6 +29,8 @@ package
 		//private const kSpawnTrackNEandSW:Array = [11,21];
 		//private const kSpawnTrackNWandES:Array = [10,20];
 		
+		private const kSpawnSpider:Array = [27];
+		
 		
 		private var timeArrow:TimeArrow;
 		private var timeRecord:TimeRecord;
@@ -41,6 +43,7 @@ package
 		private var crusherGroup:FlxGroup;
 		private var flyGroup:FlxGroup;
 		private var timeMeter:SprTimeMeter;
+		private var spiderGroup:FlxGroup;
 		
 		private const kForwardTintColor:Number = 0x00ff00;
 		private const kBackwardTintColor:Number = 0xff0000;
@@ -66,6 +69,7 @@ package
 			addPortals();
 			addCrushers();
 			addFlies();
+			addSpiders();
 			addOverlay();
 			addFrame();
 			addTimeMeter();
@@ -199,6 +203,11 @@ package
 			return tmpFly;
 		}
 		
+		private function addSpiders():void {
+			spiderGroup = groupFromSpawn(kSpawnSpider,SprSpider,lvlFunc);
+			add(spiderGroup);
+		}
+		
 		private function addOverlay():void {
 			overlay = new FlxSprite();
 			overlay.makeGraphic(FlxG.width,FlxG.height);
@@ -275,6 +284,10 @@ package
 			checkForFlyCloneParadox();
 			checkForFlyCrush();
 			guideCrushersAlongTracks();
+			
+			if (!Glob.timeArrow.isFast()) {
+				checkForFlyNearSpider();
+			}
 			
 		}
 		
@@ -444,6 +457,7 @@ package
 		}
 		
 		private function win():void {
+			isPaused = true;
 			//FlxG.log("you win!");
 			var tmpCallback:Function = function():void {
 				GLeveler.num ++;
@@ -454,6 +468,7 @@ package
 		}
 		
 		private function secondChance():void {
+			isPaused = true;
 			var tmpCallback:Function = function():void {
 				FlxG.switchState(new StPlay());
 			}
@@ -623,19 +638,48 @@ package
 			}
 		}
 		
-		protected function tintOverlay(tmpColor:Number):void {
+		private function checkForFlyNearSpider():void {
+			for (var i:uint = 0; i < spiderGroup.length; i++) {
+				var tmpSpider:SprSpider = spiderGroup.members[i];
+				//tmpSpider.moveTowards(fly);
+				var tmpFly:SprFly = flyClosestToSpider(tmpSpider);
+				if (tmpFly != null) {
+					tmpSpider.moveTowards(tmpFly);
+				} else {
+					tmpSpider.velocity.x = 0;
+					tmpSpider.velocity.y = 0;
+				}
+			}
+		}
+		
+		private function flyClosestToSpider(tmpSpider:SprSpider):SprFly {
+			var tmpReturnFly:SprFly;
+			var tmpDistSqMin:Number = Number.MAX_VALUE;
+			for (var i:uint = 0; i < flyGroup.length; i++) {
+				var tmpFly:SprFly = flyGroup.members[i];
+				if (!tmpFly.isDangerous()) {continue;}
+				var tmpDistSq:Number = Math.pow(tmpSpider.x - tmpFly.x,2) + Math.pow(tmpSpider.y - tmpFly.y,2);
+				if (tmpDistSq < tmpDistSqMin) {
+					tmpDistSqMin = tmpDistSq;
+					tmpReturnFly = tmpFly;
+				}
+			}
+			return tmpReturnFly;
+		}
+		
+		private function tintOverlay(tmpColor:Number):void {
 			overlay.visible = true;
 			overlay.alpha = 0.5;
 			overlay.color = tmpColor;
 		}
 		
-		protected function hideOverlay():void {
+		private function hideOverlay():void {
 			overlay.visible = false;
 			overlay.alpha = 1.0;
 			overlay.color = 0xffffffff;
 		}
 		
-		protected function hideOverlayPreserveTint():void {
+		private function hideOverlayPreserveTint():void {
 			overlay.visible = false;
 		}
 	}
