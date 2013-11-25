@@ -1,7 +1,7 @@
 package
 {
-	import org.flixel.FlxPoint;
 	import org.flixel.FlxGroup;
+	import org.flixel.FlxPoint;
 
 	public class SldrLoad extends ZSlider
 	{
@@ -28,12 +28,17 @@ package
 			minute.loadGraphic(GSpritinator.kSliderMarkerClockMinute);
 			tmpClockFace.add(minute);
 			
-			super(tmpX, tmpY, GSpritinator.kSliderBar, tmpMarker);
+			var tmpSetLinkedValue:Function = function(tmpUint:uint):void {
+				GLeveler.num = tmpUint;
+			};
+			var tmpLinkedValueMax:uint = GLeveler.numMax;
 			
-			addTicks();
+			super(tmpX,tmpY,tmpSetLinkedValue,tmpLinkedValueMax,GSpritinator.kSliderBar, tmpMarker);
+			
+			//addTicks();
 		}
 		
-		/*override protected*/ private function addTicks():void {
+		/*override protected*//* private function addTicks():void {
 			//_tickGroup = new FlxGroup();
 			for (var i:uint = 0; i <= GLeveler.numMax; i++) {
 				var tmpTick:ZNode = new ZNode();
@@ -43,13 +48,13 @@ package
 				tmpTick.yLocal = height/2.0 - tmpTick.height/2.0;
 				add(tmpTick);
 			}
-		}
+		}*/
 		
 		override public function placeMarkerAtPoint(tmpPoint:FlxPoint):void {
 			super.placeMarkerAtPoint(tmpPoint);
 			//updateMarkerProperties();
 			adjustClockHands();
-			updateStuffBasedOnMarkerPosition();
+			//updateStuffBasedOnMarkerPosition();
 		}
 		
 		/*
@@ -58,15 +63,18 @@ package
 		}
 		*/
 		
-		private function updateStuffBasedOnMarkerPosition():void {
-			GLeveler.num = int((_marker.xLocal/width)*GLeveler.numMax + 1);
-		}
+		/*
+		//private function updateStuffBasedOnMarkerPosition():void {
+		override protected function updateLinkedValue():void {
+			GLeveler.num = percentageToCompletion*(GLeveler.numMax+1);//int((_marker.xLocal/width)*GLeveler.numMax + 1);
+		}*/
 		
 		override public function snapMarker():void {
-			_marker.xLocal = (width - _marker.width)*(GLeveler.num/GLeveler.numMax);
+			super.snapMarker();//_marker.xLocal = (width - _marker.width)*(GLeveler.num/GLeveler.numMax);
 			adjustClockHands();
 		}
 		
+		/*
 		public function goForward():void {
 			GLeveler.num ++;
 		}
@@ -74,6 +82,7 @@ package
 		public function goBackward():void {
 			GLeveler.num --;
 		}
+		*/
 		
 		private function adjustClockHands():void {
 			minute.angle = percentageToCompletion * 360 * 24;

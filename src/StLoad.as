@@ -5,11 +5,6 @@ package
 		private var sldr:SldrLoad;
 		private var mnu:ZMenu;
 		
-		public function StLoad()
-		{
-			super();
-		}
-		
 		override protected function createScene():void {
 			addSlider();
 			addMenu();
@@ -20,6 +15,7 @@ package
 			sldr.centerX();
 			sldr.placeAtScreenYPercentage(0.65);
 			//sldr.repositionMarker();
+			sldr.snapMarker();
 			add(sldr);
 		}
 		
