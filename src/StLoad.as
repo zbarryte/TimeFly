@@ -26,6 +26,7 @@ package
 		private function addMenu():void {
 			mnu = new ZMenu();
 			
+			// PLAY
 			var tmpCallbackPlay:Function = function():void {
 				switchState(StPlay);
 			};
@@ -55,14 +56,6 @@ package
 				// move slider backward one unit
 				sldr.goBackward();
 			}
-			
-			/*
-			if (Glob.kController.pressed(GController.kTimeForward)) {
-				sldr.goForward();
-			}
-			if (Glob.kController.pressed(GController.kTimeBackward)) {
-				sldr.goBackward();
-			}*/
 			
 			if (Glob.kController.justReleasedLeftClick() ||
 				Glob.kController.justReleased(GController.kTimeForward) ||

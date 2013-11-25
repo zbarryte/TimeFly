@@ -47,39 +47,32 @@ package
 		
 		override public function placeMarkerAtPoint(tmpPoint:FlxPoint):void {
 			super.placeMarkerAtPoint(tmpPoint);
-			updateMarkerProperties();
+			//updateMarkerProperties();
+			adjustClockHands();
 			updateStuffBasedOnMarkerPosition();
 		}
 		
+		/*
 		private function updateMarkerProperties():void {
-			// some stuff here about the clock on top
 			adjustClockHands();
 		}
+		*/
 		
 		private function updateStuffBasedOnMarkerPosition():void {
-			GLeveler.num = int((_marker.x/width)*GLeveler.numMax + 1);
+			GLeveler.num = int((_marker.xLocal/width)*GLeveler.numMax + 1);
 		}
 		
-		public function snapMarker():void {
+		override public function snapMarker():void {
 			_marker.xLocal = (width - _marker.width)*(GLeveler.num/GLeveler.numMax);
-			//Glob.log(percentageToCompletion);
 			adjustClockHands();
 		}
 		
 		public function goForward():void {
 			GLeveler.num ++;
-			/*
-			var tmpPoint:FlxPoint = new FlxPoint(_marker.xScreen + kMoveDist,_marker.yScreen);
-			placeMarkerAtPoint(tmpPoint);
-			*/
 		}
 		
 		public function goBackward():void {
 			GLeveler.num --;
-			/*
-			var tmpPoint:FlxPoint = new FlxPoint(_marker.xScreen - kMoveDist,_marker.yScreen);
-			placeMarkerAtPoint(tmpPoint);
-			*/
 		}
 		
 		private function adjustClockHands():void {
