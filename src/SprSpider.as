@@ -24,5 +24,18 @@ package
 				velocity.y = tmpDY*kMoveMultiplier;
 			//}
 		}
+		
+		override protected function recordEvents():void {
+			
+			var tmpX:Number = x;
+			var tmpY:Number = y;
+			var tmpEvent:Function = function():void {
+				x = tmpX;
+				y = tmpY;
+			}
+			
+			
+			timeRecord.addEventAtFrame(tmpEvent,timeArrow.frame);
+		}
 	}
 }

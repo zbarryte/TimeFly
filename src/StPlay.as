@@ -278,18 +278,40 @@ package
 		}
 		
 		override protected function updateScene():void {
+			updateSceneAlways();
+			if (Glob.timeArrow.isFast()) {
+				if (Glob.timeArrow.isForward()) {
+					updateSceneFastForward();
+				}
+				else if (Glob.timeArrow.isBackward()) {
+					updateSceneFastBackward();
+				}
+			}
+			else if (Glob.timeArrow.isNormal() && Glob.timeArrow.isForward()) {
+				updateSceneNormal();
+			}
+		}
+			
+		private function updateSceneAlways():void {
 			FlxG.collide(wallGroup,flyGroup);
+			checkForFlyCloneParadox();
+		}
+		
+		private function updateSceneFastForward():void {
+			stopSpiders();
+		}
+		
+		private function updateSceneFastBackward():void {
+			stopSpiders();
+		}
+		
+		private function updateSceneNormal():void {
 			checkForDangerousFlyAndCrusherCollision();
 			checkForFlyInPortal();
-			checkForFlyCloneParadox();
 			checkForFlyCrush();
-			guideCrushersAlongTracks();
-			
-			if (!Glob.timeArrow.isFast()) {
-				checkForFlyNearSpider();
-			}
-			
-		}
+			checkForFlyNearSpider();
+		}	
+		
 		
 		private function checkForDangerousFlyAndCrusherCollision():void {
 			for (var i:uint = 0; i < flyGroup.length; i++) {
@@ -645,10 +667,18 @@ package
 				var tmpFly:SprFly = flyClosestToSpider(tmpSpider);
 				if (tmpFly != null) {
 					tmpSpider.moveTowards(tmpFly);
-				} else {
+				}/* else {
 					tmpSpider.velocity.x = 0;
 					tmpSpider.velocity.y = 0;
-				}
+				}*/
+			}
+		}
+		
+		private function stopSpiders():void {
+			for (var i:uint = 0; i < spiderGroup.length; i++) {
+				var $spider:SprSpider = spiderGroup.members[i];
+				$spider.velocity.x = 0;
+				$spider.velocity.y = 0;
 			}
 		}
 		
