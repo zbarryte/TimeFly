@@ -10,19 +10,28 @@ package
 		private const kAnimIdle:String = "kAnimIdle";
 		private const kAnimMove:String = "kAnimMove";
 		
+		private var legs:ZNode;
+		
 		public function SprSpider(X:Number=0, Y:Number=0, SimpleGraphic:Class=null)
 		{
 			super(X, Y);
 			loadGraphic(GSpritinator.kSpider,true,false,32,32);
 			
-			addAnimation(kAnimIdle,[0],22,true);
-			addAnimation(kAnimMove,[1],22,true);
+			addAnimation(kAnimIdle,[0],10);
+			addAnimation(kAnimMove,[1],10);
 			
 			var $animationCallback:Function = function($animationName:String,$animationIndex:uint,$frameIndex:uint):void {
 				animationName = $animationName;
 			}
 			
 			addAnimationCallback($animationCallback);
+			
+			legs = new ZNode();
+			legs.loadGraphic(GSpritinator.kSpiderLegs,true,false,32,32);
+			add(legs);
+			
+			legs.addAnimation(kAnimIdle,[0],10);
+			legs.addAnimation(kAnimMove,[1,2],10);
 		}
 		
 		public function moveTowards(tmpNode:ZNode):void {
@@ -47,9 +56,12 @@ package
 		override protected function updateAV():void {
 			if (velocity.x == 0 && velocity.y == 0) {
 				play(kAnimIdle);
+				legs.play(kAnimIdle);
 			} else {
 				play(kAnimMove);
+				legs.play(kAnimMove);
 			}
+			legs.angle = angle;
 		}
 		
 		override protected function recordEvents():void {
@@ -62,6 +74,7 @@ package
 				y = $y;
 				angle = $angle;
 				play(animationName);
+				legs.play(animationName);
 			}
 			
 			

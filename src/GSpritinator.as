@@ -20,6 +20,7 @@ package
 		[Embed(source="../assets/spr_play_frame.png")] public static const kPlayFrame:Class;
 		[Embed(source="../assets/spr_title.png")] public static const kTitle:Class;
 		[Embed(source="../assets/spr_spider.png")] public static const kSpider:Class;
+		[Embed(source="../assets/spr_spider_legs.png")] public static const kSpiderLegs:Class;
 		
 		public function GSpritinator()
 		{
