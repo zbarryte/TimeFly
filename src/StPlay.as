@@ -295,6 +295,7 @@ package
 		private function updateSceneAlways():void {
 			FlxG.collide(wallGroup,flyGroup);
 			checkForFlyCloneParadox();
+			checkForSpiderEatingFly();
 		}
 		
 		private function updateSceneFastForward():void {
@@ -711,6 +712,18 @@ package
 		
 		private function hideOverlayPreserveTint():void {
 			overlay.visible = false;
+		}
+		
+		private function checkForSpiderEatingFly():void {
+			for (var i:uint = 0; i < spiderGroup.length; i++) {
+				var $spider:SprSpider = spiderGroup.members[i];
+				for (var j:uint = 0; j < flyGroup.length; j++) {
+					var $fly:SprFly = flyGroup.members[j];
+					if ($fly.isDangerous() && $fly.overlaps($spider)) {
+						secondChance();
+					}
+				}
+			}
 		}
 	}
 }
