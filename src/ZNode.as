@@ -67,6 +67,7 @@ package
 			if (_parent) {
 				x = xLocal + _parent.x;
 				y = yLocal + _parent.y;
+				angle = _parent.angle;
 			}
 			
 			

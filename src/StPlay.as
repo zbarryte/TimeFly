@@ -294,6 +294,7 @@ package
 			
 		private function updateSceneAlways():void {
 			FlxG.collide(wallGroup,flyGroup);
+			FlxG.collide(wallGroup,spiderGroup);
 			checkForFlyCloneParadox();
 			checkForSpiderEatingFly();
 		}

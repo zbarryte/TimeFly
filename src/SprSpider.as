@@ -11,6 +11,7 @@ package
 		private const kAnimMove:String = "kAnimMove";
 		
 		private var legs:ZNode;
+		private var body:ZNode;
 		
 		public function SprSpider(X:Number=0, Y:Number=0, SimpleGraphic:Class=null)
 		{
@@ -32,23 +33,31 @@ package
 			
 			legs.addAnimation(kAnimIdle,[0],10);
 			legs.addAnimation(kAnimMove,[1,2],10);
+			
+			body = new ZNode();
+			body.loadGraphic(GSpritinator.kSpider,true,false,32,32);
+			add(body);
+			
+			body.addAnimation(kAnimIdle,[0],10);
+			body.addAnimation(kAnimMove,[1],10);
 		}
 		
-		public function moveTowards(tmpNode:ZNode):void {
+		public function moveTowards($node:ZNode):void {
 			velocity.x = 0;
 			velocity.y = 0;
 			
-			var $distSq:Number = Math.pow(tmpNode.x - x,2) + Math.pow(tmpNode.y - y,2);
+			var $distSq:Number = Math.pow($node.x - x,2) + Math.pow($node.y - y,2);
 			if ($distSq <= kLookRadiusSq) {
 				var $dist:Number = Math.pow($distSq,0.5);
-				var $dx:Number = (tmpNode.x - x)/$dist;
-				var $dy:Number = (tmpNode.y - y)/$dist;
+				var $dx:Number = ($node.x - x)/$dist;
+				var $dy:Number = ($node.y - y)/$dist;
 				
 				velocity.x = $dx*kMoveMultiplier;
 				velocity.y = $dy*kMoveMultiplier;
 				
 				var $theta:Number = Math.atan($dy/$dx)*180.0/Math.PI + 90;
-				//Glob.log($theta);
+				if ($dx < 0) {$theta += 180;}
+				Glob.log($theta);
 				angle = $theta;
 			}
 		}
@@ -57,9 +66,11 @@ package
 			if (velocity.x == 0 && velocity.y == 0) {
 				play(kAnimIdle);
 				legs.play(kAnimIdle);
+				body.play(kAnimIdle);
 			} else {
 				play(kAnimMove);
 				legs.play(kAnimMove);
+				body.play(kAnimMove);
 			}
 			legs.angle = angle;
 		}
@@ -72,9 +83,9 @@ package
 			var $event:Function = function():void {
 				x = $x;
 				y = $y;
-				angle = $angle;
 				play(animationName);
 				legs.play(animationName);
+				body.play(animationName);
 			}
 			
 			
