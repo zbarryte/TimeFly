@@ -14,7 +14,6 @@ package
 			sldr = new SldrLoad(0,0);
 			sldr.centerX();
 			sldr.placeAtScreenYPercentage(0.65);
-			//sldr.repositionMarker();
 			sldr.snapMarker();
 			add(sldr);
 		}

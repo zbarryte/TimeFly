@@ -364,9 +364,10 @@ package
 			}
 			
 			if (canControlFly) {
+				/*
 				if (Glob.kController.pressed(GController.kSpeedBoost)) {
 					fly.speedBoost();
-				}
+				}*/
 				
 				if (Glob.kController.pressedAfter(GController.kUp,GController.kDown)) {
 					fly.moveUp();

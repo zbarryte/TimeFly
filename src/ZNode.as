@@ -9,10 +9,12 @@ package
 	{
 		public var xLocal:Number;
 		public var yLocal:Number;
+		public var angleLocal:Number;
 		
 		protected var _children:FlxGroup;
 		protected var _parent:ZNode;
 		protected var _graphic:Class;
+		
 		
 		public function set parent(tmpParent:ZNode):void {
 			_parent = tmpParent;
@@ -24,6 +26,7 @@ package
 			
 			xLocal = 0;
 			yLocal = 0;
+			angleLocal = 0;
 						
 			_children = new FlxGroup();
 			_graphic = tmpSimpleGraphic;
@@ -67,7 +70,7 @@ package
 			if (_parent) {
 				x = xLocal + _parent.x;
 				y = yLocal + _parent.y;
-				angle = _parent.angle;
+				angle = angleLocal + _parent.angle;
 			}
 			
 			
